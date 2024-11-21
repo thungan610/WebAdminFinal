@@ -1,0 +1,128 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+  }
+  
+  .container {
+    display: flex;
+  }
+  
+  .sidebar {
+    width: 250px;
+    background-color: #2c88d9;
+    color: #fff;
+    padding: 20px;
+  }
+  
+  .sidebar .logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .sidebar ul {
+    list-style-type: none;
+  }
+  
+  .sidebar ul li {
+    padding: 10px 0;
+    cursor: pointer;
+  }
+  
+  .sidebar ul li.active {
+    background-color: #1a73e8;
+    padding: 10px;
+    border-radius: 8px;
+  }
+  
+  .content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  h2 {
+    font-size: 24px;
+    font-weight: 600;
+  }
+  
+  .form-container {
+    background-color: rgba(155, 174, 202, 0.1);
+    padding: 10px;
+    border-radius: 8px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
+  }
+  
+  h3 {
+    color: #3f84e5;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  form label {
+    display: block;
+    font-weight: 500;
+    margin: 10px 0 5px;
+  }
+  
+  form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d1e3ff;
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: center; /* Căn giữa 2 nút */
+    gap: 10px; /* Khoảng cách giữa các nút */
+    margin-top: 20px; /* Khoảng cách phía trên */
+  }
+  
+  button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .cancel {
+    background-color: #f76c6c;
+    color: #fff;
+  }
+  
+  .submit {
+    background-color: #4fa4ff;
+    color: #fff;
+  }
+  .tieude{
+    width: 800px;
+    font-weight: bold;
+  }
+  .date-container {
+    display: flex;
+    gap: 10px; 
+    
+    
+  }
+  .dateof{
+    margin-left: 400px;
+    font-weight: bold;
+  }
+  .date{
+    font-weight: bold;
+  }
+  .error{
+    color: red;
+  }

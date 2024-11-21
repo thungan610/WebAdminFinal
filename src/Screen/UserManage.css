@@ -1,0 +1,115 @@
+.container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  padding: 10px;
+
+}
+.table1-container {
+  width: 50%;
+  height: 50%;
+  background: rgba(155, 174, 202, 0.1);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  padding: 10px;
+  border-radius: 15px;
+}
+.table1 {
+}
+.table1-container h2 {
+  font-weight: 700;
+  margin-bottom: 20px;
+  margin-top: 5px;
+  font-size: 28px;
+  
+}
+.nameU{
+  font-weight: 700;
+  margin-bottom: 20px;
+  margin-top: 5px;
+  font-size: 28px;
+}
+.user-card {
+  width: 90%;
+  margin-bottom: 20px;
+}
+
+.user-card h2 {
+  font-size: 26px;
+  font-weight: bold;
+  margin-top: 10px;
+  
+}
+
+.user-card p {
+  font-size: 14px;
+  color: black ;
+}
+
+.user-card .date span {
+  color: green;
+  font-weight: bold;
+}
+
+hr {
+  margin-top: 10px;
+  border: none;
+  border-top: 1px solid #c7c7c7;
+}
+.userInfoCard {
+  width: 100%;
+  
+}
+.bottomUserCard {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 15px;
+  /* margin-bottom: 10px; */
+}
+.emailText {
+  color: #1976d2;
+  text-decoration: underline;
+}
+.text {
+  font-weight: 500;
+  height: 25px;
+  color: rgba(75, 192, 192, 0.8);
+}
+.dateN {
+}
+
+.user-list {
+  width: 95%;
+  height: 480px;
+  background: white;
+  /* border: 1px solid red; */
+  overflow: scroll;
+  overflow-x: hidden;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 15px;
+  align-items: center;
+
+}
+
+* {
+  scrollbar-width: 40px; /* Độ rộng của thanh cuộn */
+  scrollbar-color: #888 white;
+  scrollbar-border-radius: 15px; /* Màu của thanh kéo và track */
+}
+*::-webkit-scrollbar-thumb {
+  border-radius: 10px; /* Bo góc thanh kéo */
+}
+.star-icon{
+  width: 24px;
+  height: 24px;
+}
+.title-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
