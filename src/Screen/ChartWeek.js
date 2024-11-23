@@ -1,231 +1,204 @@
-import React, { useEffect, useState } from "react";
-import {
-  Chart,
-  CategoryScale,
-  LinearScale,
-  BarController,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
+// import React, { useEffect, useState } from "react";
+// import {
+//   Chart,
+//   CategoryScale,
+//   LinearScale,
+//   PieController,
+//   ArcElement,
+//   Title,
+//   Tooltip,
+//   Legend,
+// } from "chart.js";
 
-const TopProductsChart = () => {
-  const [week, setWeek] = useState("");
-  const [year, setYear] = useState(new Date().getFullYear());
-  const [chartInstance, setChartInstance] = useState(null);
+// const TopProductsChart = () => {
+//   const getStartOfWeek = () => {
+//     const today = new Date();
+//     const dayOfWeek = today.getDay(); // 0 (Chủ nhật) đến 6 (Thứ bảy)
+//     const startOfWeek = new Date(today);
+//     startOfWeek.setDate(today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1)); // Nếu Chủ nhật, lấy thứ Hai trước đó
+//     return startOfWeek.toISOString().split("T")[0]; // Trả về dạng 'YYYY-MM-DD'
+//   };
 
-  useEffect(() => {
-    Chart.register(
-      CategoryScale,
-      LinearScale,
-      BarController,
-      BarElement,
-      Title,
-      Tooltip,
-      Legend
-    );
+//   const [selectedDate, setSelectedDate] = useState(getStartOfWeek());
+//   const [chartInstance, setChartInstance] = useState(null);
+//   const [dateRange, setDateRange] = useState("");
 
-    const fetchData = async () => {
-      try {
-        const query = `?week=${week || ""}&year=${year}`;
-        const res = await fetch(
-          `http://localhost:6677/products/getTop10PW${query}`
-        );
-        const result = await res.json();
+//   const calculateDateRange = (startDate) => {
+//     const start = new Date(startDate);
+//     const end = new Date(start);
+//     end.setDate(start.getDate() + 6);
 
-        const labels = [];
-        const data = [];
-        result.data.forEach((element) => {
-          labels.push(element.name);
-          data.push(Number(element.sold));
-        });
+//     const formatDate = (date) =>
+//       `${date.getDate().toString().padStart(2, "0")}/${(date.getMonth() + 1)
+//         .toString()
+//         .padStart(2, "0")}/${date.getFullYear()}`;
 
-        const ctx = document.getElementById("myChart").getContext("2d");
+//     return `${formatDate(start)} - ${formatDate(end)}`;
+//   };
 
-        if (chartInstance) {
-          chartInstance.destroy();
-        }
+//   useEffect(() => {
+//     Chart.register(
+//       CategoryScale,
+//       LinearScale,
+//       PieController,
+//       ArcElement,
+//       Title,
+//       Tooltip,
+//       Legend
+//     );
 
-        const newChart = new Chart(ctx, {
-          type: "bar",
-          data: {
-            labels: labels,
-            datasets: [
-              {
-                label: "Lượt bán",
-                data: data,
-                borderWidth: 1,
-                backgroundColor: [
-                  "rgba(255, 99, 132, 0.6)",
-                  "rgba(54, 162, 235, 0.6)",
-                  "rgba(75, 192, 192, 0.6)",
-                ],
-                borderColor: [
-                  "rgba(255, 99, 132, 1)",
-                  "rgba(54, 162, 235, 1)",
-                  "rgba(75, 192, 192, 1)",
-                ],
-              },
-            ],
-          },
-          options: {
-            scales: {
-              y: {
-                beginAtZero: true,
-              },
-            },
-          },
-        });
+//     const fetchData = async () => {
+//       try {
+//         const query = `?date=${selectedDate}`;
+//         const res = await fetch(
+//           `http://localhost:6677/products/getTop10PW${query}`
+//         );
+//         const result = await res.json();
 
-        setChartInstance(newChart);
-      } catch (error) {
-        console.error("Error fetching or displaying data:", error);
-      }
-    };
+//         const labels = [];
+//         const data = [];
+//         result.data.forEach((element) => {
+//           labels.push(element.name);
+//           data.push(Number(element.sold));
+//         });
 
-    fetchData();
-  }, [week, year]);
+//         const ctx = document.getElementById("myChart").getContext("2d");
 
-  // Tạo danh sách tuần từ 1 đến 52
-  const weeks = Array.from({ length: 52 }, (_, i) => i + 1);
+//         if (chartInstance) {
+//           chartInstance.destroy();
+//         }
 
-  return (
-    <div style={{ padding: 5, marginBottom: "20px"}}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-      <a
-          className="btn-chart"
-          href="/charts"
-          alt="insert"
-          style={{
-            display: "block",
-            alignItems: "center",
-            textAlign: "center" /* Căn giữa văn bản */,
-            marginTop: 10 /* Khoảng cách giữa nút và liên kết */,
-            color: "#27aae1" /* Màu chữ cho liên kết */,
-            textDecoration: "none" /* Bỏ gạch chân */,
-            marginRight: 18,
-            fontSize: 16,
-            fontWeight: 600,
-            paddingLeft: 20,
+//         const newChart = new Chart(ctx, {
+//           type: "pie",
+//           data: {
+//             labels: labels,
+//             datasets: [
+//               {
+//                 label: "Lượt bán",
+//                 data: data,
+//                 backgroundColor: [
+//                   "rgba(255, 99, 132, 0.6)",
+//                   "rgba(54, 162, 235, 0.6)",
+//                   "rgba(75, 192, 192, 0.6)",
+//                   "rgba(255, 206, 86, 0.6)",
+//                   "rgba(153, 102, 255, 0.6)",
+//                   "rgba(255, 159, 64, 0.6)",
+//                   "rgba(201, 203, 207, 0.6)",
+//                 ],
+//                 borderColor: [
+//                   "rgba(255, 99, 132, 1)",
+//                   "rgba(54, 162, 235, 1)",
+//                   "rgba(75, 192, 192, 1)",
+//                   "rgba(255, 206, 86, 1)",
+//                   "rgba(153, 102, 255, 1)",
+//                   "rgba(255, 159, 64, 1)",
+//                   "rgba(201, 203, 207, 1)",
+//                 ],
+//                 borderWidth: 1,
+//               },
+//             ],
+//           },
+//           options: {
+//             responsive: true,
+//             maintainAspectRatio: true,
+//             aspectRatio: 1.5,
+//             plugins: {
+//               legend: {
+//                 position: "top",
+//               },
+//               title: {
+//                 display: true,
+//                 text: "Top sản phẩm bán chạy",
+//               },
+//             },
+//           },
+//         });
 
-          }}
-        >
-         Quay lại
-        </a>
-        <h1
-          style={{
-            paddingLeft: 20,
-            color: "#27AAE1",
-            fontSize: "24px",
-            fontWeight: "bold",
-            textAlign: "center",
-            textTransform: "uppercase",
-          }}
-        >
-          Sản phẩm bán chạy trong tuần
-        </h1>
+//         setChartInstance(newChart);
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-   
+//         setDateRange(calculateDateRange(selectedDate));
+//       } catch (error) {
+//         console.error("Error fetching or displaying data:", error);
+//       }
+//     };
 
-          }}
-        >
-          <div style={{ marginRight: 10 }}>
-            <label
-              htmlFor="week"
-              style={{ fontWeight: "bold", marginRight: 5 }}
-            >
+//     fetchData();
+//   }, [selectedDate]);
 
-            </label>
-            <select
-              id="week"
-              value={week}
-              onChange={(e) => setWeek(e.target.value)}
-              style={{
-                padding: "8px 12px",
-                width: "95px",
-                fontSize: "13px",
-                textAlign: "center",
-                border: "none",
-                color: "white",
-                borderRadius: "5px",
-                backgroundColor: "rgba(39, 170, 225, 0.6)",
-                cursor: "pointer",
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                outline: "none",
-                transition: "border-color 0.3s ease, box-shadow 0.3s ease",
-              }}
-              onMouseEnter={(e) => (e.target.style.borderColor = "#27AAE1")}
-              onMouseLeave={(e) => (e.target.style.borderColor = "#ccc")}
-              onFocus={(e) => {
-                e.target.style.borderColor = "#27AAE1";
-                e.target.style.boxShadow = "0 0 5px rgba(39, 170, 225, 0.5)";
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = "#ccc";
-                e.target.style.boxShadow = "none";
-              }}
-            >
-              <option value="">Tất cả</option>
-              {weeks.map((w) => (
-                <option key={w} value={w}>
-                  Tuần {w}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label
-              htmlFor="year"
-              style={{ fontWeight: "bold", marginRight: 5 }}
-            >
-            </label>
-            <select
-              id="year"
-              value={year}
-              onChange={(e) => setYear(e.target.value)}
-              style={{
-                padding: "8px 12px",
-                width: "95px",
-                fontSize: "13px",
-                textAlign: "center",
-                border: "none",
-                color: "white",
-                borderRadius: "5px",
-                backgroundColor: "rgba(39, 170, 225, 0.6)",
-                cursor: "pointer",
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-                outline: "none",
-                transition: "border-color 0.3s ease, box-shadow 0.3s ease",
-              }}
-              onMouseEnter={(e) => (e.target.style.borderColor = "#27AAE1")}
-              onMouseLeave={(e) => (e.target.style.borderColor = "#ccc")}
-              onFocus={(e) => {
-                e.target.style.borderColor = "#27AAE1";
-                e.target.style.boxShadow = "0 0 5px rgba(39, 170, 225, 0.5)";
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = "#ccc";
-                e.target.style.boxShadow = "none";
-              }}
-            >
-              {[2023, 2024, 2025].map((y) => (
-                <option key={y} value={y}>
-                  {y}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-      </div>
+//   return (
+//     <div style={{ padding: 5, marginBottom: "20px" }}>
+//       <div
+//         style={{
+//           display: "flex",
+//           justifyContent: "space-between",
+//           alignItems: "center",
+//         }}
+//       >
+//         <a
+//           className="btn-chart"
+//           href="/charts"
+//           style={{
+//             textAlign: "center",
+//             marginTop: 10,
+//             color: "#27aae1",
+//             textDecoration: "none",
+//             marginRight: 18,
+//             fontSize: 16,
+//             fontWeight: 600,
+//           }}
+//         >
+//           Quay lại
+//         </a>
+//         <h1
+//           style={{
+//             paddingLeft: 20,
+//             color: "#27AAE1",
+//             fontSize: "24px",
+//             fontWeight: "bold",
+//             textAlign: "center",
+//             textTransform: "uppercase",
+//           }}
+//         >
+//           Sản phẩm bán chạy trong khoảng thời gian
+//         </h1>
 
-      <canvas id="myChart"></canvas>
-    </div>
-  );
-};
+//         <div style={{ display: "flex", justifyContent: "center" }}>
+//           <input
+//             type="date"
+//             value={selectedDate}
+//             onChange={(e) => setSelectedDate(e.target.value)}
+//             style={{
+//               padding: "8px 12px",
+//               fontSize: "14px",
+//               border: "none",
+//               borderRadius: "5px",
+//               backgroundColor: "rgba(39, 170, 225, 0.6)",
+//               color: "white",
+//               cursor: "pointer",
+//               boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+//             }}
+//           />
+//         </div>
+//       </div>
 
-export default TopProductsChart;
+//       {dateRange && (
+//         <p
+//           style={{
+//             textAlign: "center",
+//             marginTop: "10px",
+//             fontSize: "14px",
+//             color: "#555",
+//           }}
+//         >
+//           Khoảng thời gian: {dateRange}
+//         </p>
+//       )}
+
+//       <div style={{ maxWidth: "400px", margin: "0 auto" }}>
+//         <canvas id="myChart" style={{ maxWidth: "100%", height: "auto" }}></canvas>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default TopProductsChart;
