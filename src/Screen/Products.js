@@ -9,25 +9,14 @@ import eyeOff from "../assets/images/eyesoff.png";
 import Swal from "sweetalert2";
 import { useLocation } from "react-router-dom";
 
-// import {
-//   SearchOutlined 
-// } from "@ant-design/icons";
-
-
 function Products() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState("");
-
-  const [searchKey, setSearchKey] = useState(""); // Đảm bảo lưu trữ searchKey
-
-  const [filteredProducts, setFilteredProducts] = useState([]); // Lưu trữ sản phẩm đã lọc
-
+  const [searchKey, setSearchKey] = useState("");
   const location = useLocation();
   const query = new URLSearchParams(location.search);
-
-  const productId = query.get("product"); // Lấy productId từ URL
-
+  const productId = query.get("product");
 
   useEffect(() => {
     const getAllCategories = async () => {
@@ -38,7 +27,6 @@ function Products() {
     getAllCategories();
   }, []);
 
-  // Fetch và lọc sản phẩm theo category và searchKey
   useEffect(() => {
     const getProducts = async () => {
       let url = "http://localhost:6677/products/getProducts";
@@ -50,7 +38,6 @@ function Products() {
       const result = await response.json();
       let filtered = result.data;
 
-      // Lọc sản phẩm theo searchKey
       if (searchKey) {
         filtered = filtered.filter((product) =>
           product.name.toLowerCase().includes(searchKey.toLowerCase())
@@ -59,13 +46,10 @@ function Products() {
 
       setProducts(filtered);
 
-      // Nếu có productId trong URL, chỉ hiển thị sản phẩm đó
       if (productId) {
-
         const selectedProduct = filtered.find(
           (product) => product._id === productId
         );
-
         if (selectedProduct) {
           setProducts([selectedProduct]);
         }
@@ -73,35 +57,30 @@ function Products() {
     };
 
     getProducts();
-
   }, [category, searchKey, productId]);
-
 
   const handleDelete = async (id) => {
     try {
       const _result = await Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
+        title: "Bạn có chắc chắn?",
+        text: "Không thể hoàn tác hành động này!",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!",
+        confirmButtonText: "Vâng, xóa nó!",
       });
       if (!_result.isConfirmed) {
         return;
       }
       const response = await fetch(
         `http://localhost:6677/products/${id}/delete`,
-        {
-          method: "DELETE",
-        }
+        { method: "DELETE" }
       );
       const result = await response.json();
       if (result.success) {
-        // Cập nhật lại danh sách sản phẩm sau khi xóa và reset searchKey
         setProducts(products.filter((item) => item._id !== id));
-        setSearchKey(""); // Reset lại searchKey sau khi xóa sản phẩm
+        setSearchKey("");
       } else {
         Swal.fire({
           icon: "error",
@@ -126,10 +105,9 @@ function Products() {
                   className="form-selectne"
                   value={category}
                   onChange={(e) => {
-                    setCategory(e.target.value); // Cập nhật lại category
-                    setSearchKey("");  // Reset searchKey khi thay đổi category
-                  }} 
-
+                    setCategory(e.target.value);
+                    setSearchKey("");
+                  }}
                 >
                   <option value="">Tất cả danh mục</option>
                   {categories.map((item) => (
@@ -142,17 +120,13 @@ function Products() {
             </div>
           </div>
           <div className="search-box">
-
-            <div className="search-box">
-              <input
-                type="text"
-                placeholder="Nhập để tìm sản phẩm"
-                value={searchKey}
-                onChange={(e) => setSearchKey(e.target.value)} // Cập nhật lại searchKey
-              />
-              <img src={searchne} alt="search-icon" />
-            </div>
-
+            <input
+              type="text"
+              placeholder="Nhập để tìm sản phẩm"
+              value={searchKey}
+              onChange={(e) => setSearchKey(e.target.value)}
+            />
+            <img src={searchne} alt="search-icon" />
           </div>
           <a className="insert-btn" href="/insert-Product" alt="insert">
             Thêm mới
@@ -215,7 +189,24 @@ function Products() {
                         )}
                       </td>
                       <td className="cube">{item.category.category_name}</td>
-                      <td className="cubeN">{item.name}</td>
+                      <td className="cubeN">
+                        {item.name}
+                        {item.quantity === 0 && (
+                          <span
+                            style={{
+                              display: "inline-block",
+                              marginLeft: "10px",
+                              padding: "3px 8px",
+                              backgroundColor: "red",
+                              color: "white",
+                              borderRadius: "5px",
+                              fontSize: "12px",
+                            }}
+                          >
+                            Hết hàng
+                          </span>
+                        )}
+                      </td>
                       <td className="cube">{item.oum}</td>
                       <td className="cube">{item.price}</td>
                       <td className="cubeST">{item.description}</td>
