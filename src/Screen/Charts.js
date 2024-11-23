@@ -245,8 +245,8 @@ const TopProductsChart = () => {
         <p style={{ color: "gray", fontWeight: "bold" }}>
           {dateRange} - Tổng số sản phẩm bán: {data.reduce((acc, val) => acc + val, 0)}
         </p>
-        <div style={{ display: "flex", justifyContent: "center", marginTop: "20px", width: "100%", }}>
-          <canvas id="myChart" width="700" height="400" ></canvas>
+        <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+          <canvas id="myChart" width="900" height="400" ></canvas>
         </div>
       </div>
 

@@ -39,10 +39,10 @@
 }
 .product-table {
   width: 100%;
-  height: 100px;
+  height: 200px ;
   border-collapse: collapse;
   font-weight: 600;
-  border: 1px solid #c7c7c7;
+  border: 1px solid rgba(155, 174, 202, 0.1);
 }
 .cube {
   width: 10%;
@@ -58,18 +58,18 @@
 
 }
 .cubeN {
-  width: 10%;
+  width: 20%;
   color: #1c75bc;
 }
 .cube1 {
   width: 5%;
 }
 .cubeST {
-  width: 25%;
+  width: 10%;
 }
 .table tr,
 .table td {
-  border: 1px solid #c7c7c7;
+  border: 1px solid rgba(155, 174, 202, 0.1);
   text-align: center;
   padding: 8px;
 }
@@ -124,7 +124,7 @@
   height: 70px;
 }
 .boder-tr th {
-  border: 1px solid #c7c7c7;
+  border: 1px solid rgba(155, 174, 202, 0.1);
   background: rgba(155, 174, 202, 0.1);
   height: 30px;
 }
@@ -206,15 +206,11 @@
   padding: 12px 20px;
   font-size: 16px;
   border: none;
-
   border: 2px solid rgba(155, 174, 202, 0.1);
-
   border-radius: 10px;
   outline: none; /* Loại bỏ viền khi focus */
   background-color: #fff;
   transition: all 0.3s ease-in-out; /* Hiệu ứng khi hover */
-  height: 25px;
-
   height: 36px;
 }
 .search-box input {
@@ -261,3 +257,35 @@
   color: rgba(0, 123, 255, 0.5);  
   font-size: 15px;
 }
+
+.product-table td{
+  text-align: center;
+  vertical-align: middle;
+  max-width: 150px; /* Đặt giới hạn chiều rộng */
+  overflow: hidden; /* Ẩn nội dung tràn */
+  text-overflow: ellipsis; /* Hiển thị dấu ba chấm */
+  white-space: nowrap; /* Không xuống dòng */
+  height: 70px;
+  line-height: 1.5; 
+}
+
+.cubeST {
+  max-width: 200px; /* Giới hạn chiều rộng của ô mô tả */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; /* Giữ nội dung trên một dòng */
+  max-height: 3em; /* Căn chỉnh chiều cao tối đa theo số dòng */
+  line-height: 1.5em; 
+}
+
+/* Để xử lý nội dung dài trên nhiều dòng */
+.cubeN span {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
+

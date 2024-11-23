@@ -148,7 +148,7 @@ function Products() {
                   <th>Tên sản phẩm</th>
                   <th>Đơn vị đo</th>
                   <th>Giá tiền</th>
-                  <th>Mô tả</th>
+                  <th>Loại hàng</th>
                   <th>Xuất xứ</th>
                   <th>Tác vụ</th>
                 </tr>
@@ -191,25 +191,27 @@ function Products() {
                       <td className="cube">{item.category.category_name}</td>
                       <td className="cubeN">
                         {item.name}
-                        {item.quantity === 0 && (
-                          <span
-                            style={{
-                              display: "inline-block",
-                              marginLeft: "10px",
-                              padding: "3px 8px",
-                              backgroundColor: "red",
-                              color: "white",
-                              borderRadius: "5px",
-                              fontSize: "12px",
-                            }}
-                          >
-                            Hết hàng
-                          </span>
-                        )}
+                        <div className="">
+                          {item.quantity === 0 && (
+                            <span
+                              style={{
+                                display: "inline-block",
+                                marginLeft: "10px",
+                                padding: "3px 8px",
+                                backgroundColor: "red",
+                                color: "white",
+                                borderRadius: "5px",
+                                fontSize: "12px",
+                              }}
+                            >
+                              Hết hàng
+                            </span>
+                          )}
+                        </div>
                       </td>
                       <td className="cube">{item.oum}</td>
                       <td className="cube">{item.price}</td>
-                      <td className="cubeST">{item.description}</td>
+                      <td className="cubeST">{item.preserve.preserve_name}</td>
                       <td className="cube">{item.origin}</td>
                       <td className="cubeF">
                         <div className="btn-container">
