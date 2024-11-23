@@ -123,14 +123,7 @@ const TopProductsChart = () => {
                 legend: {
                   position: "right",
                 },
-                datalabels: {
-                  color: "#fff",
-                  font: {
-                    size: 12,
-                    weight: "bold",
-                  },
-                  formatter: (value) => `${value}`,
-                },
+                datalabels: false,
               },
             },
           });
@@ -149,7 +142,7 @@ const TopProductsChart = () => {
     if (chartInstance) {
       chartInstance.destroy(); // Hủy biểu đồ cũ
       const ctx = document.getElementById("myChart").getContext("2d");
-
+  
       const newChart = new Chart(ctx, {
         type: type,
         data: {
@@ -185,30 +178,24 @@ const TopProductsChart = () => {
         options: {
           responsive: false,
           maintainAspectRatio: true,
-          aspectRatio: 1,
           plugins: {
             legend: {
               position: "right",
             },
-            datalabels: {
-              color: "#fff",
-              font: {
-                size: 12,
-                weight: "bold",
-              },
-              formatter: (value) => `${value}`,
-            },
+            datalabels: false,
+            
           },
         },
       });
-
+  
       setChartInstance(newChart);
     }
   };
+  
 
   return (
     <div
-      style={{
+      style={{  
         padding: 5,
         marginBottom: "20px",
         display: "flex",
@@ -258,12 +245,12 @@ const TopProductsChart = () => {
         <p style={{ color: "gray", fontWeight: "bold" }}>
           {dateRange} - Tổng số sản phẩm bán: {data.reduce((acc, val) => acc + val, 0)}
         </p>
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: "10px" }}>
-          <canvas id="myChart" width="500" height="500"></canvas>
+        <div style={{ display: "flex", justifyContent: "center", marginTop: "20px", width: "100%", }}>
+          <canvas id="myChart" width="700" height="400" ></canvas>
         </div>
       </div>
 
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      <div style={{ display: "flex", justifyContent: "center", marginTop: "20px"  }}>
         <button
           onClick={() => handleChartChange("pie")}
           style={{

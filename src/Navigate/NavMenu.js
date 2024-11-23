@@ -7,24 +7,24 @@ import {
   ReconciliationOutlined,
   MessageOutlined,
   SettingOutlined,
-  PoweroffOutlined, 
+  PoweroffOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, theme, Modal } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./NavMenu.css";
 import { AdminContext } from "../Component/AdminProvider";
 import logoBlue2 from "../assets/images/logoBlue2.jpg";
 import Search from "../Component/Search";
-import '@fontsource/roboto'; // Tải trọng số mặc định
-import '@fontsource/roboto/400.css'; // Tải trọng số cụ thể
-
+import "@fontsource/roboto"; // Tải trọng số mặc định
+import "@fontsource/roboto/400.css"; // Tải trọng số cụ thể
 
 const { Content, Sider } = Layout;
+
 
 const NavMenu = ({ children, isHidden, onLogout }) => {
   const { admin } = useContext(AdminContext);
   const [isModalVisible, setIsModalVisible] = useState(false); // Thêm state để quản lý modal
-
+  const location = useLocation();
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -69,7 +69,7 @@ const NavMenu = ({ children, isHidden, onLogout }) => {
             <Menu
               className="menu"
               mode="inline"
-              defaultSelectedKeys={["/charts"]}
+              defaultSelectedKeys={[location.pathname]}
               style={{ height: "50%", borderRight: 0 }}
               items={[
                 {
@@ -83,14 +83,10 @@ const NavMenu = ({ children, isHidden, onLogout }) => {
                   label: "Quản lý người dùng",
                 },
                 {
-                  key: "3",
+                  key: "/products",
                   icon: <ReconciliationOutlined />,
-                  label: "Quản lý hàng hóa",
-                  children: [
-                    { key: "/products", label: "Quản lý sản phẩm" },
-                    { key: "/QLHH", label: "Quản lý đơn hàng" },
-                 
-                  ],
+                  label: "Quản lý sản phẩm",
+                  
                 },
                 {
                   key: "/Comment",
@@ -103,9 +99,9 @@ const NavMenu = ({ children, isHidden, onLogout }) => {
                   label: "Quản lý khuyến mãi",
                 },
                 {
-                  key: "/Payment",
+                  key: "/QLHH",
                   icon: <BarChartOutlined />,
-                  label: "Quản lý thanh toán",
+                  label: "Quản lý đơn hàng",
                 },
                 {
                   key: "6",
@@ -146,7 +142,7 @@ const NavMenu = ({ children, isHidden, onLogout }) => {
           )}
           <Content
             style={{
-              padding: 15,  
+              padding: 15,
               height: "50%",
               width: "100%",
               background: colorBgContainer,
