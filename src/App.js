@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -25,6 +25,7 @@ import ResetPassword from "./Screen/ResetPassword";
 import Comment from "./Screen/Comment";
 import Payment from "./Screen/Payment";
 import ChartWeek from "./Screen/ChartWeek"
+import OrderDetail from "./Screen/OrderDetail";
 
 function App() {
   const getAdminFromLocalStorage = () => {
@@ -34,7 +35,7 @@ function App() {
 
   const [admin, setAdmin] = useState(getAdminFromLocalStorage());
   const [isHidden, setIsHidden] = useState(!admin);
-  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
+  
   
   const saveAdminInfo = (adminInfo) => {
     if (!adminInfo) {
@@ -74,6 +75,7 @@ function App() {
               <Route path="/AddSale" element={<AddSale />} />
               <Route path="/Comment" element={<Comment />} />
               <Route path="/Payment" element={<Payment />} />
+              <Route path="/OrderDetail/:id" element={<OrderDetail />} />
               <Route path="/login" element={<Navigate to="/charts" />} />
             </Routes>
           </NavMenu>
