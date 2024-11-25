@@ -20,6 +20,7 @@ const InsertProduct = () => {
   const [supplier, setSupplier] = useState("");
   const [uses, setUses] = useState("");
   const [description, setDescription] = useState("");
+  const [discount, setDiscount] = useState("");
 
   useEffect(() => {
     const getAllCategories = async () => {
@@ -125,6 +126,7 @@ const InsertProduct = () => {
         preserve: preserve,
         supplier: supplier,
         uses: uses,
+        discount,
         images: images,
         description: description,
       };
@@ -184,6 +186,7 @@ const InsertProduct = () => {
     setPreserve(preserves[0]?._id || ""); // Đặt lại preserve về mục đầu tiên
     setSupplier("");
     setUses("");
+    setDiscount("");
     setImages([]);
     setDescription("");
 
@@ -335,6 +338,19 @@ const InsertProduct = () => {
                 placeholder="Enter uses"
                 value={uses}
                 onChange={(e) => setUses(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div className="mb-3">
+            <div className="inside-container">
+              <label className="form-label">Giảm giá:</label>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Nhập giá giảm"
+                value={discount}
+                onChange={(e) => setDiscount(e.target.value)}
               />
             </div>
           </div>

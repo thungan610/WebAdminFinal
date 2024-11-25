@@ -3,12 +3,14 @@
     padding: 0;
     box-sizing: border-box;
   }
-  
+  .box{
+    padding: 10px;
+  }
   body {
     font-family: Arial, sans-serif;
   }
   
-  .container {
+  .container4 {
     display: flex;
   }
   

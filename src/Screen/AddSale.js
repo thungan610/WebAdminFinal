@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios"; // Import axios
 import "./AddSale.css";
+import { useNavigate } from "react-router-dom";
 
 const AddSale = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         title: "",
         fixedDiscount: "",
@@ -61,7 +63,7 @@ const AddSale = () => {
 
     return (
         <div className="box">
-            <div className="content">
+            <div className="content4">
                 <div className="form-container">
                     <h3>Thêm khuyến mãi</h3>
                     <form onSubmit={handleSubmit}>
@@ -124,7 +126,7 @@ const AddSale = () => {
                         {errors.endDate && <p className="error">{errors.endDate}</p>}
 
                         <div className="buttons">
-                            <button type="button" className="cancel">Hủy</button>
+                            <button onClick={ ()=> navigate(-1)} type="button" className="cancel">Hủy</button>
                             <button type="submit" className="submit">Thêm mới</button>
                         </div>
                     </form>

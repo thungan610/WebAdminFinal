@@ -105,7 +105,7 @@
   height: 70px;
 }
 .btn-link{
-  width: 50px;
+  width: 28px;
   height: 28px;
   display: flex;
   justify-content: center;
@@ -114,6 +114,7 @@
   color: white;
   font-weight: 600;
   margin-left: 5px;
+
 }
 
 .image-preview img {

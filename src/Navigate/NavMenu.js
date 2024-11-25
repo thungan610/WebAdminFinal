@@ -94,7 +94,7 @@ const NavMenu = ({ children, isHidden, onLogout }) => {
                   label: "Quản lý bình luận",
                 },
                 {
-                  key: "/AddSale",
+                  key: "/PromotionManagementment",
                   icon: <TagOutlined />,
                   label: "Quản lý khuyến mãi",
                 },

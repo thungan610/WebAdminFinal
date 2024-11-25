@@ -26,6 +26,7 @@ import Comment from "./Screen/Comment";
 import Payment from "./Screen/Payment";
 import ChartWeek from "./Screen/ChartWeek"
 import OrderDetail from "./Screen/OrderDetail";
+import PromotionManagementment from "./Screen/PromotionManagement";
 
 function App() {
   const getAdminFromLocalStorage = () => {
@@ -72,8 +73,9 @@ function App() {
               <Route path="/update-Product/:id" element={<UpdateProduct />} />
               <Route path="/orders" element={<Orders />} />
               <Route path="/QLHH" element={<QLHH />} />
-              <Route path="/AddSale" element={<AddSale />} />
+              <Route path="/PromotionManagementment" element={<PromotionManagementment />} />
               <Route path="/Comment" element={<Comment />} />
+              <Route path="/AddSale" element={<AddSale />} />
               <Route path="/Payment" element={<Payment />} />
               <Route path="/OrderDetail/:id" element={<OrderDetail />} />
               <Route path="/login" element={<Navigate to="/charts" />} />

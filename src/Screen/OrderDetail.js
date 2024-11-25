@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import {
+  LeftOutlined 
+} from "@ant-design/icons";
+
 
 const OrderDetail = () => {
   const { id } = useParams();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchOrderDetail = async () => {
       try {
@@ -41,7 +45,14 @@ const OrderDetail = () => {
 
   return (
     <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
+      <div style={{ width: "100%", display: "flex", gap: "350px" }}>
+        <button style={{ background: "white"   }} onClick={() => navigate(-1)}>
+        <LeftOutlined />
+        </button>
+      
       <h1>Chi tiết đơn hàng</h1>
+      </div>
+   
       {order && (
         <>
           <section>
