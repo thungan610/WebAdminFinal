@@ -21,9 +21,9 @@
 
 }
 .order-table th {
-  background-color: #f2f2f2;
+  background-color: rgba(155, 174, 202, 0.1);;
   text-align: center;
- 
+
 }
 .order-table td {
   position: relative; /* Để đặt nút ở góc phải */
