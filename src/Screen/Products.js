@@ -7,7 +7,7 @@ import deleteimg from "../assets/images/delete.png";
 import eyeOn from "../assets/images/eyeson.png";
 import eyeOff from "../assets/images/eyesoff.png";
 import Swal from "sweetalert2";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // import {
 //   SearchOutlined 
@@ -25,9 +25,14 @@ function Products() {
 
   const location = useLocation();
   const query = new URLSearchParams(location.search);
+<<<<<<< Updated upstream
 
   const productId = query.get("product"); // Lấy productId từ URL
 
+=======
+  const productId = query.get("product");
+  const navigate = useNavigate();
+>>>>>>> Stashed changes
 
   useEffect(() => {
     const getAllCategories = async () => {
@@ -154,9 +159,9 @@ function Products() {
             </div>
 
           </div>
-          <a className="insert-btn" href="/insert-Product" alt="insert">
+          <button className="insert-btn" onClick={()=>navigate("/insert-product")}>
             Thêm mới
-          </a>
+          </button>
         </div>
         <div className="nene">
           <div className="table-small">
@@ -222,8 +227,9 @@ function Products() {
                       <td className="cube">{item.origin}</td>
                       <td className="cubeF">
                         <div className="btn-container">
-                          <a
-                            href={`/update-Product/${item._id}`}
+                          <button
+                           
+                            onClick={()=>navigate(`/update-product/${item._id}`)}
                             className="update-button"
                           >
                             <img
@@ -231,7 +237,7 @@ function Products() {
                               src={insert}
                               alt="insert"
                             />
-                          </a>
+                          </button>
                           <button
                             onClick={() => handleDelete(item._id)}
                             className="delete-button"

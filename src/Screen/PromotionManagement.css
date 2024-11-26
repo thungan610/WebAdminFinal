@@ -1,0 +1,98 @@
+.appnene {
+    padding: 0 20px;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: flex-end; /* Centers the button horizontally */
+    margin-bottom: 20px;
+  }
+  
+  .add-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .add-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.1); /* Slight zoom on hover */
+  }
+  .tableSale{
+    height: 500px;
+    overflow: scroll;
+    
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    
+  }
+
+  table td{
+    height: 60px;
+  }
+  
+  table th,
+  table td {
+    border: 1px solid rgba(155, 174, 202, 0.1);
+    text-align: center;
+    padding: 8px;
+  }
+  
+  table th {
+    background-color: rgba(155, 174, 202, 0.1);
+  }
+  
+  .editDiv {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    
+  }
+  
+  .editIcon,
+  .deleteIcon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+  }
+  
+  .editIcon {
+    background-color: #28a745;
+  }
+  
+  .editIcon:hover {
+    background-color: #218838;
+    transform: scale(1.1);
+  }
+  
+  img.edit {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .deleteIcon {
+    background-color: #ff3434;
+  }
+  
+  .deleteIcon:hover {
+    background-color: #c82333;
+    transform: scale(1.1);
+  }
+  
+  img.delete {
+    width: 20px;
+    height: 20px;
+  }

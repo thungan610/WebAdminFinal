@@ -6,6 +6,9 @@ import "./Search.css";
 import bell from "../assets/images/bell.png";
 import mail from "../assets/images/mail.png";
 
+
+
+
 const { Search } = Input;
 
 function SearchComponent() {
@@ -47,9 +50,12 @@ function SearchComponent() {
         onChange={(e) => handleSearch(e.target.value)}
       />
       <div className="icon-component">
+      
         <img className="bell-icon" src={bell} alt="bell" />
         <img className="mail-icon" src={mail} alt="mail" />
       </div>
+
+      
 
       {showSuggestions && searchResults.length > 0 && (
         <div className="search-suggestions">
