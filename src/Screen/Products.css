@@ -213,17 +213,6 @@
   transition: all 0.3s ease-in-out; /* Hiệu ứng khi hover */
   height: 36px;
 }
-.search-box input {
-  width: 100%;
-  padding: 12px 20px;
-  font-size: 16px;
-  border: 2px solid rgba(155, 174, 202, 0.1);
-  border-radius: 10px;
-  outline: none; /* Loại bỏ viền khi focus */
-  background-color: #fff;
-  transition: all 0.3s ease-in-out; /* Hiệu ứng khi hover */
-  height: 36px;
-}
 
 /* Hiệu ứng khi hover vào thanh tìm kiếm */
 .search-box input:hover {

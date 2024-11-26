@@ -28,25 +28,34 @@ const AddSale = () => {
         // Kiểm tra dữ liệu form
         const newErrors = {};
         if (!formData.title) newErrors.title = "Vui lòng nhập tiêu đề";
-        if (!formData.fixedDiscount) newErrors.fixedDiscount = "Vui lòng nhập số tiền giảm cố định";
+        if (!formData.fixedDiscount && !formData.percentDiscount) {
+            newErrors.fixedDiscount = "Vui lòng nhập số tiền giảm cố định hoặc giảm theo %";
+        }
         if (!formData.minOrderValue) newErrors.minOrderValue = "Vui lòng nhập giá trị đơn hàng tối thiểu";
-        if (!formData.percentDiscount) newErrors.percentDiscount = "Vui lòng nhập giảm theo %";
         if (!formData.startDate) newErrors.startDate = "Vui lòng chọn ngày khuyến mãi";
         if (!formData.endDate) newErrors.endDate = "Vui lòng chọn ngày hết hạn";
+
+        // Kiểm tra xem chỉ nhập một trong hai: giảm giá cố định hoặc giảm theo %
+        if (formData.fixedDiscount && formData.percentDiscount) {
+            newErrors.fixedDiscount = "Chỉ được phép nhập giảm theo số tiền cố định hoặc phần trăm, không cả hai.";
+        }
 
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors); // Cập nhật lỗi nếu có
         } else {
             try {
-                // Gửi dữ liệu tới API
-                const response = await axios.post("http://localhost:6677/sale/addSale", {
+                // Tạo đối tượng dữ liệu để gửi tới API
+                const saleData = {
+                    date: formData.startDate, // Ngày bắt đầu khuyến mãi
                     title: formData.title,
-                    discountAmount: parseInt(formData.fixedDiscount),
+                    discountPercent: parseFloat(formData.percentDiscount) || 0, // Giảm theo %
                     minOrderValue: parseInt(formData.minOrderValue),
-                    discountPercent: parseFloat(formData.percentDiscount),
-                    date: formData.startDate,
-                    expirationDate: formData.endDate,
-                });
+                    expirationDate: formData.endDate, // Ngày hết hạn
+                    isExpired: false, // Đặt giá trị mặc định cho isExpired
+                };
+
+                // Gửi dữ liệu tới API
+                const response = await axios.post("http://localhost:6677/sale/addSale", saleData);
 
                 // Xử lý phản hồi từ server
                 if (response.data.status) {
