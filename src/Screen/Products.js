@@ -7,7 +7,7 @@ import deleteimg from "../assets/images/delete.png";
 import eyeOn from "../assets/images/eyeson.png";
 import eyeOff from "../assets/images/eyesoff.png";
 import Swal from "sweetalert2";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -17,7 +17,7 @@ function Products() {
   const location = useLocation();
   const query = new URLSearchParams(location.search);
   const productId = query.get("product");
-
+  const navigate = useNavigate();
   useEffect(() => {
     const getAllCategories = async () => {
       const response = await fetch("https://server-vert-rho-94.vercel.app/categories");
@@ -128,9 +128,9 @@ function Products() {
             />
             <img src={searchne} alt="search-icon" />
           </div>
-          <a className="insert-btn" href="/insert-Product" alt="insert">
+          <button className="insert-btn" onClick={()=> navigate("/insert-product")}>
             Thêm mới
-          </a>
+          </button>
         </div>
         <div className="nene">
           <div className="table-small">
@@ -215,16 +215,17 @@ function Products() {
                       <td className="cube">{item.origin}</td>
                       <td className="cubeF">
                         <div className="btn-container">
-                          <a
-                            href={`/update-Product/${item._id}`}
+                          <button
+                          
                             className="update-button"
+                            onClick={()=>navigate(`/update-product/${item._id}`)}
                           >
                             <img
                               className="insertimg"
                               src={insert}
                               alt="insert"
                             />
-                          </a>
+                          </button>
                           <button
                             onClick={() => handleDelete(item._id)}
                             className="delete-button"

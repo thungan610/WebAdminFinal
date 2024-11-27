@@ -1,22 +1,24 @@
-import React, { useEffect, useState } from "react";
-import "../Screen/UserManage.css";
-import star from "../assets/images/star.png"
+import React, { useState, useEffect } from "react";
+import { Table, Button, Space } from "antd";
+import { FilterOutlined } from "@ant-design/icons";
+import star from "../assets/images/star.png";
+import edit from "../assets/images/insert.png"; // Ensure these assets are correctly imported
+import deleteimg from "../assets/images/delete.png";
+import "./UserManage.css";
 
 const UserInfoCard = ({ user, showStar }) => {
-
   const hiddenPassword = "*".repeat(user.password.length);
   return (
     <div className="user-card">
       <div className="title-container">
-      <h2 className="text">{user.name}</h2>
-      {showStar && <img className="star-icon" src={star} alt="star"/>} 
+        <h2 className="text">{user.name}</h2>
+        {showStar && <img className="star-icon" src={star} alt="star" />}
       </div>
-      
       <p className="text">
         Email:{" "}
         <a href="#email" className="emailText">
           {user.email}
-        </a>{" "}
+        </a>
       </p>
       <p className="text">Mật khẩu: {hiddenPassword}</p>
       <div className="bottomUserCard">
@@ -33,69 +35,130 @@ const UserInfoCard = ({ user, showStar }) => {
   );
 };
 
-function UserManage() {
+const User = () => {
   const [users, setUsers] = useState([]);
+  const [oldUsers, setOldUsers] = useState([]);
+
+  // Fetch new users
   useEffect(() => {
-    const getNewUsers = async () => {
-      const response = await fetch("https://server-vert-rho-94.vercel.app/users/get-NewUsers");
-      const result = await response.json();
-      console.log(result.data);
-      setUsers(result.data);
+    const fetchNewUsers = async () => {
+      try {
+        const response = await fetch("https://server-vert-rho-94.vercel.app/users/get-NewUsers");
+        const result = await response.json();
+        setUsers(result.data || []);
+      } catch (error) {
+        console.error("Error fetching new users:", error);
+      }
     };
-    getNewUsers();
-    return () => {};
+
+    const fetchOldUsers = async () => {
+      try {
+        const response = await fetch("https://server-vert-rho-94.vercel.app/users/get-OldUsers");
+        const result = await response.json();
+        setOldUsers(result.data || []);
+      } catch (error) {
+        console.error("Error fetching old users:", error);
+      }
+    };
+
+    fetchNewUsers();
+    fetchOldUsers();
   }, []);
 
+  // Combined users array
+  const combinedUsers = [...users, ...oldUsers];
 
-  const [oldusers, setOldUsers] = useState([]);
-  useEffect(() => {
-    const getOldUsers = async () => {
-      const response2 = await fetch("https://server-vert-rho-94.vercel.app/users/get-OdlUsers");
-      const result2 = await response2.json();
-      console.log(result2.data);
-      setOldUsers(result2.data);
-    };
-    getOldUsers();
-    return () => {};
-  }, []);
+  const handleEdit = (record) => {
+    console.log("Edit user:", record);
+    // Add edit logic here (e.g., navigation to an edit page or modal)
+  };
 
+  const handleDelete = (id) => {
+    setUsers((prev) => prev.filter((user) => user.id !== id));
+    setOldUsers((prev) => prev.filter((user) => user.id !== id));
+    console.log(`Deleted user with ID: ${id}`);
+  };
+
+  const columns = [
+    {
+      title: "ID Người dùng",
+      dataIndex: "_id",
+      key: "_id",
+    },
+    {
+      title: "Tên Người dùng",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "Mật Khẩu",
+      dataIndex: "password",
+      key: "password",
+      render: (password) => (
+        <span className="password-style">
+          {"*".repeat(Math.min(9, password.length))}
+        </span>
+      ),
+    },
+    {
+      title: "Số điện thoại",
+      dataIndex: "phone",
+      key: "phone",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Ngày tạo",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (date) => new Date(date).toLocaleDateString(),
+    },
+    {
+      title: "Hành động",
+      key: "actions",
+      render: (_, record) => (
+        <Space>
+          <div className="editDiv">
+            <div
+              className="editIcon"
+              onClick={() => handleEdit(record)}
+              title="Edit"
+            >
+              <img className="edit" src={edit} alt="Edit" />
+            </div>
+            <div
+              className="deleteIcon"
+              onClick={() => handleDelete(record.id)}
+              title="Delete"
+            >
+              <img className="delete" src={deleteimg} alt="Delete" />
+            </div>
+          </div>
+        </Space>
+      ),
+    },
+  ];
 
   return (
-    <div className="container">
-      <div className="table1-container">
-        <h2 className="nameU">Người dùng mới</h2>
-        <div className="user-list">
-          {users.length > 0 &&
-            users.map((user, index) => {
-              return (
-                <UserInfoCard
-                  className="userInfoCard "
-                  key={index}
-                  user={user}
-                  showStar={false}
-                />
-              );
-            })}
-        </div>
+    <div className="user-table-container">
+      <h2 className="QLTK">Quản lý tài khoản</h2>
+      <div style={{ marginBottom: 20 }}>
+        <Button type="primary" icon={<FilterOutlined />}>
+          Bộ lọc
+        </Button>
       </div>
-      <div className="table1-container">
-        <h2 className="nameU">Người dùng trên 3 tháng</h2>
-        <div className="user-list">
-          {oldusers.length > 0 &&
-            oldusers.map((user, index) => {
-              return (
-                <UserInfoCard
-                  className="userInfoCard "
-                  key={index}
-                  user={user}
-                  showStar={true}
-                />
-              );
-            })}
-        </div>
-      </div>
+      <Table
+        className="user-table"
+        columns={columns}
+        dataSource={combinedUsers}
+        rowKey="_id" // Changed to `_id` to match the data structure
+        pagination={{ pageSize: 5 }}
+      />
     </div>
   );
-}
+};
 
-export default UserManage;
+export default User;
