@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import "./InsertProduct.css";
+import { FloatButton } from "antd";
 
 const InsertProduct = () => {
   const navigate = useNavigate();
@@ -24,7 +25,9 @@ const InsertProduct = () => {
 
   useEffect(() => {
     const getAllCategories = async () => {
-      const response = await fetch("https://server-vert-rho-94.vercel.app/categories");
+      const response = await fetch(
+        "https://server-vert-rho-94.vercel.app/categories"
+      );
       const result = await response.json();
       setCategories(result.data);
       if (result.data.length > 0) {
@@ -36,7 +39,9 @@ const InsertProduct = () => {
 
   useEffect(() => {
     const getAllPreserves = async () => {
-      const response = await fetch("https://server-vert-rho-94.vercel.app/preserves");
+      const response = await fetch(
+        "https://server-vert-rho-94.vercel.app/preserves"
+      );
       const result = await response.json();
       setPreserves(result.data);
       if (result.data.length > 0) {
@@ -130,13 +135,16 @@ const InsertProduct = () => {
         images: images,
         description: description,
       };
-      const result = await fetch("https://server-vert-rho-94.vercel.app/products/addSP", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      });
+      const result = await fetch(
+        "https://server-vert-rho-94.vercel.app/products/addSP",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        }
+      );
       const response = await result.json();
       // debugger
       if (response.success) {
@@ -366,13 +374,7 @@ const InsertProduct = () => {
                   value={imageUrl}
                   onChange={(e) => setImageUrl(e.target.value)}
                 />
-                <button
-                  type="button"
-                  className="btn-link"
-                  onClick={handleAddImageUrl}
-                >
-                  Dán 
-                </button>
+                <FloatButton shape="square" className="btn-link" onClick={handleAddImageUrl} />
               </div>
             </div>
           </div>

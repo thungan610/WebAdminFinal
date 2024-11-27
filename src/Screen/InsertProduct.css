@@ -96,6 +96,8 @@
 }
 .linkimg-container{
   display: flex;
+ 
+
 }
 
 /* Style cho từng ảnh */
@@ -105,16 +107,14 @@
   height: 70px;
 }
 .btn-link{
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #FF3434;
   color: white;
-  font-weight: 600;
-  margin-left: 5px;
-
+  top: 414px;
+   right: 47px;
 }
 
 .image-preview img {

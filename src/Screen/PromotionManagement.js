@@ -4,6 +4,7 @@ import "./PromotionManagement.css";
 import edit from "../assets/images/insert.png";
 import deleteimg from "../assets/images/delete.png";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const PromotionManagementment = () => {
   const [data, setData] = useState([]);
@@ -14,7 +15,9 @@ const PromotionManagementment = () => {
   useEffect(() => {
     const fetchPromotions = async () => {
       try {
-        const response = await axios.get("https://server-vert-rho-94.vercel.app/sale/getSale");
+        const response = await axios.get(
+          "https://server-vert-rho-94.vercel.app/sale/getSale"
+        );
         if (Array.isArray(response.data.data)) {
           setData(response.data.data);
         } else {
@@ -32,16 +35,37 @@ const PromotionManagementment = () => {
   }, []);
 
   // Hàm xử lý xóa
-  const handleDelete = async (id) => {
-    try {
-      await axios.delete(`https://server-vert-rho-94.vercel.app/sale/${id}/deleteSale`);
+
+
+const handleDelete = async (id) => {
+  try {
+    // Hiển thị bảng xác nhận
+    const result = await Swal.fire({
+      title: "Bạn có chắc chắn muốn xóa?",
+      text: "Hành động này không thể hoàn tác!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Đồng ý",
+      cancelButtonText: "Hủy",
+    });
+
+    // Nếu người dùng chọn "Đồng ý"
+    if (result.isConfirmed) {
+      await axios.delete(
+        `https://server-vert-rho-94.vercel.app/sale/${id}/deleteSale`
+      );
       setData(data.filter((item) => item._id !== id));
-      console.log("Khuyến mãi đã được xóa");
-    } catch (err) {
-      console.error("Lỗi khi xóa khuyến mãi:", err);
-      alert("Xóa khuyến mãi không thành công.");
+
+      // Thông báo xóa thành công
+      Swal.fire("Đã xóa!", "Khuyến mãi đã được xóa.", "success");
     }
-  };
+  } catch (err) {
+    console.error("Lỗi khi xóa khuyến mãi:", err);
+    Swal.fire("Lỗi!", "Xóa khuyến mãi không thành công.", "error");
+  }
+};
 
   //   // Hàm xử lý thêm mới
   //   const handleAdd = async () => {
@@ -80,52 +104,57 @@ const PromotionManagementment = () => {
           Thêm mới
         </a>
       </div>
-      <table className="sale-table">
-        <thead>
-          <tr>
-            <th>Tiêu đề</th>
-            <th>Số tiền giảm</th>
-            <th>Giảm theo phần trăm</th>
-            <th>Giá trị đơn hàng tối thiểu</th>
-            <th>Ngày tạo</th>
-            <th>Thời gian hết hạn</th>
-            <th>Tác vụ</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((row) => (
-            <tr key={row._id}>
-              <td>{row.title}</td>
-              <td>{row.discountAmount?.toLocaleString()}đ</td>
-              <td>{row.discountPercent}%</td>
-              <td>{row.minOrderValue?.toLocaleString()}đ</td>
-              <td>
-                {row.createAt
-                  ? new Date(row.createAt).toLocaleDateString()
-                  : "N/A"}
-              </td>
-              <td>
-                {row.expirationDate
-                  ? new Date(row.expirationDate).toLocaleDateString()
-                  : "N/A"}
-              </td>
-              <td>
-                <div className="editDiv">
-                  <div className="editIcon">
-                    <img className="edit" src={edit} alt="Edit" />
-                  </div>
-                  <div
-                    className="deleteIcon"
-                    onClick={() => handleDelete(row._id)}
-                  >
-                    <img className="delete" src={deleteimg} alt="Delete" />
-                  </div>
-                </div>
-              </td>
+      <div style={{ height: "500px", overflowY: "scroll" }}>
+        <table className="sale-table">
+          <thead>
+            <tr>
+              <th>Tiêu đề</th>
+              <th>Số tiền giảm</th>
+              <th>Giảm theo phần trăm</th>
+              <th>Giá trị đơn hàng tối thiểu</th>
+              <th>Ngày tạo</th>
+              <th>Thời gian hết hạn</th>
+              <th>Tác vụ</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data.map((row) => (
+              <tr key={row._id}>
+                <td>{row.title}</td>
+                <td>{row.discountAmount?.toLocaleString()}đ</td>
+                <td>{row.discountPercent}%</td>
+                <td>{row.minOrderValue?.toLocaleString()}đ</td>
+                <td>
+                  {row.createAt
+                    ? new Date(row.createAt).toLocaleDateString()
+                    : "N/A"}
+                </td>
+                <td>
+                  {row.expirationDate
+                    ? new Date(row.expirationDate).toLocaleDateString()
+                    : "N/A"}
+                </td>
+                <td>
+                  <div className="editDiv">
+                    <div className="editIcon">
+                      <button  onClick={()=>navigate(`/UpdateSale/${row._id}`)}>
+                      <img className="edit"  src={edit} alt="Edit" />
+                      </button>
+                     
+                    </div>
+                    <div
+                      className="deleteIcon"
+                      onClick={() => handleDelete(row._id)}
+                    >
+                      <img className="delete" src={deleteimg} alt="Delete" />
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

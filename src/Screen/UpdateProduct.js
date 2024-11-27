@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import "./InsertProduct.css";
+import { FloatButton } from "antd";
 
 const UpdateProduct = (props) => {
   // lấy id từ url;
@@ -70,27 +71,20 @@ const UpdateProduct = (props) => {
       const response = await fetch("https://server-vert-rho-94.vercel.app/categories");
       const result = await response.json();
       setCategories(result.data);
-      if (result.data.length > 0 && !category) {
-        // Chỉ thiết lập category nếu chưa có giá trị
-        setCategory(result.data[0]._id);
-      }
     };
     getAllCategories();
-  }, [category]);
+  }, []);
+  
 
   useEffect(() => {
     const getAllPreserves = async () => {
       const response = await fetch("https://server-vert-rho-94.vercel.app/preserves");
       const result = await response.json();
       setPreserves(result.data);
-      if (result.data.length > 0 && !preserve) {
-        // Chỉ thiết lập preserve nếu chưa có giá trị
-        setPreserve(result.data[0]._id);
-      }
     };
     getAllPreserves();
-  }, [preserve]);
-
+  }, []);
+  
   const uploadToCloundinary = async () => {
     try {
       const file = document.getElementById("image").files[0];
@@ -398,13 +392,7 @@ const UpdateProduct = (props) => {
                   value={imageUrl}
                   onChange={(e) => setImageUrl(e.target.value)}
                 />
-                <button
-                  type="button"
-                  className="btn-link"
-                  onClick={handleAddImageUrl}
-                >
-                  Dán
-                </button>
+                <FloatButton shape="square" className="btn-link" onClick={handleAddImageUrl} />
               </div>
             </div>
           </div>

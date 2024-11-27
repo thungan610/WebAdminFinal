@@ -60,7 +60,7 @@ const OrderDetail = () => {
 
       {order && (
         <>
-          <div style={{ display: "flex", gap: "400px"}}>
+          <div style={{ display: "flex", gap: "350px"}}>
             <div>
               <section>
                 <h2>Thông tin người dùng</h2>

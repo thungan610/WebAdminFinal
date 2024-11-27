@@ -45,7 +45,7 @@
   border: 1px solid rgba(155, 174, 202, 0.1);
 }
 .cube {
-  width: 10%;
+  width: 15%;
   height: 70px;
   /* display: flex;
     align-items: center */
@@ -57,6 +57,9 @@
 
 
 }
+.cubeF{
+  width: 15%;
+}
 .cubeN {
   width: 20%;
   color: #1c75bc;
@@ -65,7 +68,7 @@
   width: 5%;
 }
 .cubeST {
-  width: 10%;
+  width: 15%;
 }
 .table tr,
 .table td {
@@ -77,7 +80,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+  gap: 0px;
 }
 .update-button {
   width: 38px;
@@ -250,7 +253,7 @@
 .product-table td{
   text-align: center;
   vertical-align: middle;
-  max-width: 150px; /* Đặt giới hạn chiều rộng */
+  max-width: 120px; /* Đặt giới hạn chiều rộng */
   overflow: hidden; /* Ẩn nội dung tràn */
   text-overflow: ellipsis; /* Hiển thị dấu ba chấm */
   white-space: nowrap; /* Không xuống dòng */

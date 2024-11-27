@@ -43,7 +43,9 @@ const User = () => {
   useEffect(() => {
     const fetchNewUsers = async () => {
       try {
-        const response = await fetch("https://server-vert-rho-94.vercel.app/users/get-NewUsers");
+        const response = await fetch(
+          "https://server-vert-rho-94.vercel.app/users/get-NewUsers"
+        );
         const result = await response.json();
         setUsers(result.data || []);
       } catch (error) {
@@ -86,7 +88,7 @@ const User = () => {
         </span>
       ),
     },
-    
+
     {
       title: "Số điện thoại",
       dataIndex: "phone",
@@ -111,7 +113,7 @@ const User = () => {
           <div className="editDiv">
             <div
               className="editIcon"
-onClick={() => handleEdit(record)}
+              onClick={() => handleEdit(record)}
               title="Edit"
             >
               <img className="edit" src={edit} alt="Edit" />
@@ -131,21 +133,20 @@ onClick={() => handleEdit(record)}
 
   return (
     <div className="user-table-container">
-    <h2 className="QLTK">Quản lý tài khoản</h2>
-    <div style={{ marginBottom: 20 }}>
-      <Button type="primary" icon={<FilterOutlined />}>
-        Bộ lọc
-      </Button>
+      <h2 className="QLTK">Quản lý tài khoản</h2>
+      <div style={{ marginBottom: 20 }}>
+        <Button type="primary" icon={<FilterOutlined />}>
+          Bộ lọc
+        </Button>
+      </div>
+      <Table
+        className="user-table"
+        columns={columns}
+        dataSource={combinedUsers}
+        rowKey="id"
+        pagination={{ pageSize: 5 }}
+      />
     </div>
-    <Table
-      className="user-table"
-      columns={columns}
-      dataSource={combinedUsers}
-      rowKey="id"
-      pagination={{ pageSize: 5 }}
-    />
-  </div>
-  
   );
 };
 
