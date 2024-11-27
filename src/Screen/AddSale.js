@@ -55,7 +55,7 @@ const AddSale = () => {
                 };
 
                 // Gửi dữ liệu tới API
-                const response = await axios.post("http://localhost:6677/sale/addSale", saleData);
+                const response = await axios.post("https://server-vert-rho-94.vercel.app/sale/addSale", saleData);
 
                 // Xử lý phản hồi từ server
                 if (response.data.status) {

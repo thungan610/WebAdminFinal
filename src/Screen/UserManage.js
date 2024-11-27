@@ -43,7 +43,7 @@ const User = () => {
   useEffect(() => {
     const fetchNewUsers = async () => {
       try {
-        const response = await fetch("http://localhost:6677/users/get-NewUsers");
+        const response = await fetch("https://server-vert-rho-94.vercel.app/users/get-NewUsers");
         const result = await response.json();
         setUsers(result.data || []);
       } catch (error) {

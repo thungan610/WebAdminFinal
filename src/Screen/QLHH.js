@@ -12,7 +12,7 @@ const QLHH = () => {
   useEffect(() => {
     const getOrder = async () => {
       try {
-        const response = await fetch("http://localhost:6677/oder/getAllOrder");
+        const response = await fetch("https://server-vert-rho-94.vercel.app/oder/getAllOrder");
         const result = await response.json();
 
         if (result.status) {
@@ -89,7 +89,7 @@ const QLHH = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:6677/oder/${id}/updateOrder`, // Sửa từ 'oder' thành 'order'
+        `https://server-vert-rho-94.vercel.app/oder/${id}/updateOrder`, // Sửa từ 'oder' thành 'order'
         {
           method: "POST",
           headers: {

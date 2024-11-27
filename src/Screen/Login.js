@@ -43,7 +43,7 @@ function Login(props) {
         password: password,
         adminID: adminID,
       };
-      const response = await fetch("http://localhost:6677/admins/loginAdmin", {
+      const response = await fetch("https://server-vert-rho-94.vercel.app/admins/loginAdmin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

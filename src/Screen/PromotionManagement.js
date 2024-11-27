@@ -14,7 +14,7 @@ const PromotionManagementment = () => {
   useEffect(() => {
     const fetchPromotions = async () => {
       try {
-        const response = await axios.get("http://localhost:6677/sale/getSale");
+        const response = await axios.get("https://server-vert-rho-94.vercel.app/sale/getSale");
         if (Array.isArray(response.data.data)) {
           setData(response.data.data);
         } else {
@@ -34,7 +34,7 @@ const PromotionManagementment = () => {
   // Hàm xử lý xóa
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:6677/sale/${id}/deleteSale`);
+      await axios.delete(`https://server-vert-rho-94.vercel.app/sale/${id}/deleteSale`);
       setData(data.filter((item) => item._id !== id));
       console.log("Khuyến mãi đã được xóa");
     } catch (err) {
@@ -55,7 +55,7 @@ const PromotionManagementment = () => {
 
   //     try {
   //       const response = await axios.post(
-  //         "http://localhost:6677/sale/addSale",
+  //         "https://server-vert-rho-94.vercel.app/sale/addSale",
   //         newPromotion
   //       );
   //       if (response.data) {
