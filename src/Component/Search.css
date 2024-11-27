@@ -3,7 +3,7 @@
   height: 50px;
   display: flex;
   align-items: center;
-  justify-content: flex-start; /* Sửa justify-content từ 'start' thành 'flex-start' */
+  justify-content: start;
   background: rgba(155, 174, 202, 0.1);
   width: 100%;
   border-radius: 10px;
@@ -11,42 +11,35 @@
 }
 
 .search-inside {
-  flex-grow: 1; /* Để thanh tìm kiếm chiếm toàn bộ chiều rộng còn lại */
-  height: 35px; /* Điều chỉnh chiều cao của thanh tìm kiếm */
-  margin-left: 10px; /* Đảm bảo có khoảng cách đều */
+  width: 90%;
+  margin-left: 10px;
   border: none;
-  font-size: 14px; /* Đặt kích thước chữ cho thanh tìm kiếm */
 }
+.icon-component{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding-left: 19px;
 
-.icon-component {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding-left: 10px; /* Thêm khoảng cách giữa biểu tượng và thanh tìm kiếm */
 }
-
-.bell-icon {
-  width: 22px;
-  height: 24px;
+.bell-icon{
+    width: 22px;
+    height: 24px;
 }
-
-.mail-icon {
-  width: 24px;
-  height: 22px;
+.mail-icon{
+    width: 24px;
+    height: 22px;
 }
-
 .search-suggestions {
   position: absolute;
-  top: 100%;
+  top: 100%; /* Hiển thị ngay bên dưới thanh tìm kiếm */
   left: 0;
   width: 100%;
   background-color: white;
   border: 1px solid #ddd;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 10;
-  max-height: 200px; /* Giới hạn chiều cao của danh sách gợi ý */
-  overflow-y: auto; /* Thêm cuộn nếu danh sách quá dài */
+  z-index: 10; /* Đảm bảo nằm phía trên các thành phần khác */
 }
 
 .suggestion-item {
@@ -56,5 +49,5 @@
 }
 
 .suggestion-item:hover {
-  background-color: #f0f0f0;
+  background-color: #f0f0f0; /* Đổi màu khi hover */
 }
