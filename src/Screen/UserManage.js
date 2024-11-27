@@ -1,72 +1,94 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Space } from "antd";
-import { FilterOutlined } from "@ant-design/icons";
-import star from "../assets/images/star.png";
-import edit from "../assets/images/insert.png"; // Ensure these assets are correctly imported
+import { Table, Button, Space, message, Modal, Empty } from "antd";
+import { FilterOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
+import edit from "../assets/images/insert.png";
 import deleteimg from "../assets/images/delete.png";
 import "./UserManage.css";
 
-const UserInfoCard = ({ user, showStar }) => {
-  const hiddenPassword = "*".repeat(user.password.length);
-  return (
-    <div className="user-card">
-      <div className="title-container">
-        <h2 className="text">{user.name}</h2>
-        {showStar && <img className="star-icon" src={star} alt="star" />}
-      </div>
-      <p className="text">
-        Email:{" "}
-        <a href="#email" className="emailText">
-          {user.email}
-        </a>
-      </p>
-      <p className="text">Mật khẩu: {hiddenPassword}</p>
-      <div className="bottomUserCard">
-        <p className="text">SDT: {user.phone}</p>
-        <p className="date">
-          Ngày tạo:{" "}
-          <span className="dateN">
-            {new Date(user.createdAt).toLocaleDateString()}
-          </span>
-        </p>
-      </div>
-      <hr />
-    </div>
-  );
-};
+const UserManage = () => {
+  const [users, setUsers] = useState([]); // Dữ liệu người dùng mới
+  const [oldUsers, setOldUsers] = useState([]); // Dữ liệu người dùng cũ
+  const [isFiltered, setIsFiltered] = useState(false); // Trạng thái bộ lọc
 
-const User = () => {
-  const [users, setUsers] = useState([]);
-  const [oldUsers, setOldUsers] = useState([]);
+  // Hàm gọi API để lấy dữ liệu
+  const fetchUsers = async () => {
+    try {
+      const url = isFiltered
+        ? "https://server-vert-rho-94.vercel.app/users/get-OdlUsers" // API người dùng trên 3 tháng
+        : "https://server-vert-rho-94.vercel.app/users/get-NewUsers"; // API tất cả người dùng mới
 
-  // Fetch new users
-  useEffect(() => {
-    const fetchNewUsers = async () => {
-      try {
-        const response = await fetch(
-          "https://server-vert-rho-94.vercel.app/users/get-NewUsers"
-        );
-        const result = await response.json();
-        setUsers(result.data || []);
-      } catch (error) {
-        console.error("Error fetching new users:", error);
+      const response = await fetch(url);
+      const result = await response.json();
+
+      if (response.ok) {
+        if (isFiltered) {
+          setOldUsers(result.data || []);
+        } else {
+          setUsers(result.data || []);
+        }
+      } else {
+        message.error(result.message || "Lỗi khi tải dữ liệu");
       }
-    };
-    fetchNewUsers();
-  }, []);
-
-  // Combined users array
-  const combinedUsers = [...users, ...oldUsers];
-
-  const handleEdit = (record) => {
-    console.log("Edit user:", record);
+    } catch (error) {
+      console.error("Lỗi khi tải dữ liệu người dùng:", error);
+      message.error("Lỗi kết nối đến máy chủ");
+    }
   };
 
-  const handleDelete = (id) => {
-    setUsers(users.filter((user) => user.id !== id));
-    setOldUsers(oldUsers.filter((user) => user.id !== id));
+  // Gọi API khi component mount hoặc trạng thái `isFiltered` thay đổi
+  useEffect(() => {
+    fetchUsers();
+  }, [isFiltered]);
+
+  // Hàm xóa người dùng
+  const handleDelete = (emailOrPhone) => {
+    Modal.confirm({
+      title: "Xác nhận xóa người dùng",
+      content: "Bạn có chắc chắn muốn xóa người dùng này không?",
+      okText: "Xóa",
+      okType: "danger",
+      cancelText: "Hủy",
+      onOk: async () => {
+        try {
+          const response = await fetch(
+            "https://server-vert-rho-94.vercel.app/users/delete-account",
+            {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ emailOrPhone }),
+            }
+          );
+
+          if (response.ok) {
+            // Xóa người dùng khỏi danh sách hiển thị
+            setUsers((prev) =>
+              prev.filter(
+                (user) =>
+                  user.email !== emailOrPhone && user.phone !== emailOrPhone
+              )
+            );
+            setOldUsers((prev) =>
+              prev.filter(
+                (user) =>
+                  user.email !== emailOrPhone && user.phone !== emailOrPhone
+              )
+            );
+            message.success("Xóa người dùng thành công!");
+          } else {
+            const errorData = await response.json();
+            message.error(errorData.message || "Không xóa được người dùng");
+          }
+        } catch (error) {
+          console.error("Lỗi khi xóa người dùng:", error);
+          message.error("Lỗi kết nối đến máy chủ");
+        }
+      },
+    });
   };
 
+  // Cấu hình cột cho bảng
   const columns = [
     {
       title: "ID Người dùng",
@@ -79,7 +101,7 @@ const User = () => {
       key: "name",
     },
     {
-      title: "Mật Khẩu",
+      title: "Mật khẩu",
       dataIndex: "password",
       key: "password",
       render: (password) => (
@@ -88,7 +110,6 @@ const User = () => {
         </span>
       ),
     },
-
     {
       title: "Số điện thoại",
       dataIndex: "phone",
@@ -113,14 +134,14 @@ const User = () => {
           <div className="editDiv">
             <div
               className="editIcon"
-              onClick={() => handleEdit(record)}
+              onClick={() => console.log("Edit user:", record)}
               title="Edit"
             >
               <img className="edit" src={edit} alt="Edit" />
             </div>
             <div
               className="deleteIcon"
-              onClick={() => handleDelete(record.id)}
+              onClick={() => handleDelete(record.email || record.phone)}
               title="Delete"
             >
               <img className="delete" src={deleteimg} alt="Delete" />
@@ -135,19 +156,65 @@ const User = () => {
     <div className="user-table-container">
       <h2 className="QLTK">Quản lý tài khoản</h2>
       <div style={{ marginBottom: 20 }}>
-        <Button type="primary" icon={<FilterOutlined />}>
-          Bộ lọc
+        <Button
+          type="primary"
+          icon={<FilterOutlined />}
+          onClick={() => setIsFiltered(!isFiltered)}
+        >
+          {isFiltered ? "Bỏ lọc" : "Bộ lọc"}
         </Button>
       </div>
+      {/* Hiển thị trạng thái */}
+      {isFiltered && <p style={{ color: "red" }}>Đang lọc người dùng trên 3 tháng</p>}
+
+      {/* Kiểm tra dữ liệu trước khi hiển thị bảng */}
+      {isFiltered && oldUsers.length === 0 && (
+        <Empty description="Chưa có người dùng trên 3 tháng" />
+      )}
+      {!isFiltered && users.length === 0 && (
+        <Empty description="Chưa có người dùng mới" />
+      )}
+
       <Table
         className="user-table"
         columns={columns}
-        dataSource={combinedUsers}
-        rowKey="id"
-        pagination={{ pageSize: 5 }}
+        dataSource={isFiltered ? oldUsers : users}
+        rowKey="_id"
+        pagination={{
+          pageSize: 5,
+          itemRender: (page, type, originalElement) => {
+            if (type === "prev") {
+              return (
+                <Button
+                  style={{
+                    backgroundColor: "#f0f0f0",
+                    color: "#1890ff",
+                    top: "-10px",
+                  }}
+                >
+                  <LeftOutlined />
+                </Button>
+              );
+            }
+            if (type === "next") {
+              return (
+                <Button
+                  style={{
+                    backgroundColor: "#f0f0f0",
+                    color: "#1890ff",
+                    top: "-10px",
+                  }}
+                >
+                  <RightOutlined />
+                </Button>
+              );
+            }
+            return originalElement;
+          },
+        }}
       />
     </div>
   );
 };
 
-export default User;
+export default UserManage;

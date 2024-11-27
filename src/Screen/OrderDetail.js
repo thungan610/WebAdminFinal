@@ -60,7 +60,7 @@ const OrderDetail = () => {
 
       {order && (
         <>
-          <div style={{ display: "flex", gap: "350px"}}>
+          <div style={{ display: "flex", gap: "350px" }}>
             <div>
               <section>
                 <h2>Thông tin người dùng</h2>
@@ -102,6 +102,16 @@ const OrderDetail = () => {
                 <p>
                   <strong>Tổng giá sản phẩm:</strong>{" "}
                   {order.cart[0]?.total || 0}đ
+                </p>{" "}
+                <p>
+                  <strong>Chi phí vận chuyển:</strong>{" "}
+                  {order.ship === 1
+                    ? "8.000đ"
+                    : order.ship === 2
+                    ? "10.000đ"
+                    : order.ship === 3
+                    ? "20.000đ"
+                    : "Không xác định"}
                 </p>
                 <p>
                   <strong>Tổng thanh toán:</strong> {order.totalOrder || 0}đ

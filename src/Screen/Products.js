@@ -20,7 +20,9 @@ function Products() {
   const navigate = useNavigate();
   useEffect(() => {
     const getAllCategories = async () => {
-      const response = await fetch("https://server-vert-rho-94.vercel.app/categories");
+      const response = await fetch(
+        "https://server-vert-rho-94.vercel.app/categories"
+      );
       const result = await response.json();
       setCategories(result.data);
     };
@@ -99,8 +101,8 @@ function Products() {
         <div className="headersP">
           <div className="filter-sp">
             <img className="filter-icon" src={filter} alt="icon" />
-            <div className="mb-3">
-              <div className="inside-container2">
+            <div className="mb-3"style={{display: "flex", gap: "10px"}}>
+              <div className="inside-container2" >
                 <select
                   className="form-selectne"
                   value={category}
@@ -116,19 +118,24 @@ function Products() {
                     </option>
                   ))}
                 </select>
+                
               </div>
+              <div className="search-box">
+                  <input
+                    type="text"
+                    placeholder="Nhập để tìm sản phẩm"
+                    value={searchKey}
+                    onChange={(e) => setSearchKey(e.target.value)}
+                  />
+                  <img src={searchne} alt="search-icon" />
+                </div>
             </div>
           </div>
-          <div className="search-box">
-            <input
-              type="text"
-              placeholder="Nhập để tìm sản phẩm"
-              value={searchKey}
-              onChange={(e) => setSearchKey(e.target.value)}
-            />
-            <img src={searchne} alt="search-icon" />
-          </div>
-          <button className="insert-btn" onClick={()=> navigate("/insert-product")}>
+
+          <button
+            className="insert-btn"
+            onClick={() => navigate("/insert-product")}
+          >
             Thêm mới
           </button>
         </div>
@@ -216,9 +223,10 @@ function Products() {
                       <td className="cubeF">
                         <div className="btn-container">
                           <button
-                          
                             className="update-button"
-                            onClick={()=>navigate(`/update-product/${item._id}`)}
+                            onClick={() =>
+                              navigate(`/update-product/${item._id}`)
+                            }
                           >
                             <img
                               className="insertimg"

@@ -19,10 +19,12 @@ function SearchComponent() {
       return;
     }
     try {
-      const response = await fetch(`http://localhost:6677/products/search?key=${value}`);
+      const response = await fetch(
+        `http://localhost:6677/products/search?key=${value}`
+      );
       if (response.ok) {
         const data = await response.json();
-        setSearchResults(data.data); 
+        setSearchResults(data.data);
         setShowSuggestions(true); // Hiển thị gợi ý nếu có kết quả
       } else {
         console.error("Lỗi khi gọi API:", response.status);
@@ -33,17 +35,15 @@ function SearchComponent() {
   };
 
   const handleSelectSuggestion = (productId) => {
-    setShowSuggestions(false); 
+    setShowSuggestions(false);
     navigate(`/products?product=${productId}`); // Thêm product ID vào URL
   };
 
   return (
-    <div className="search-component" style={{ position: "relative" }}>
-      <Search
-        className="search-inside"
+    <div className="search-component">
+      <Input
         placeholder="Nhập để tìm kiếm..."
-        onSearch={handleSearch}
-        style={{ border: "none", boxShadow: "none" }}
+        className="search-inside"
         onChange={(e) => handleSearch(e.target.value)}
       />
       <div className="icon-component">
