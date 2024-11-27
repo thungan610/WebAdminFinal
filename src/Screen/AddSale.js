@@ -39,7 +39,7 @@ const AddSale = () => {
         } else {
             try {
                 // Gửi dữ liệu tới API
-                const response = await axios.post("http://localhost:6677/sale/addSale", {
+                const response = await axios.post("https://server-vert-rho-94.vercel.app/sale/addSale", {
                     title: formData.title,
                     discountAmount: parseInt(formData.fixedDiscount),
                     minOrderValue: parseInt(formData.minOrderValue),

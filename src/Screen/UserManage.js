@@ -37,7 +37,7 @@ function UserManage() {
   const [users, setUsers] = useState([]);
   useEffect(() => {
     const getNewUsers = async () => {
-      const response = await fetch("http://localhost:6677/users/get-NewUsers");
+      const response = await fetch("https://server-vert-rho-94.vercel.app/users/get-NewUsers");
       const result = await response.json();
       console.log(result.data);
       setUsers(result.data);
@@ -50,7 +50,7 @@ function UserManage() {
   const [oldusers, setOldUsers] = useState([]);
   useEffect(() => {
     const getOldUsers = async () => {
-      const response2 = await fetch("http://localhost:6677/users/get-OdlUsers");
+      const response2 = await fetch("https://server-vert-rho-94.vercel.app/users/get-OdlUsers");
       const result2 = await response2.json();
       console.log(result2.data);
       setOldUsers(result2.data);

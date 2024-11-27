@@ -51,7 +51,7 @@
 //       try {
 //         const query = `?date=${selectedDate}`;
 //         const res = await fetch(
-//           `http://localhost:6677/products/getTop10PW${query}`
+//           `https://server-vert-rho-94.vercel.app/products/getTop10PW${query}`
 //         );
 //         const result = await res.json();
 

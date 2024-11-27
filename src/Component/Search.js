@@ -19,7 +19,7 @@ function SearchComponent() {
       return;
     }
     try {
-      const response = await fetch(`http://localhost:6677/products/search?key=${value}`);
+      const response = await fetch(`http://localhost:/products/search?key=${value}`);
       if (response.ok) {
         const data = await response.json();
         setSearchResults(data.data); 

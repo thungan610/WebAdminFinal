@@ -14,7 +14,7 @@ const OrderDetail = () => {
   useEffect(() => {
     const fetchOrderDetail = async () => {
       try {
-        const response = await fetch(`http://localhost:6677/oder/${id}/getOrderById`);
+        const response = await fetch(`https://server-vert-rho-94.vercel.app/oder/${id}/getOrderById`);
         const result = await response.json();
         if (result.status) {
           setOrder(result.data[0]);
