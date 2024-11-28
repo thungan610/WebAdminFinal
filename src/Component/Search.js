@@ -1,16 +1,17 @@
-// SearchComponent.js
 import React, { useState } from "react";
 import { Input } from "antd";
 import { useNavigate } from "react-router-dom";
 import "./Search.css";
 import bell from "../assets/images/bell.png";
 import mail from "../assets/images/mail.png";
+import Noti from "./Noti";
 
 const { Search } = Input;
 
 function SearchComponent() {
   const [searchResults, setSearchResults] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [showNoti, setShowNoti] = useState(false); // State quản lý Noti
   const navigate = useNavigate();
 
   const handleSearch = async (value) => {
@@ -25,7 +26,7 @@ function SearchComponent() {
       if (response.ok) {
         const data = await response.json();
         setSearchResults(data.data);
-        setShowSuggestions(true); // Hiển thị gợi ý nếu có kết quả
+        setShowSuggestions(true);
       } else {
         console.error("Lỗi khi gọi API:", response.status);
       }
@@ -36,7 +37,11 @@ function SearchComponent() {
 
   const handleSelectSuggestion = (productId) => {
     setShowSuggestions(false);
-    navigate(`/products?product=${productId}`); // Thêm product ID vào URL
+    navigate(`/products?product=${productId}`);
+  };
+
+  const toggleNoti = () => {
+    setShowNoti(!showNoti);
   };
 
   return (
@@ -47,7 +52,19 @@ function SearchComponent() {
         onChange={(e) => handleSearch(e.target.value)}
       />
       <div className="icon-component">
-        <img className="bell-icon" src={bell} alt="bell" />
+        <div className="bell-wrapper">
+          <img
+            className="bell-icon"
+            src={bell}
+            alt="bell"
+            onClick={toggleNoti}
+          />
+          {showNoti && (
+            <div className="noti-container">
+              <Noti />
+            </div>
+          )}
+        </div>
         <img className="mail-icon" src={mail} alt="mail" />
       </div>
 

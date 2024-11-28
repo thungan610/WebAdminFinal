@@ -27,6 +27,9 @@
     width: 22px;
     height: 24px;
 }
+.bell-icon: hover{
+  background-color: white;
+}
 .mail-icon{
     width: 24px;
     height: 22px;
@@ -51,3 +54,49 @@
 .suggestion-item:hover {
   background-color: #f0f0f0; /* Đổi màu khi hover */
 }
+/* Search.css */
+/* Search.css */
+
+.noti-container {
+  position: absolute; /* Tách Noti khỏi luồng chính */
+  top: 40px; /* Căn chỉnh phía dưới chuông */
+  right: 0; /* Căn chỉnh sát cạnh phải chuông */
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  z-index: 1000; /* Đảm bảo hiển thị trên các phần tử khác */
+  width: 350px; /* Đặt kích thước cố định */
+  max-height: 450px; /* Đặt chiều cao tối đa để tránh tràn */
+  overflow-y: auto; /* Bật cuộn bên trong Noti nếu nội dung vượt quá */
+}
+
+.noti-container::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  right: 20px;
+  border-width: 0 10px 10px 10px;
+  border-style: solid;
+  border-color: transparent transparent #fff transparent;
+}
+
+/* Đảm bảo trang chính không bị cuộn */
+body {
+  overflow: hidden;
+}
+
+/* Cho phép cuộn riêng Noti nếu nội dung vượt giới hạn */
+.noti-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.noti-container::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+.noti-container::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+

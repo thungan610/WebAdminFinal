@@ -259,8 +259,8 @@
   overflow: hidden; /* Ẩn nội dung tràn */
   text-overflow: ellipsis; /* Hiển thị dấu ba chấm */
   white-space: nowrap; /* Không xuống dòng */
-  height: 70px;
-  line-height: 1.5; 
+  height: 50px;
+  line-height: 1; 
 }
 
 .cubeST {
