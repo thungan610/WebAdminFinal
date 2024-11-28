@@ -137,9 +137,9 @@ const handleDelete = async (id) => {
                 <td>
                   <div className="editDiv">
                     <div className="editIcon">
-                      <button  onClick={()=>navigate(`/UpdateSale/${row._id}`)}>
+                      <div  onClick={()=>navigate(`/UpdateSale/${row._id}`)}>
                       <img className="edit"  src={edit} alt="Edit" />
-                      </button>
+                      </div>
                      
                     </div>
                     <div

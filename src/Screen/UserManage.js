@@ -1,46 +1,95 @@
 import React, { useState, useEffect } from "react";
-import { Table, Button, Space, message, Modal, Empty } from "antd";
+import { Table, Button, Space, message, Modal, Form, Input } from "antd";
 import { FilterOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import edit from "../assets/images/insert.png";
 import deleteimg from "../assets/images/delete.png";
 import "./UserManage.css";
 
 const UserManage = () => {
-  const [users, setUsers] = useState([]); // Dữ liệu người dùng mới
-  const [oldUsers, setOldUsers] = useState([]); // Dữ liệu người dùng cũ
-  const [isFiltered, setIsFiltered] = useState(false); // Trạng thái bộ lọc
+  const [users, setUsers] = useState([]); // Người dùng mới
+  const [oldUsers, setOldUsers] = useState([]); // Người dùng cũ
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
+  const [filter, setFilter] = useState({ type: "all" }); // Bộ lọc
+  const [form] = Form.useForm();
 
-  // Hàm gọi API để lấy dữ liệu
-  const fetchUsers = async () => {
+  // Fetch new users
+  useEffect(() => {
+    const fetchNewUsers = async () => {
+      try {
+        const response = await fetch(
+          "https://server-vert-rho-94.vercel.app/users/get-NewUsers"
+        );
+        const result = await response.json();
+        setUsers(result.data || []);
+      } catch (error) {
+        console.error("Lỗi khi tải người dùng mới:", error);
+        message.error("Không thể tải danh sách người dùng mới.");
+      }
+    };
+    fetchNewUsers();
+  }, []);
+
+  // Fetch old users
+  useEffect(() => {
+    const fetchOldUsers = async () => {
+      try {
+        const response = await fetch(
+          "https://server-vert-rho-94.vercel.app/users/get-OdlUsers"
+        );
+        const result = await response.json();
+        setOldUsers(result.data || []);
+      } catch (error) {
+        console.error("Lỗi khi tải người dùng cũ:", error);
+        message.error("Không thể tải danh sách người dùng cũ.");
+      }
+    };
+    fetchOldUsers();
+  }, []);
+
+  // Function to update user via the API
+  const handleEdit = async (values) => {
     try {
-      const url = isFiltered
-        ? "https://server-vert-rho-94.vercel.app/users/get-OdlUsers" // API người dùng trên 3 tháng
-        : "https://server-vert-rho-94.vercel.app/users/get-NewUsers"; // API tất cả người dùng mới
-
-      const response = await fetch(url);
-      const result = await response.json();
+      const response = await fetch(
+        `http://localhost:6677/users/updateUsers/${editingUser._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        }
+      );
 
       if (response.ok) {
-        if (isFiltered) {
-          setOldUsers(result.data || []);
-        } else {
-          setUsers(result.data || []);
-        }
+        const updatedUser = await response.json();
+        // Update user list
+        setUsers((prev) =>
+          prev.map((user) =>
+            user._id === editingUser._id ? { ...user, ...values } : user
+          )
+        );
+        setOldUsers((prev) =>
+          prev.map((user) =>
+            user._id === editingUser._id ? { ...user, ...values } : user
+          )
+        );
+        message.success("Cập nhật người dùng thành công!");
+        setIsEditModalVisible(false);
+        form.resetFields();
       } else {
-        message.error(result.message || "Lỗi khi tải dữ liệu");
+        const errorData = await response.json();
+        message.error(
+          `Error: ${errorData.message || "Không thể cập nhật người dùng"}`
+        );
       }
     } catch (error) {
-      console.error("Lỗi khi tải dữ liệu người dùng:", error);
-      message.error("Lỗi kết nối đến máy chủ");
+      console.error("Lỗi khi cập nhật người dùng:", error);
+message.error("Không thể cập nhật người dùng.");
     }
   };
 
-  // Gọi API khi component mount hoặc trạng thái `isFiltered` thay đổi
-  useEffect(() => {
-    fetchUsers();
-  }, [isFiltered]);
-
-  // Hàm xóa người dùng
+  // Function to delete a user
   const handleDelete = (emailOrPhone) => {
     Modal.confirm({
       title: "Xác nhận xóa người dùng",
@@ -51,7 +100,7 @@ const UserManage = () => {
       onOk: async () => {
         try {
           const response = await fetch(
-            "https://server-vert-rho-94.vercel.app/users/delete-account",
+            `https://server-vert-rho-94.vercel.app/users/delete-account`,
             {
               method: "DELETE",
               headers: {
@@ -62,7 +111,6 @@ const UserManage = () => {
           );
 
           if (response.ok) {
-            // Xóa người dùng khỏi danh sách hiển thị
             setUsers((prev) =>
               prev.filter(
                 (user) =>
@@ -77,18 +125,39 @@ const UserManage = () => {
             );
             message.success("Xóa người dùng thành công!");
           } else {
-            const errorData = await response.json();
-            message.error(errorData.message || "Không xóa được người dùng");
+            message.error("Không thể xóa người dùng.");
           }
         } catch (error) {
           console.error("Lỗi khi xóa người dùng:", error);
-          message.error("Lỗi kết nối đến máy chủ");
+          message.error("Không thể xóa người dùng.");
         }
       },
     });
   };
 
-  // Cấu hình cột cho bảng
+  useEffect(() => {
+    if (editingUser) {
+      form.setFieldsValue(editingUser);
+    }
+  }, [editingUser, form]);
+
+  const handleEditCancel = () => {
+    setIsEditModalVisible(false);
+    setEditingUser(null);
+    form.resetFields();
+  };
+
+  // Bộ lọc dữ liệu hiển thị
+  const filteredData = () => {
+    if (filter.type === "new") {
+      return users;
+    } else if (filter.type === "old") {
+      return oldUsers;
+    } else {
+      return [...users, ...oldUsers];
+    }
+  };
+
   const columns = [
     {
       title: "ID Người dùng",
@@ -99,16 +168,6 @@ const UserManage = () => {
       title: "Tên Người dùng",
       dataIndex: "name",
       key: "name",
-    },
-    {
-      title: "Mật khẩu",
-      dataIndex: "password",
-      key: "password",
-      render: (password) => (
-        <span className="password-style">
-          {"*".repeat(Math.min(9, password.length))}
-        </span>
-      ),
     },
     {
       title: "Số điện thoại",
@@ -131,21 +190,22 @@ const UserManage = () => {
       key: "actions",
       render: (_, record) => (
         <Space>
-          <div className="editDiv">
-            <div
-              className="editIcon"
-              onClick={() => console.log("Edit user:", record)}
-              title="Edit"
-            >
-              <img className="edit" src={edit} alt="Edit" />
-            </div>
-            <div
-              className="deleteIcon"
-              onClick={() => handleDelete(record.email || record.phone)}
-              title="Delete"
-            >
-              <img className="delete" src={deleteimg} alt="Delete" />
-            </div>
+          <div
+            className="editIcon"
+            onClick={() => {
+              setEditingUser(record);
+              setIsEditModalVisible(true);
+            }}
+            title="Edit"
+          >
+            <img className="edit" src={edit} alt="Edit" />
+          </div>
+          <div
+            className="deleteIcon"
+onClick={() => handleDelete(record.email || record.phone)}
+            title="Delete"
+          >
+            <img className="delete" src={deleteimg} alt="Delete" />
           </div>
         </Space>
       ),
@@ -154,34 +214,46 @@ const UserManage = () => {
 
   return (
     <div className="user-table-container">
-      <h2 className="QLTK">Quản lý tài khoản</h2>
-      <div style={{ marginBottom: 20 }}>
-        <Button
-          type="primary"
-          icon={<FilterOutlined />}
-          onClick={() => setIsFiltered(!isFiltered)}
-        >
-          {isFiltered ? "Bỏ lọc" : "Bộ lọc"}
-        </Button>
+      <div className="header-container">
+
+        <h2 className="QLTK">Quản lý tài khoản</h2>
       </div>
-      {/* Hiển thị trạng thái */}
-      {isFiltered && <p style={{ color: "red" }}>Đang lọc người dùng trên 3 tháng</p>}
 
-      {/* Kiểm tra dữ liệu trước khi hiển thị bảng */}
-      {isFiltered && oldUsers.length === 0 && (
-        <Empty description="Chưa có người dùng trên 3 tháng" />
-      )}
-      {!isFiltered && users.length === 0 && (
-        <Empty description="Chưa có người dùng mới" />
-      )}
+      {/* Bộ lọc */}
+      <div className="filter-container">
 
+        <Button
+          className="no-hover"
+          type={filter.type === "all" ? "primary" : "default"}
+          onClick={() => setFilter({ type: "all" })}
+        >
+          <div style={{ color: "black" }}>Tất cả</div>
+        </Button>
+        <Button
+              className="no-hover"
+          type={filter.type === "new" ? "primary" : "default"}
+          onClick={() => setFilter({ type: "new" })}
+        >
+          <div style={{ color: "black" }}>Người dùng mới</div>
+        </Button>
+        <Button
+              className="no-hover"
+          type={filter.type === "old" ? "primary" : "default"}
+          onClick={() => setFilter({ type: "old" })}
+        >
+          <div style={{ color: "black" }}>Người dùng cũ</div>
+        </Button>
+
+      </div>
+
+      {/* Bảng người dùng */}
       <Table
         className="user-table"
         columns={columns}
-        dataSource={isFiltered ? oldUsers : users}
+        dataSource={filteredData()}
         rowKey="_id"
         pagination={{
-          pageSize: 5,
+          pageSize: 6,
           itemRender: (page, type, originalElement) => {
             if (type === "prev") {
               return (
@@ -213,6 +285,37 @@ const UserManage = () => {
           },
         }}
       />
+
+      {/* Modal chỉnh sửa thông tin người dùng */}
+      <Modal
+        title="Sửa thông tin người dùng"
+        open={isEditModalVisible}
+        onCancel={handleEditCancel}
+        onOk={() => {
+          form
+            .validateFields()
+            .then((values) => {
+              handleEdit(values);
+            })
+            .catch((info) => {
+              console.log("Validate Failed:", info);
+            });
+        }}
+        okText="Lưu"
+        cancelText="Hủy"
+      >
+        <Form form={form} layout="vertical" name="edit_user_form">
+          <Form.Item
+            name="phone"
+            label="Số điện thoại"
+            rules={[
+{ required: true, message: "Vui lòng nhập số điện thoại!" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };

@@ -45,7 +45,7 @@
   border: 1px solid rgba(155, 174, 202, 0.1);
 }
 .cube {
-  width: 15%;
+  width: 10%;
   height: 70px;
   /* display: flex;
     align-items: center */
@@ -61,6 +61,7 @@
 .cubeF{
   width: 15%;
 }
+
 .cubeN {
   width: 20%;
   color: #1c75bc;
@@ -69,7 +70,7 @@
   width: 5%;
 }
 .cubeST {
-  width: 15%;
+  width: 10% ;
 }
 .table tr,
 .table td {
@@ -254,7 +255,7 @@
 .product-table td{
   text-align: center;
   vertical-align: middle;
-  max-width: 120px; /* Đặt giới hạn chiều rộng */
+  max-width: 100px; /* Đặt giới hạn chiều rộng */
   overflow: hidden; /* Ẩn nội dung tràn */
   text-overflow: ellipsis; /* Hiển thị dấu ba chấm */
   white-space: nowrap; /* Không xuống dòng */

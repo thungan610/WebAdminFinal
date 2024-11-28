@@ -155,8 +155,8 @@ function Products() {
                   <th>Tên sản phẩm</th>
                   <th>Đơn vị đo</th>
                   <th>Giá tiền</th>
-                  <th>Loại hàng</th>
-                  <th>Xuất xứ</th>
+                  <th>Số lượng</th>
+                  <th>Lượt bán</th>
                   <th>Tác vụ</th>
                 </tr>
               </thead>
@@ -216,10 +216,10 @@ function Products() {
                           )}
                         </div>
                       </td>
-                      <td className="cube">{item.oum}</td>
-                      <td className="cube">{item.price}</td>
-                      <td className="cubeST">{item.preserve.preserve_name}</td>
-                      <td className="cube">{item.origin}</td>
+                      <td className="cube">{item.oum }</td>
+                      <td className="cube">{item.price }</td>
+                      <td className="cubeST">{item.quantity}</td>
+                      <td className="cube">{item.sold || 0}</td>
                       <td className="cubeF">
                         <div className="btn-container">
                           <button
