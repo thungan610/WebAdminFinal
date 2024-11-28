@@ -85,7 +85,7 @@ const UserManage = () => {
       }
     } catch (error) {
       console.error("Lỗi khi cập nhật người dùng:", error);
-message.error("Không thể cập nhật người dùng.");
+      message.error("Không thể cập nhật người dùng.");
     }
   };
 
@@ -202,7 +202,7 @@ message.error("Không thể cập nhật người dùng.");
           </div>
           <div
             className="deleteIcon"
-onClick={() => handleDelete(record.email || record.phone)}
+            onClick={() => handleDelete(record.email || record.phone)}
             title="Delete"
           >
             <img className="delete" src={deleteimg} alt="Delete" />
@@ -215,13 +215,11 @@ onClick={() => handleDelete(record.email || record.phone)}
   return (
     <div className="user-table-container">
       <div className="header-container">
-
         <h2 className="QLTK">Quản lý tài khoản</h2>
       </div>
 
       {/* Bộ lọc */}
       <div className="filter-container">
-
         <Button
           className="no-hover"
           type={filter.type === "all" ? "primary" : "default"}
@@ -229,21 +227,14 @@ onClick={() => handleDelete(record.email || record.phone)}
         >
           <div style={{ color: "black" }}>Tất cả</div>
         </Button>
+       
         <Button
-              className="no-hover"
-          type={filter.type === "new" ? "primary" : "default"}
-          onClick={() => setFilter({ type: "new" })}
-        >
-          <div style={{ color: "black" }}>Người dùng mới</div>
-        </Button>
-        <Button
-              className="no-hover"
+          className="no-hover"
           type={filter.type === "old" ? "primary" : "default"}
           onClick={() => setFilter({ type: "old" })}
         >
           <div style={{ color: "black" }}>Người dùng cũ</div>
         </Button>
-
       </div>
 
       {/* Bảng người dùng */}
@@ -253,7 +244,7 @@ onClick={() => handleDelete(record.email || record.phone)}
         dataSource={filteredData()}
         rowKey="_id"
         pagination={{
-          pageSize: 6,
+          pageSize: 5,
           itemRender: (page, type, originalElement) => {
             if (type === "prev") {
               return (
@@ -309,7 +300,7 @@ onClick={() => handleDelete(record.email || record.phone)}
             name="phone"
             label="Số điện thoại"
             rules={[
-{ required: true, message: "Vui lòng nhập số điện thoại!" },
+              { required: true, message: "Vui lòng nhập số điện thoại!" },
             ]}
           >
             <Input />
