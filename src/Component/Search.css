@@ -26,10 +26,9 @@
 .bell-icon{
     width: 22px;
     height: 24px;
+  margin-top: 4px;
 }
-.bell-icon: hover{
-  background-color: white;
-}
+
 .mail-icon{
     width: 24px;
     height: 22px;
@@ -99,4 +98,3 @@ body {
 .noti-container::-webkit-scrollbar-thumb:hover {
   background: #aaa;
 }
-
