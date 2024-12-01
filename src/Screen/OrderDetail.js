@@ -114,6 +114,9 @@ const OrderDetail = () => {
                     : "Không xác định"}
                 </p>
                 <p>
+                  <strong>Khuyến mãi:</strong> {order.sale || 0}đ
+                </p>
+                <p>
                   <strong>Tổng thanh toán:</strong> {order.totalOrder || 0}đ
                 </p>
               </section>
