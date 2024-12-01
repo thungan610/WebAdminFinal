@@ -17,7 +17,7 @@ const QLHH = () => {
 
         if (result.status) {
           const formattedOrder = result.data.map((orderItem) => {
-            console.log("Dữ liệu orderItem:", orderItem); // Debug dữ liệu đơn hàng
+            console.log("Dữ liệu orderItem:", orderItem); 
             return {
               id: orderItem._id,
               email: orderItem.address?.user?.name || "Không có tên", // Tên người dùng
@@ -33,7 +33,7 @@ const QLHH = () => {
               deliveryMethod: orderItem.ship === 1 ? "Nhanh" : "Chậm", // Hình thức giao
               orderStatus: getOrderStatus(orderItem.status), // Trạng thái đơn hàng
               currentStatus: orderItem.status, // Trạng thái hiện tại (để xử lý cập nhật)
-              totalPayment: `${orderItem.totalOrder || 0}đ`, // Tổng tiền
+              totalPayment: `${orderItem.totalOrder.toLocaleString() || 0}đ`, // Tổng tiền
               date: new Date(orderItem.date).toLocaleString("vi-VN"), // Ngày đặt
             };
           });

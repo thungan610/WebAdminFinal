@@ -61,7 +61,7 @@ const TopProductsChart = () => {
       try {
         const query = `?date=${selectedDate}`;
         const res = await fetch(
-          `https://server-vert-rho-94.vercel.app/products/getTop10PW${query}`
+          `https://server-vert-rho-94.vercel.appproducts/getTop10PW${query}`
         );
         const result = await res.json();
 

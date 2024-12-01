@@ -168,7 +168,7 @@ const UpdateProduct = (props) => {
       };
 
       const result = await fetch(
-        `https://server-vert-rho-94.vercel.app/products/${id}/update`,
+        `http://localhost:6677/products/${id}/update`,
         {
           method: "PUT",
           headers: {
@@ -372,7 +372,7 @@ const UpdateProduct = (props) => {
             <div className="inside-container">
               <label className="form-label">Giảm giá:</label>
               <input
-                type="text"
+                type="number"
                 className="form-control"
                 placeholder="Nhập giá giảm"
                 value={discount}

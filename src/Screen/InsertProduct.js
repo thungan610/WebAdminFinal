@@ -136,7 +136,7 @@ const InsertProduct = () => {
         description: description,
       };
       const result = await fetch(
-        "https://server-vert-rho-94.vercel.app/products/addSP",
+        "http://localhost:6677/products/addSP",
         {
           method: "POST",
           headers: {
@@ -354,7 +354,7 @@ const InsertProduct = () => {
             <div className="inside-container">
               <label className="form-label">Giảm giá:</label>
               <input
-                type="text"
+                type="number"
                 className="form-control"
                 placeholder="Nhập giá giảm"
                 value={discount}

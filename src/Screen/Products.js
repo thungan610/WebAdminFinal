@@ -217,7 +217,7 @@ function Products() {
                         </div>
                       </td>
                       <td className="cube">{item.oum }</td>
-                      <td className="cube">{item.price }</td>
+                      <td className="cube">{item.price.toLocaleString()}đ</td>
                       <td className="cubeST">{item.quantity}</td>
                       <td className="cube">{item.sold || 0}</td>
                       <td className="cubeF">

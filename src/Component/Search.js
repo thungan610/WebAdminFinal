@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Input } from "antd";
 import { useNavigate } from "react-router-dom";
 import "./Search.css";
-import bell from "../assets/images/bell.png";
+import bell2 from "../assets/images/bell2.png"; // Chuông bình thường
+import bell from "../assets/images/bell.png"; // Chuông khi nhấn
 import mail from "../assets/images/mail.png";
 import Noti from "./Noti";
 
@@ -12,6 +13,7 @@ function SearchComponent() {
   const [searchResults, setSearchResults] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [showNoti, setShowNoti] = useState(false); // State quản lý Noti
+  const [isBellActive, setIsBellActive] = useState(false); // State quản lý chuông đã nhấn
   const navigate = useNavigate();
 
   const handleSearch = async (value) => {
@@ -42,6 +44,7 @@ function SearchComponent() {
 
   const toggleNoti = () => {
     setShowNoti(!showNoti);
+    setIsBellActive(!isBellActive); // Thay đổi trạng thái của chuông
   };
 
   return (
@@ -55,7 +58,7 @@ function SearchComponent() {
         <div className="bell-wrapper">
           <img
             className="bell-icon"
-            src={bell}
+            src={isBellActive ? bell2 : bell} // Chọn hình ảnh chuông
             alt="bell"
             onClick={toggleNoti}
           />
