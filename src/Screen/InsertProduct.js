@@ -136,7 +136,7 @@ const InsertProduct = () => {
         description: description,
       };
       const result = await fetch(
-        "http://localhost:6677/products/addSP",
+        "https://server-vert-rho-94.vercel.app/products/addSP",
         {
           method: "POST",
           headers: {
