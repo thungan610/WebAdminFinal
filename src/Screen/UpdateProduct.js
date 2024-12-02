@@ -168,7 +168,7 @@ const UpdateProduct = (props) => {
       };
 
       const result = await fetch(
-        `http://localhost:6677/products/${id}/update`,
+        `https://server-vert-rho-94.vercel.app/products/${id}/update`,
         {
           method: "PUT",
           headers: {

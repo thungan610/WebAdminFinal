@@ -9,31 +9,49 @@
 
 .order-table {
   width: 100%;
+  table-layout: fixed; /* Cố định kích thước cột */
   border-collapse: collapse;
-  
- 
+  background-color: white;
 }
 
 .order-table th,
 .order-table td {
   padding: 12px;
-  border: 1px solid rgba(155, 174, 202, 0.1);
-  text-align: left;
-  vertical-align: center;
-
-}
-.order-table th {
-  background-color: rgba(155, 174, 202, 0.1);;
+  border: 1px solid rgba(155, 174, 202, 0.3); /* Viền ô rõ ràng */
   text-align: center;
-
+  vertical-align: middle;
+  overflow: hidden; /* Cắt bớt nội dung vượt quá */
+  text-overflow: ellipsis; /* Thêm dấu "..." nếu nội dung quá dài */
+  white-space: nowrap; /* Không cho phép xuống dòng */
+  height: 50px; /* Chiều cao cố định */
+  width: auto; /* Tự điều chỉnh độ rộng cột */
 }
+
+
+.order-table th {
+  background-color: rgba(155, 174, 202, 0.1);
+  font-weight: bold;
+  text-align: center;
+}
+
 .order-table td {
-  position: relative; /* Để đặt nút ở góc phải */
-  height: 60px;
-  line-height: 1.5; 
-  
-
+  padding: 12px;
+  border: 1px solid rgba(155, 174, 202, 0.3); /* Viền rõ ràng */
+  text-align: center;
+  vertical-align: middle;
+  height: 50px; /* Chiều cao cố định cho ô */
+  overflow: hidden; /* Ẩn nội dung thừa */
+  white-space: nowrap; /* Không cho phép xuống dòng */
+  position: relative; /* Để hỗ trợ căn chỉnh với nội dung */
 }
+
+
+
+.order-table th:nth-child(8),
+.order-table td:nth-child(8) {
+  width: 15%; /* Đảm bảo cột cuối cùng có kích thước đủ rộng */
+}
+
 
 .total-payment-cell {
   /* display: flex; */
@@ -48,21 +66,21 @@
   font-weight: "bold";
 }
 
+
 .details-button {
+  background-color: #007bff;
   color: white;
   border: none;
   font-weight: bold;
-  /* cursor: pointer; */
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  right: 0;
-  width: 28px;
-  height: 28px;
-  top: 0px;
-  font-size: 11px;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 12px;
+  margin-top: 5px; /* Tạo khoảng cách giữa nút và nội dung phía trên */
+  text-align: center;
+  width: fit-content;
 }
+
 .detail_image {
   display: flex;
   align-items: center;

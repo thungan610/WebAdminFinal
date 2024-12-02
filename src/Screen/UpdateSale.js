@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios"; // Import axios
+import axios from "axios";
+import Swal from "sweetalert2"; // Import SweetAlert2
 import "./AddSale.css";
 import { useNavigate, useParams } from "react-router-dom";
 
 const UpdateSale = () => {
     const navigate = useNavigate();
-    const { id } = useParams(); // Lấy id từ URL
+    const { id } = useParams(); 
     const [formData, setFormData] = useState({
         title: "",
         fixedDiscount: "",
@@ -16,10 +17,8 @@ const UpdateSale = () => {
     });
 
     const [errors, setErrors] = useState({});
-    const [responseMessage, setResponseMessage] = useState(""); // Lưu thông báo phản hồi
-    const [isLoading, setIsLoading] = useState(true); // Để xử lý trạng thái tải dữ liệu
+    const [isLoading, setIsLoading] = useState(true);
 
-    // Lấy thông tin khuyến mãi từ API khi component được mount
     useEffect(() => {
         const fetchSaleData = async () => {
             try {
@@ -38,10 +37,10 @@ const UpdateSale = () => {
                         ? new Date(sale.expirationDate).toISOString().split("T")[0]
                         : "",
                 });
-                setIsLoading(false); // Tải xong dữ liệu
+                setIsLoading(false);
             } catch (error) {
                 console.error("Error fetching sale data:", error);
-                setResponseMessage("Không thể tải dữ liệu khuyến mãi!");
+                Swal.fire("Lỗi", "Không thể tải dữ liệu khuyến mãi!", "error");
                 setIsLoading(false);
             }
         };
@@ -51,13 +50,12 @@ const UpdateSale = () => {
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
-        setErrors({ ...errors, [e.target.name]: "" }); // Xóa lỗi khi người dùng bắt đầu nhập lại
+        setErrors({ ...errors, [e.target.name]: "" });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Kiểm tra dữ liệu form
         const newErrors = {};
         if (!formData.title) newErrors.title = "Vui lòng nhập tiêu đề";
         if (!formData.fixedDiscount && !formData.percentDiscount) {
@@ -67,16 +65,14 @@ const UpdateSale = () => {
         if (!formData.startDate) newErrors.startDate = "Vui lòng chọn ngày khuyến mãi";
         if (!formData.endDate) newErrors.endDate = "Vui lòng chọn ngày hết hạn";
 
-        // Kiểm tra xem chỉ nhập một trong hai: giảm giá cố định hoặc giảm theo %
         if (formData.fixedDiscount && formData.percentDiscount) {
             newErrors.fixedDiscount = "Chỉ được phép nhập giảm theo số tiền cố định hoặc phần trăm, không cả hai.";
         }
 
         if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors); // Cập nhật lỗi nếu có
+            setErrors(newErrors);
         } else {
             try {
-                // Tạo đối tượng dữ liệu để gửi tới API
                 const saleData = {
                     title: formData.title,
                     discountAmount: parseFloat(formData.fixedDiscount) || 0,
@@ -86,21 +82,26 @@ const UpdateSale = () => {
                     expirationDate: formData.endDate,
                 };
 
-                // Gửi dữ liệu tới API
                 const response = await axios.put(
                     `https://server-vert-rho-94.vercel.app/sale/${id}/updateSale`,
                     saleData
                 );
 
-                // Xử lý phản hồi từ server
                 if (response.data.status) {
-                    setResponseMessage("Cập nhật khuyến mãi thành công!");
+                    Swal.fire({
+                        title: "Thành công!",
+                        text: "Cập nhật khuyến mãi thành công!",
+                        icon: "success",
+                        confirmButtonText: "OK",
+                    }).then(() => {
+                        navigate(-1); // Quay lại trang trước
+                    });
                 } else {
-                    setResponseMessage("Cập nhật khuyến mãi thất bại!");
+                    Swal.fire("Lỗi", "Cập nhật khuyến mãi thất bại!", "error");
                 }
             } catch (error) {
                 console.error("Error updating sale:", error);
-                setResponseMessage("Đã xảy ra lỗi khi cập nhật khuyến mãi!");
+                Swal.fire("Lỗi", "Đã xảy ra lỗi khi cập nhật khuyến mãi!", "error");
             }
         }
     };
@@ -178,9 +179,6 @@ const UpdateSale = () => {
                             <button type="submit" className="submit">Cập nhật</button>
                         </div>
                     </form>
-
-                    {/* Hiển thị thông báo phản hồi */}
-                    {responseMessage && <p className="response">{responseMessage}</p>}
                 </div>
             </div>
         </div>

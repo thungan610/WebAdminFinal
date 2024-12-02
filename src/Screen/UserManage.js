@@ -51,7 +51,7 @@ const UserManage = () => {
   const handleEdit = async (values) => {
     try {
       const response = await fetch(
-        `http://localhost:6677/users/updateUsers/${editingUser._id}`,
+        `https://server-vert-rho-94.vercel.app/users/updateUsers/${editingUser._id}`,
         {
           method: "PUT",
           headers: {

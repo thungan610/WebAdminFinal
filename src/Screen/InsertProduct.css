@@ -25,21 +25,18 @@
 .titleF {
   width: 80%;
   text-align: center;
- 
 }
-.titleF h1{
-  color: #1C75BC;
+.titleF h1 {
+  color: #1c75bc;
 }
 .form-label {
   font-weight: 400;
-  
 }
 .inside-container {
   display: flex;
   flex-direction: column;
   flex: 1;
   height: 77px;
-
 }
 .form-select {
   width: 200px !important;
@@ -70,9 +67,8 @@
   display: flex;
   width: 100%;
   gap: 50px; /* Khoảng cách giữa các phần tử */
-  align-items: flex-start ;
-  margin-left: 70px;
-
+  align-items: flex-start;
+  margin-left: 85px;
 }
 .link-container {
   flex: 1; /* Để đảm bảo width tự động cân bằng */
@@ -82,10 +78,8 @@
 /* Bố cục cho phần tải ảnh */
 .image-upload-container {
   display: flex; /* Dùng flexbox để ảnh nằm ngang kế bên */
-  align-items: flex-start ; /* Căn các ảnh theo đầu phần tải ảnh */
+  align-items: flex-start; /* Căn các ảnh theo đầu phần tải ảnh */
   gap: 20px; /* Khoảng cách giữa thẻ input và các ảnh */
- 
-
 }
 
 /* Style cho container preview */
@@ -94,10 +88,8 @@
   gap: 10px; /* Khoảng cách giữa các ảnh */
   flex-wrap: wrap; /* Đảm bảo ảnh sẽ xuống dòng khi không đủ không gian */
 }
-.linkimg-container{
+.linkimg-container {
   display: flex;
- 
-
 }
 
 /* Style cho từng ảnh */
@@ -106,7 +98,7 @@
   width: 70px;
   height: 70px;
 }
-.btn-link{
+.btn-link {
   width: 32px;
   height: 20px;
   display: flex;
@@ -114,7 +106,7 @@
   align-items: center;
   color: white;
   top: 414px;
-   right: 47px;
+  right: 52px;
 }
 
 .image-preview img {

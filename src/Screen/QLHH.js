@@ -1,47 +1,42 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./QLHH.css";
-import { FloatButton } from 'antd';
+import { FloatButton } from "antd";
 
 const QLHH = () => {
   const navigate = useNavigate();
   const [order, setOrder] = useState([]);
-  const [selectedOrder, setSelectedOrder] = useState(null); // Lưu đơn hàng đang chọn
-  const [isModalOpen, setModalOpen] = useState(false); // Trạng thái modal
+  const [currentFilter, setCurrentFilter] = useState(1); // Mặc định: trạng thái "Chờ xác nhận"
+  const [selectedOrder, setSelectedOrder] = useState(null);
+  const [isModalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     const getOrder = async () => {
       try {
-        const response = await fetch("https://server-vert-rho-94.vercel.app/oder/getAllOrder");
+        const response = await fetch(
+          "https://server-vert-rho-94.vercel.app/oder/getAllOrder"
+        );
         const result = await response.json();
-
         if (result.status) {
-          const formattedOrder = result.data.map((orderItem) => {
-            console.log("Dữ liệu orderItem:", orderItem); 
-            return {
-              id: orderItem._id,
-              email: orderItem.address?.user?.name || "Không có tên", // Tên người dùng
-              phone: orderItem.address?.user?.phone || "Không có số điện thoại", // Số điện thoại
-              address:
-                `${orderItem.address?.houseNumber || ""}, ${
-                  orderItem.address?.alley || ""
-                }, ${orderItem.address?.quarter || ""}, ${
-                  orderItem.address?.district || ""
-                }, ${orderItem.address?.city || ""}, ${
-                  orderItem.address?.country || ""
-                }`.replace(/, ,| ,|,$/g, "") || "Không có địa chỉ", // Địa chỉ đầy đủ
-              deliveryMethod: orderItem.ship === 1 ? "Nhanh" : "Chậm", // Hình thức giao
-              orderStatus: getOrderStatus(orderItem.status), // Trạng thái đơn hàng
-              currentStatus: orderItem.status, // Trạng thái hiện tại (để xử lý cập nhật)
-              totalPayment: `${orderItem.totalOrder.toLocaleString() || 0}đ`, // Tổng tiền
-              date: new Date(orderItem.date).toLocaleString("vi-VN"), // Ngày đặt
-            };
-          });
-
-          console.log("Dữ liệu đơn hàng đã format:", formattedOrder); // Debug toàn bộ đơn hàng
+          const formattedOrder = result.data.map((orderItem) => ({
+            id: orderItem._id,
+            email: orderItem.address?.user?.name || "Không có tên",
+            phone: orderItem.address?.user?.phone || "Không có số điện thoại",
+            address:
+              `${orderItem.address?.houseNumber || ""}, ${
+                orderItem.address?.alley || ""
+              }, ${orderItem.address?.quarter || ""}, ${
+                orderItem.address?.district || ""
+              }, ${orderItem.address?.city || ""}, ${
+                orderItem.address?.country || ""
+              }`.replace(/, ,| ,|,$/g, "") || "Không có địa chỉ",
+            deliveryMethod: orderItem.ship === 1 ? "Nhanh" : "Chậm",
+            orderStatus: getOrderStatus(orderItem.status),
+            currentStatus: orderItem.status,
+            totalPayment: `${orderItem.totalOrder.toLocaleString() || 0}đ`,
+            date: new Date(orderItem.date).toLocaleString("vi-VN"),
+          }));
           setOrder(formattedOrder);
-        } else {
-          console.error("API trả về lỗi:", result);
         }
       } catch (error) {
         console.error("Error fetching orders:", error);
@@ -89,7 +84,7 @@ const QLHH = () => {
 
     try {
       const response = await fetch(
-        `https://server-vert-rho-94.vercel.app/oder/${id}/updateOrder`, // Sửa từ 'oder' thành 'order'
+        `https://server-vert-rho-94.vercel.app/oder/${id}/updateOrder`,
         {
           method: "POST",
           headers: {
@@ -122,24 +117,41 @@ const QLHH = () => {
   };
 
   const handleUpdateClick = (order) => {
-    setSelectedOrder(order); // Lưu đơn hàng được chọn
-    setModalOpen(true); // Mở modal
+    setSelectedOrder(order);
+    setModalOpen(true);
   };
 
   const handleConfirmUpdate = () => {
     if (selectedOrder) {
       updateOrderStatus(selectedOrder.id, selectedOrder.currentStatus);
     }
-    setModalOpen(false); // Đóng modal
+    setModalOpen(false);
   };
 
   const handleCancelUpdate = () => {
-    setSelectedOrder(null); // Xóa đơn hàng được chọn
-    setModalOpen(false); // Đóng modal
+    setSelectedOrder(null);
+    setModalOpen(false);
   };
+
+  const filteredOrders = order.filter(
+    (item) => item.currentStatus === currentFilter
+  );
 
   return (
     <div className="qlhh-container">
+      {/* Nút chuyển trạng thái */}
+      <div className="filter-buttons">
+        {[1, 2, 3, 4].map((status) => (
+          <button
+            key={status}
+            onClick={() => setCurrentFilter(status)}
+            className={currentFilter === status ? "active" : ""}
+          >
+            {getOrderStatus(status)}
+          </button>
+        ))}
+      </div>
+
       <table className="order-table">
         <thead>
           <tr>
@@ -154,7 +166,7 @@ const QLHH = () => {
           </tr>
         </thead>
         <tbody>
-          {order.map((item, index) => (
+          {filteredOrders.map((item, index) => (
             <tr key={index}>
               <td style={{ color: "blue" }}>{item.email}</td>
               <td>{item.address}</td>
@@ -173,34 +185,39 @@ const QLHH = () => {
               <td
                 style={{
                   textAlign: "center",
-                  color: getOrderStatusColor(item.orderStatus),
+                  cursor: item.currentStatus < 4 ? "pointer" : "not-allowed",
+                  color: getOrderStatusColor(item.orderStatus), // Áp dụng màu sắc
                 }}
+                onClick={() => handleUpdateClick(item)}
               >
-                <span
-                  style={{
-                    cursor: item.currentStatus < 4 ? "pointer" : "not-allowed",
-                  }}
-                  onClick={() => handleUpdateClick(item)}
-                >
-                  {item.orderStatus}
-                </span>
+                {item.orderStatus}
               </td>
+
               <td style={{ textAlign: "center" }}>{item.totalPayment}</td>
-              <td style={{ textAlign: "center" }}>
-                {item.date}{" "}
-                <FloatButton
-                  onClick={() => navigate(`/OrderDetail/${item.id}`)} // Thêm dấu '/' vào URL
-                  className="details-button"
+              <td>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100%",
+                  }}
                 >
-                  Chi tiết
-                </FloatButton>{" "}
+                  <span>{item.date}</span>
+                  <button
+                    onClick={() => navigate(`/OrderDetail/${item.id}`)}
+                    className="details-button"
+                  >
+                    Chi tiết
+                  </button>
+                </div>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {/* Modal */}
       {isModalOpen && (
         <div className="modal">
           <div className="modal-content">
