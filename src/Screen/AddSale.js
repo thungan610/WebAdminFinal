@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios"; // Import axios
+import Swal from "sweetalert2"; // Import SweetAlert2 để hiển thị thông báo
 import "./AddSale.css";
 import { useNavigate } from "react-router-dom";
 
@@ -44,6 +45,16 @@ const AddSale = () => {
             setErrors(newErrors); // Cập nhật lỗi nếu có
         } else {
             try {
+                // Kiểm tra nếu giảm theo % vượt quá 100%
+                if (formData.percentDiscount > 100) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Lỗi",
+                        text: "Giảm theo % không thể vượt quá 100%",
+                    });
+                    return;
+                }
+
                 // Tạo đối tượng dữ liệu để gửi tới API
                 const saleData = {
                     date: formData.startDate, // Ngày bắt đầu khuyến mãi
@@ -59,12 +70,39 @@ const AddSale = () => {
 
                 // Xử lý phản hồi từ server
                 if (response.data.status) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Thành công",
+                        text: "Thêm khuyến mãi thành công!",
+                    });
                     setResponseMessage("Thêm khuyến mãi thành công!");
+                    // Reset form sau khi thêm thành công
+                    setFormData({
+                        title: "",
+                        fixedDiscount: "",
+                        minOrderValue: "",
+                        percentDiscount: "",
+                        startDate: "",
+                        endDate: "",
+                    });
+
+                    // Quay lại trang trước sau khi thêm thành công
+                    navigate(-1); 
                 } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Thất bại",
+                        text: "Thêm khuyến mãi thất bại!",
+                    });
                     setResponseMessage("Thêm khuyến mãi thất bại!");
                 }
             } catch (error) {
                 console.error("Error adding sale:", error);
+                Swal.fire({
+                    icon: "error",
+                    title: "Đã xảy ra lỗi",
+                    text: "Đã xảy ra lỗi khi thêm khuyến mãi!",
+                });
                 setResponseMessage("Đã xảy ra lỗi khi thêm khuyến mãi!");
             }
         }

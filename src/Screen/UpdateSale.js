@@ -61,22 +61,24 @@ const UpdateSale = () => {
         if (!formData.fixedDiscount && !formData.percentDiscount) {
             newErrors.fixedDiscount = "Vui lòng nhập số tiền giảm cố định hoặc giảm theo %";
         }
-        if (!formData.minOrderValue) newErrors.minOrderValue = "Vui lòng nhập giá trị đơn hàng tối thiểu";
-        if (!formData.startDate) newErrors.startDate = "Vui lòng chọn ngày khuyến mãi";
-        if (!formData.endDate) newErrors.endDate = "Vui lòng chọn ngày hết hạn";
 
+        // Kiểm tra nếu chỉ được phép nhập một trong hai: giảm theo số tiền cố định hoặc giảm theo %
         if (formData.fixedDiscount && formData.percentDiscount) {
             newErrors.fixedDiscount = "Chỉ được phép nhập giảm theo số tiền cố định hoặc phần trăm, không cả hai.";
         }
 
+        if (!formData.minOrderValue) newErrors.minOrderValue = "Vui lòng nhập giá trị đơn hàng tối thiểu";
+        if (!formData.startDate) newErrors.startDate = "Vui lòng chọn ngày khuyến mãi";
+        if (!formData.endDate) newErrors.endDate = "Vui lòng chọn ngày hết hạn";
+
         if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors);
+            setErrors(newErrors); // Cập nhật lỗi nếu có
         } else {
             try {
                 const saleData = {
                     title: formData.title,
-                    discountAmount: parseFloat(formData.fixedDiscount) || 0,
-                    discountPercent: parseFloat(formData.percentDiscount) || 0,
+                    discountAmount: parseFloat(formData.fixedDiscount) || 0, // Giảm theo số tiền cố định
+                    discountPercent: parseFloat(formData.percentDiscount) || 0, // Giảm theo phần trăm
                     minOrderValue: parseInt(formData.minOrderValue),
                     createAt: formData.startDate,
                     expirationDate: formData.endDate,
