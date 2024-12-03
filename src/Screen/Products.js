@@ -21,7 +21,7 @@ function Products() {
   useEffect(() => {
     const getAllCategories = async () => {
       const response = await fetch(
-        "http://localhost:6677/categories"
+        "https://server-vert-rho-94.vercel.app/categories"
       );
       const result = await response.json();
       setCategories(result.data);
@@ -31,9 +31,9 @@ function Products() {
 
   useEffect(() => {
     const getProducts = async () => {
-      let url = "http://localhost:6677/products/getProducts";
+      let url = "https://server-vert-rho-94.vercel.app/products/getProducts";
       if (category) {
-        url = `http://localhost:6677/products/filter/${category}`;
+        url = `https://server-vert-rho-94.vercel.app/products/filter/${category}`;
       }
 
       const response = await fetch(url);
@@ -76,7 +76,7 @@ function Products() {
         return;
       }
       const response = await fetch(
-        `http://localhost:6677/products/${id}/delete`,
+        `https://server-vert-rho-94.vercel.app/products/${id}/delete`,
         { method: "DELETE" }
       );
       const result = await response.json();

@@ -14,7 +14,7 @@ const OrderDetail = () => {
     const fetchOrderDetail = async () => {
       try {
         const response = await fetch(
-          `http://localhost:6677/oder/${id}/getOrderById`
+          `https://server-vert-rho-94.vercel.app/oder/${id}/getOrderById`
         );
         const result = await response.json();
         if (result.status) {

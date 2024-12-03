@@ -22,7 +22,7 @@ const UpdateSale = () => {
     useEffect(() => {
         const fetchSaleData = async () => {
             try {
-                const response = await axios.get(`http://localhost:6677/sale/${id}/getDetailSale`);
+                const response = await axios.get(`https://server-vert-rho-94.vercel.app/sale/${id}/getDetailSale`);
                 const sale = response.data.data;
 
                 setFormData({
@@ -85,7 +85,7 @@ const UpdateSale = () => {
                 };
 
                 const response = await axios.put(
-                    `http://localhost:6677/sale/${id}/updateSale`,
+                    `https://server-vert-rho-94.vercel.app/sale/${id}/updateSale`,
                     saleData
                 );
 

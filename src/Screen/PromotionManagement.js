@@ -16,7 +16,7 @@ const PromotionManagementment = () => {
     const fetchPromotions = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:6677/sale/getSale"
+          "https://server-vert-rho-94.vercel.app/sale/getSale"
         );
         if (Array.isArray(response.data.data)) {
           setData(response.data.data);
@@ -54,7 +54,7 @@ const handleDelete = async (id) => {
     // Nếu người dùng chọn "Đồng ý"
     if (result.isConfirmed) {
       await axios.delete(
-        `http://localhost:6677/sale/${id}/deleteSale`
+        `https://server-vert-rho-94.vercel.app/sale/${id}/deleteSale`
       );
       setData(data.filter((item) => item._id !== id));
 
@@ -79,7 +79,7 @@ const handleDelete = async (id) => {
 
   //     try {
   //       const response = await axios.post(
-  //         "http://localhost:6677/sale/addSale",
+  //         "https://server-vert-rho-94.vercel.app/sale/addSale",
   //         newPromotion
   //       );
   //       if (response.data) {

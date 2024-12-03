@@ -18,7 +18,7 @@ const UserManage = () => {
     const fetchNewUsers = async () => {
       try {
         const response = await fetch(
-          "http://localhost:6677/users/get-NewUsers"
+          "https://server-vert-rho-94.vercel.app/users/get-NewUsers"
         );
         const result = await response.json();
         setUsers(result.data || []);
@@ -35,7 +35,7 @@ const UserManage = () => {
     const fetchOldUsers = async () => {
       try {
         const response = await fetch(
-          "http://localhost:6677/users/get-OdlUsers"
+          "https://server-vert-rho-94.vercel.app/users/get-OdlUsers"
         );
         const result = await response.json();
         setOldUsers(result.data || []);
@@ -51,7 +51,7 @@ const UserManage = () => {
   const handleEdit = async (values) => {
     try {
       const response = await fetch(
-        `http://localhost:6677/users/updateUsers/${editingUser._id}`,
+        `https://server-vert-rho-94.vercel.app/users/updateUsers/${editingUser._id}`,
         {
           method: "PUT",
           headers: {
@@ -100,7 +100,7 @@ const UserManage = () => {
       onOk: async () => {
         try {
           const response = await fetch(
-            `http://localhost:6677/users/delete-account`,
+            `https://server-vert-rho-94.vercel.app/users/delete-account`,
             {
               method: "DELETE",
               headers: {

@@ -26,7 +26,7 @@ const InsertProduct = () => {
   useEffect(() => {
     const getAllCategories = async () => {
       const response = await fetch(
-        "http://localhost:6677/categories"
+        "https://server-vert-rho-94.vercel.app/categories"
       );
       const result = await response.json();
       setCategories(result.data);
@@ -40,7 +40,7 @@ const InsertProduct = () => {
   useEffect(() => {
     const getAllPreserves = async () => {
       const response = await fetch(
-        "http://localhost:6677/preserves"
+        "https://server-vert-rho-94.vercel.app/preserves"
       );
       const result = await response.json();
       setPreserves(result.data);
@@ -136,7 +136,7 @@ const InsertProduct = () => {
         description: description,
       };
       const result = await fetch(
-        "http://localhost:6677/products/addSP",
+        "https://server-vert-rho-94.vercel.app/products/addSP",
         {
           method: "POST",
           headers: {

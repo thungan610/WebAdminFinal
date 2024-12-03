@@ -61,7 +61,7 @@ const TopProductsChart = () => {
       try {
         const query = `?date=${selectedDate}`;
         const res = await fetch(
-          `http://localhost:6677/products/getTop10PW${query}`
+          `https://server-vert-rho-94.vercel.app/products/getTop10PW${query}`
         );
         const result = await res.json();
 
@@ -93,7 +93,7 @@ const TopProductsChart = () => {
                   data: fetchedData,
                   backgroundColor: [
                     "rgba(255, 99, 132, 0.8)",
-                    "rgba(54, 162, 235, 0.8)",
+"rgba(54, 162, 235, 0.8)",
                     "rgba(75, 192, 192, 0.8)",
                     "rgba(255, 206, 86, 0.8)",
                     "rgba(153, 102, 255, 0.8)",
@@ -195,7 +195,7 @@ const TopProductsChart = () => {
 
   return (
     <div
-      style={{  
+style={{  
         padding: 5,
         marginBottom: "20px",
         display: "flex",

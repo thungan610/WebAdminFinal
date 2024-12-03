@@ -96,7 +96,7 @@ const AddSale = () => {
 
         // Gửi dữ liệu đến API
         const response = await axios.post(
-          "http://localhost:6677/sale/addSale",
+          "https://server-vert-rho-94.vercel.app/sale/addSale",
           saleData
         );
 
@@ -230,3 +230,5 @@ const AddSale = () => {
     </div>
   );
 };
+
+export default AddSale;

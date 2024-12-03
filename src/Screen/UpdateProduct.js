@@ -31,7 +31,7 @@ const UpdateProduct = (props) => {
     const getProducts = async () => {
       try {
         const response = await fetch(
-          `http://localhost:6677/products/getProductDetailById_App/${id}`
+          `https://server-vert-rho-94.vercel.app/getProductDetailById_App/${id}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -168,7 +168,7 @@ const UpdateProduct = (props) => {
       };
 
       const result = await fetch(
-        `http://localhost:6677/products/${id}/update`,
+        `https://server-vert-rho-94.vercel.app/${id}/update`,
         {
           method: "PUT",
           headers: {

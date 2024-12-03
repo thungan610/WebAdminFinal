@@ -14,7 +14,7 @@ const QLHH = () => {
     const getOrder = async () => {
       try {
         const response = await fetch(
-          "http://localhost:6677/oder/getAllOrder"
+          "https://server-vert-rho-94.vercel.app/oder/getAllOrder"
         );
         const result = await response.json();
         if (result.status) {
@@ -84,7 +84,7 @@ const QLHH = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:6677/oder/${id}/updateOrder`,
+        `https://server-vert-rho-94.vercel.app/oder/${id}/updateOrder`,
         {
           method: "POST",
           headers: {
@@ -152,6 +152,7 @@ const QLHH = () => {
         ))}
       </div>
 
+      {filteredOrders.length > 0 ? (
       <table className="order-table">
         <thead>
           <tr>
@@ -192,7 +193,6 @@ const QLHH = () => {
               >
                 {item.orderStatus}
               </td>
-
               <td style={{ textAlign: "center" }}>{item.totalPayment}</td>
               <td>
                 <div
@@ -217,6 +217,11 @@ const QLHH = () => {
           ))}
         </tbody>
       </table>
+    ) : (
+      <div className="no-orders" style={{width: "100%", textAlign: "center", marginTop: "10px", fontSize: "16px"}}>
+        <p>Không có đơn hàng nào!</p>
+      </div>
+    )}
 
       {isModalOpen && (
         <div className="modal">
