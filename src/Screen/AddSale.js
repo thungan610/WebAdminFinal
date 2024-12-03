@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios"; // Import axios
-import Swal from "sweetalert2"; // Import SweetAlert2 để hiển thị thông báo
+import axios from "axios";
+import Swal from "sweetalert2";
 import "./AddSale.css";
 import { useNavigate } from "react-router-dom";
 
@@ -8,45 +8,64 @@ const AddSale = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
-    fixedDiscount: "",
+    discountAmount: "", // Giảm theo số tiền cố định
     minOrderValue: "",
-    percentDiscount: "",
+    discountPercent: "", // Giảm theo phần trăm
     startDate: "",
     endDate: "",
   });
 
   const [errors, setErrors] = useState({});
-  const [responseMessage, setResponseMessage] = useState(""); // Lưu thông báo phản hồi
+  const [responseMessage, setResponseMessage] = useState("");
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: "" }); // Xóa lỗi khi người dùng bắt đầu nhập lại
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    setErrors({ ...errors, [name]: "" });
+
+    // Nếu người dùng thay đổi một trong các trường giảm giá, làm trống trường còn lại
+    if (name === "discountAmount") {
+      setFormData((prevState) => ({
+        ...prevState,
+        discountPercent: "", // Xóa phần trăm nếu nhập số tiền cố định
+      }));
+    }
+
+    if (name === "discountPercent") {
+      setFormData((prevState) => ({
+        ...prevState,
+        discountAmount: "", // Xóa số tiền cố định nếu nhập phần trăm
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Kiểm tra dữ liệu form
     const newErrors = {};
     if (!formData.title) newErrors.title = "Vui lòng nhập tiêu đề";
-    if (!formData.fixedDiscount && !formData.percentDiscount) {
-      newErrors.fixedDiscount = "Vui lòng nhập số tiền giảm cố định hoặc giảm theo %";
+    if (formData.discountAmount === "" && formData.discountPercent === "") {
+      newErrors.discountAmount =
+        "Vui lòng nhập số tiền giảm cố định hoặc giảm theo %";
     }
-    if (!formData.minOrderValue) newErrors.minOrderValue = "Vui lòng nhập giá trị đơn hàng tối thiểu";
-    if (!formData.startDate) newErrors.startDate = "Vui lòng chọn ngày khuyến mãi";
+    if (!formData.minOrderValue)
+      newErrors.minOrderValue = "Vui lòng nhập giá trị đơn hàng tối thiểu";
+    if (!formData.startDate)
+      newErrors.startDate = "Vui lòng chọn ngày khuyến mãi";
     if (!formData.endDate) newErrors.endDate = "Vui lòng chọn ngày hết hạn";
 
-    // Kiểm tra xem chỉ nhập một trong hai: giảm giá cố định hoặc giảm theo %
-    if (formData.fixedDiscount && formData.percentDiscount) {
-      newErrors.fixedDiscount = "Chỉ được phép nhập giảm theo số tiền cố định hoặc phần trăm, không cả hai.";
+    // Kiểm tra chỉ cho phép nhập một trong hai trường: giảm giá cố định hoặc giảm theo phần trăm
+    if (formData.discountAmount && formData.discountPercent) {
+      newErrors.discountAmount =
+        "Chỉ được phép nhập giảm theo số tiền cố định hoặc phần trăm, không cả hai.";
     }
 
     if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors); // Cập nhật lỗi nếu có
+      setErrors(newErrors);
     } else {
       try {
-        // Kiểm tra nếu giảm theo % vượt quá 100%
-        if (formData.percentDiscount > 100) {
+        // Kiểm tra giảm theo % không vượt quá 100%
+        if (formData.discountPercent > 100) {
           Swal.fire({
             icon: "error",
             title: "Lỗi",
@@ -55,19 +74,31 @@ const AddSale = () => {
           return;
         }
 
-        // Tạo đối tượng dữ liệu để gửi tới API
+        // Định dạng ngày hết hạn và kiểm tra trạng thái hết hạn
+        const expirationDate = new Date(formData.endDate);
+        const isExpired = new Date() > expirationDate;
+
         const saleData = {
-          date: formData.startDate, // Ngày bắt đầu khuyến mãi
+          date: formData.startDate,
           title: formData.title,
-          discountAmount: parseFloat(formData.fixedDiscount) || 0, // Giảm theo số tiền cố định
-          discountPercent: parseFloat(formData.percentDiscount) || 0, // Giảm theo %
+          discountAmount:
+            formData.discountAmount === ""
+              ? 0
+              : parseFloat(formData.discountAmount), // Nếu discountAmount trống, đặt là 0
+          discountPercent:
+            formData.discountPercent === ""
+              ? 0
+              : parseFloat(formData.discountPercent), // Nếu discountPercent trống, đặt là 0
           minOrderValue: parseInt(formData.minOrderValue),
-          expirationDate: formData.endDate, // Ngày hết hạn
-          isExpired: false, // Đặt giá trị mặc định cho isExpired
+          expirationDate: expirationDate.toISOString(), // Đảm bảo định dạng đúng
+          isExpired: isExpired, // Trạng thái hết hạn
         };
 
-        // Gửi dữ liệu tới API
-        const response = await axios.post("http://localhost:6677/sale/addSale", saleData);
+        // Gửi dữ liệu đến API
+        const response = await axios.post(
+          "http://localhost:6677/sale/addSale",
+          saleData
+        );
 
         // Xử lý phản hồi từ server
         if (response.data.status) {
@@ -80,15 +111,14 @@ const AddSale = () => {
           // Reset form sau khi thêm thành công
           setFormData({
             title: "",
-            fixedDiscount: "",
+            discountAmount: "",
             minOrderValue: "",
-            percentDiscount: "",
+            discountPercent: "",
             startDate: "",
             endDate: "",
           });
-
           // Quay lại trang trước sau khi thêm thành công
-          navigate(-1); 
+          navigate(-1);
         } else {
           Swal.fire({
             icon: "error",
@@ -127,11 +157,13 @@ const AddSale = () => {
             <label className="date">Số tiền giảm cố định</label>
             <input
               type="number"
-              name="fixedDiscount"
-              value={formData.fixedDiscount}
+              name="discountAmount"
+              value={formData.discountAmount}
               onChange={handleChange}
             />
-            {errors.fixedDiscount && <p className="error">{errors.fixedDiscount}</p>}
+            {errors.discountAmount && (
+              <p className="error">{errors.discountAmount}</p>
+            )}
 
             <label className="date">Giá trị đơn hàng tối thiểu</label>
             <input
@@ -140,16 +172,20 @@ const AddSale = () => {
               value={formData.minOrderValue}
               onChange={handleChange}
             />
-            {errors.minOrderValue && <p className="error">{errors.minOrderValue}</p>}
+            {errors.minOrderValue && (
+              <p className="error">{errors.minOrderValue}</p>
+            )}
 
             <label className="date">Giảm theo %</label>
             <input
               type="number"
-              name="percentDiscount"
-              value={formData.percentDiscount}
+              name="discountPercent"
+              value={formData.discountPercent}
               onChange={handleChange}
             />
-            {errors.percentDiscount && <p className="error">{errors.percentDiscount}</p>}
+            {errors.discountPercent && (
+              <p className="error">{errors.discountPercent}</p>
+            )}
 
             <div className="date-container">
               <label className="date">Ngày khuyến mãi</label>
@@ -174,8 +210,16 @@ const AddSale = () => {
             {errors.endDate && <p className="error">{errors.endDate}</p>}
 
             <div className="buttons">
-              <button onClick={ ()=> navigate(-1)} type="button" className="cancel">Hủy</button>
-              <button type="submit" className="submit">Thêm mới</button>
+              <button
+                onClick={() => navigate(-1)}
+                type="button"
+                className="cancel"
+              >
+                Hủy
+              </button>
+              <button type="submit" className="submit">
+                Thêm mới
+              </button>
             </div>
           </form>
 
@@ -186,5 +230,3 @@ const AddSale = () => {
     </div>
   );
 };
-
-export default AddSale;
