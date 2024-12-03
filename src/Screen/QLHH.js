@@ -14,7 +14,7 @@ const QLHH = () => {
     const getOrder = async () => {
       try {
         const response = await fetch(
-          "https://server-vert-rho-94.vercel.app/oder/getAllOrder"
+          "http://localhost:6677/oder/getAllOrder"
         );
         const result = await response.json();
         if (result.status) {
@@ -84,7 +84,7 @@ const QLHH = () => {
 
     try {
       const response = await fetch(
-        `https://server-vert-rho-94.vercel.app/oder/${id}/updateOrder`,
+        `http://localhost:6677/oder/${id}/updateOrder`,
         {
           method: "POST",
           headers: {

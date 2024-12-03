@@ -55,7 +55,7 @@ function ResetPassword() {
       };
 
       const response = await fetch(
-        "https://server-vert-rho-94.vercel.app/admins/change-passwordAdmin",
+        "http://localhost:6677/admins/change-passwordAdmin",
         {
           method: "POST",
           headers: {

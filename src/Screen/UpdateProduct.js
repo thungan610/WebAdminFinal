@@ -31,7 +31,7 @@ const UpdateProduct = (props) => {
     const getProducts = async () => {
       try {
         const response = await fetch(
-          `https://server-vert-rho-94.vercel.app/products/getProductDetailById_App/${id}`
+          `http://localhost:6677/products/getProductDetailById_App/${id}`
         );
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -68,7 +68,7 @@ const UpdateProduct = (props) => {
 
   useEffect(() => {
     const getAllCategories = async () => {
-      const response = await fetch("https://server-vert-rho-94.vercel.app/categories");
+      const response = await fetch("http://localhost:6677/categories");
       const result = await response.json();
       setCategories(result.data);
     };
@@ -78,7 +78,7 @@ const UpdateProduct = (props) => {
 
   useEffect(() => {
     const getAllPreserves = async () => {
-      const response = await fetch("https://server-vert-rho-94.vercel.app/preserves");
+      const response = await fetch("http://localhost:6677/preserves");
       const result = await response.json();
       setPreserves(result.data);
     };
@@ -168,7 +168,7 @@ const UpdateProduct = (props) => {
       };
 
       const result = await fetch(
-        `https://server-vert-rho-94.vercel.app/products/${id}/update`,
+        `http://localhost:6677/products/${id}/update`,
         {
           method: "PUT",
           headers: {

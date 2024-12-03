@@ -23,7 +23,7 @@ function SearchComponent() {
     }
     try {
       const response = await fetch(
-        `http://localhost:https://server-vert-rho-94.vercel.app//products/search?key=${value}`
+        `http://localhost:6677/products/search?key=${value}`
       );
       if (response.ok) {
         const data = await response.json();
