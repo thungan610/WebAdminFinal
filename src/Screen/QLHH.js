@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import "./QLHH.css";
-import { FloatButton } from "antd";
 
 const QLHH = () => {
   const navigate = useNavigate();
   const [order, setOrder] = useState([]);
   const [currentFilter, setCurrentFilter] = useState(1); // Mặc định: trạng thái "Chờ xác nhận"
-  const [selectedOrder, setSelectedOrder] = useState(null);
-  const [isModalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     const getOrder = async () => {
@@ -75,64 +73,6 @@ const QLHH = () => {
     }
   };
 
-  const updateOrderStatus = async (id, currentStatus) => {
-    const nextStatus = currentStatus + 1;
-    if (nextStatus > 3) {
-      alert("Không thể cập nhật trạng thái này!");
-      return;
-    }
-
-    try {
-      const response = await fetch(
-        `https://server-vert-rho-94.vercel.app/oder/${id}/updateOrder`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ status: nextStatus }),
-        }
-      );
-      const result = await response.json();
-      if (result.status) {
-        setOrder((prevOrders) =>
-          prevOrders.map((item) =>
-            item.id === id
-              ? {
-                  ...item,
-                  orderStatus: getOrderStatus(nextStatus),
-                  currentStatus: nextStatus,
-                }
-              : item
-          )
-        );
-        alert("Cập nhật trạng thái thành công!");
-      } else {
-        alert("Cập nhật trạng thái thất bại!");
-      }
-    } catch (error) {
-      console.error("Error updating order status:", error);
-      alert("Có lỗi xảy ra!");
-    }
-  };
-
-  const handleUpdateClick = (order) => {
-    setSelectedOrder(order);
-    setModalOpen(true);
-  };
-
-  const handleConfirmUpdate = () => {
-    if (selectedOrder) {
-      updateOrderStatus(selectedOrder.id, selectedOrder.currentStatus);
-    }
-    setModalOpen(false);
-  };
-
-  const handleCancelUpdate = () => {
-    setSelectedOrder(null);
-    setModalOpen(false);
-  };
-
   const filteredOrders = order.filter(
     (item) => item.currentStatus === currentFilter
   );
@@ -158,8 +98,6 @@ const QLHH = () => {
                 currentFilter === status
                   ? "2px solid #27AAE1"
                   : "2px solid rgba(155, 174, 202, 0.1)",
-
-                  
             }}
             onClick={() => setCurrentFilter(status)}
             className={currentFilter === status ? "active" : ""}
@@ -173,10 +111,9 @@ const QLHH = () => {
         <table className="order-table">
           <thead>
             <tr>
-              <th>Tên người dùng</th>
-              <th>Địa chỉ</th>
-              <th>Số điện thoại</th>
               <th>Mã đơn hàng</th>
+              <th>Tên người dùng</th>
+              <th>Số điện thoại</th>
               <th>Hình thức giao</th>
               <th>Trạng thái</th>
               <th>Tổng tiền</th>
@@ -186,16 +123,16 @@ const QLHH = () => {
           <tbody>
             {filteredOrders.map((item, index) => (
               <tr key={index}>
-                <td style={{ color: "blue" }}>{item.email}</td>
-                <td>{item.address}</td>
-                <td>{item.phone}</td>
                 <td style={{ textAlign: "center" }}>
                   <strong>{item.id}</strong>
                 </td>
+                <td style={{ color: "blue" }}>{item.email}</td>
+                <td>{item.phone}</td>
                 <td
                   style={{
                     color: item.deliveryMethod === "Nhanh" ? "red" : "black",
                     textAlign: "center",
+                    
                   }}
                 >
                   {item.deliveryMethod}
@@ -203,10 +140,8 @@ const QLHH = () => {
                 <td
                   style={{
                     textAlign: "center",
-                    cursor: item.currentStatus < 4 ? "pointer" : "not-allowed",
                     color: getOrderStatusColor(item.orderStatus), // Áp dụng màu sắc
                   }}
-                  onClick={() => handleUpdateClick(item)}
                 >
                   {item.orderStatus}
                 </td>
@@ -247,24 +182,6 @@ const QLHH = () => {
           <p>Không có đơn hàng nào!</p>
         </div>
       )}
-
-      {isModalOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <p>
-              Bạn có chắc chắn muốn cập nhật trạng thái đơn hàng{" "}
-              <strong>{selectedOrder?.id}</strong>?
-            </p>
-            <button onClick={handleConfirmUpdate} className="confirm-button">
-              Xác nhận
-            </button>
-            <button onClick={handleCancelUpdate} className="cancel-button">
-              Hủy
-            </button>
-          </div>
-        </div>
-      )}
-      <p className="luuy">*Lưu ý: Ấn vào ô trạng thái để cập nhật</p>
     </div>
   );
 };
