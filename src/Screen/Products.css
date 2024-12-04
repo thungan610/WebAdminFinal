@@ -82,7 +82,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0px;
+  gap: 20px;
 }
 .update-button {
   width: 38px;

@@ -101,8 +101,8 @@ function Products() {
         <div className="headersP">
           <div className="filter-sp">
             <img className="filter-icon" src={filter} alt="icon" />
-            <div className="mb-3"style={{display: "flex", gap: "10px"}}>
-              <div className="inside-container2" >
+            <div className="mb-3" style={{ display: "flex", gap: "10px" }}>
+              <div className="inside-container2">
                 <select
                   className="form-selectne"
                   value={category}
@@ -118,17 +118,16 @@ function Products() {
                     </option>
                   ))}
                 </select>
-                
               </div>
               <div className="search-box">
-                  <input
-                    type="text"
-                    placeholder="Nhập để tìm sản phẩm"
-                    value={searchKey}
-                    onChange={(e) => setSearchKey(e.target.value)}
-                  />
-                  <img src={searchne} alt="search-icon" />
-                </div>
+                <input
+                  type="text"
+                  placeholder="Nhập để tìm sản phẩm"
+                  value={searchKey}
+                  onChange={(e) => setSearchKey(e.target.value)}
+                />
+                <img src={searchne} alt="search-icon" />
+              </div>
             </div>
           </div>
 
@@ -216,8 +215,39 @@ function Products() {
                           )}
                         </div>
                       </td>
-                      <td className="cube">{item.oum }</td>
-                      <td className="cube">{item.price.toLocaleString()}đ</td>
+                      <td className="cube">{item.oum}</td>
+                      <td className="cube">
+                        <div style={{ position: "relative" }}>
+                          <span
+                            style={{
+                              color: "gray",
+                              fontSize: "14px",
+                              marginRight: "5px",
+                            }}
+                          >
+                            {item.price.toLocaleString()}đ
+                          </span>
+
+                          {item.discount && (
+                            <span
+                              style={{
+                                position: 'absolute',
+                                bottom: '18px',  // Điều chỉnh vị trí của tag từ trên cùng
+                                left: '30px',  // Điều chỉnh vị trí của tag từ bên phải
+                                backgroundColor: "red",
+                                color: "white",
+                                padding: "2px 6px",  // Giảm kích thước padding để tag nhỏ lại
+                                borderRadius: "5px",
+                                fontSize: "10px",  // Giảm kích thước font
+                                transform: 'rotate(45deg)', // Để tag nằm xéo
+                              }}
+                            >
+                              Giảm {item.discount.toLocaleString()}đ
+                            </span>
+                          )}
+                        </div>
+                      </td>
+
                       <td className="cubeST">{item.quantity}</td>
                       <td className="cube">{item.sold || 0}</td>
                       <td className="cubeF">
