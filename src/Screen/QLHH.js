@@ -144,6 +144,23 @@ const QLHH = () => {
         {[1, 2, 3, 4].map((status) => (
           <button
             key={status}
+            style={{
+              margin: "10px",
+              padding: "10px 20px",
+              border: "2px solid rgba(155, 174, 202, 0.1)",
+              borderRadius: "8px",
+              cursor: "pointer",
+              backgroundColor: "white",
+              outline: "none",
+              transition: "border-color 0.3s, box-shadow 0.3s",
+              width: "150px",
+              borderBottom:
+                currentFilter === status
+                  ? "2px solid #27AAE1"
+                  : "2px solid rgba(155, 174, 202, 0.1)",
+
+                  
+            }}
             onClick={() => setCurrentFilter(status)}
             className={currentFilter === status ? "active" : ""}
           >
@@ -153,75 +170,83 @@ const QLHH = () => {
       </div>
 
       {filteredOrders.length > 0 ? (
-      <table className="order-table">
-        <thead>
-          <tr>
-            <th>Tên người dùng</th>
-            <th>Địa chỉ</th>
-            <th>Số điện thoại</th>
-            <th>Mã đơn hàng</th>
-            <th>Hình thức giao</th>
-            <th>Trạng thái</th>
-            <th>Tổng tiền</th>
-            <th>Ngày đặt</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredOrders.map((item, index) => (
-            <tr key={index}>
-              <td style={{ color: "blue" }}>{item.email}</td>
-              <td>{item.address}</td>
-              <td>{item.phone}</td>
-              <td style={{ textAlign: "center" }}>
-                <strong>{item.id}</strong>
-              </td>
-              <td
-                style={{
-                  color: item.deliveryMethod === "Nhanh" ? "red" : "black",
-                  textAlign: "center",
-                }}
-              >
-                {item.deliveryMethod}
-              </td>
-              <td
-                style={{
-                  textAlign: "center",
-                  cursor: item.currentStatus < 4 ? "pointer" : "not-allowed",
-                  color: getOrderStatusColor(item.orderStatus), // Áp dụng màu sắc
-                }}
-                onClick={() => handleUpdateClick(item)}
-              >
-                {item.orderStatus}
-              </td>
-              <td style={{ textAlign: "center" }}>{item.totalPayment}</td>
-              <td>
-                <div
+        <table className="order-table">
+          <thead>
+            <tr>
+              <th>Tên người dùng</th>
+              <th>Địa chỉ</th>
+              <th>Số điện thoại</th>
+              <th>Mã đơn hàng</th>
+              <th>Hình thức giao</th>
+              <th>Trạng thái</th>
+              <th>Tổng tiền</th>
+              <th>Ngày đặt</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredOrders.map((item, index) => (
+              <tr key={index}>
+                <td style={{ color: "blue" }}>{item.email}</td>
+                <td>{item.address}</td>
+                <td>{item.phone}</td>
+                <td style={{ textAlign: "center" }}>
+                  <strong>{item.id}</strong>
+                </td>
+                <td
                   style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    height: "100%",
+                    color: item.deliveryMethod === "Nhanh" ? "red" : "black",
+                    textAlign: "center",
                   }}
                 >
-                  <span>{item.date}</span>
-                  <button
-                    onClick={() => navigate(`/OrderDetail/${item.id}`)}
-                    className="details-button"
+                  {item.deliveryMethod}
+                </td>
+                <td
+                  style={{
+                    textAlign: "center",
+                    cursor: item.currentStatus < 4 ? "pointer" : "not-allowed",
+                    color: getOrderStatusColor(item.orderStatus), // Áp dụng màu sắc
+                  }}
+                  onClick={() => handleUpdateClick(item)}
+                >
+                  {item.orderStatus}
+                </td>
+                <td style={{ textAlign: "center" }}>{item.totalPayment}</td>
+                <td>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "100%",
+                    }}
                   >
-                    Chi tiết
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    ) : (
-      <div className="no-orders" style={{width: "100%", textAlign: "center", marginTop: "10px", fontSize: "16px"}}>
-        <p>Không có đơn hàng nào!</p>
-      </div>
-    )}
+                    <span>{item.date}</span>
+                    <button
+                      onClick={() => navigate(`/OrderDetail/${item.id}`)}
+                      className="details-button"
+                    >
+                      Chi tiết
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : (
+        <div
+          className="no-orders"
+          style={{
+            width: "100%",
+            textAlign: "center",
+            marginTop: "10px",
+            fontSize: "16px",
+          }}
+        >
+          <p>Không có đơn hàng nào!</p>
+        </div>
+      )}
 
       {isModalOpen && (
         <div className="modal">

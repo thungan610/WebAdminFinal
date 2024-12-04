@@ -17,7 +17,7 @@
 .order-table th,
 .order-table td {
   padding: 12px;
-  border: 1px solid rgba(155, 174, 202, 0.3); /* Viền ô rõ ràng */
+  border: 1px solid rgba(155, 174, 202, 0.1); /* Viền ô rõ ràng */
   text-align: center;
   vertical-align: middle;
   overflow: hidden; /* Cắt bớt nội dung vượt quá */
@@ -27,16 +27,14 @@
   width: auto; /* Tự điều chỉnh độ rộng cột */
 }
 
-
 .order-table th {
-  background-color: rgba(155, 174, 202, 0.1);
   font-weight: bold;
   text-align: center;
 }
 
 .order-table td {
   padding: 12px;
-  border: 1px solid rgba(155, 174, 202, 0.3); /* Viền rõ ràng */
+  border: 1px solid rgba(155, 174, 202, 0.1);/* Viền rõ ràng */
   text-align: center;
   vertical-align: middle;
   height: 50px; /* Chiều cao cố định cho ô */
@@ -45,13 +43,10 @@
   position: relative; /* Để hỗ trợ căn chỉnh với nội dung */
 }
 
-
-
 .order-table th:nth-child(8),
 .order-table td:nth-child(8) {
   width: 15%; /* Đảm bảo cột cuối cùng có kích thước đủ rộng */
 }
-
 
 .total-payment-cell {
   /* display: flex; */
@@ -65,7 +60,6 @@
   text-align: center;
   font-weight: "bold";
 }
-
 
 .details-button {
   background-color: #007bff;
@@ -130,13 +124,10 @@
   text-align: center;
 }
 
-button {
-  margin: 10px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
+
+
+
+
 
 .confirm-button {
   background-color: green;
@@ -152,16 +143,16 @@ button {
   text-align: center;
   margin-top: 20px;
 }
- .headerCellStyle = {
-  textAlign: "left";
+.headerCellStyle = {
+  textalign: "left";
   padding: "10px";
-  backgroundColor: "#f5f5f5";
-  borderBottom: "1px solid #ddd";
-  fontWeight: "bold";
-};
+  backgroundcolor: "#f5f5f5";
+  borderbottom: "1px solid #ddd";
+  fontweight: "bold";
+}
 
 .cellStyle = {
-  textAlign: "left";
+  textalign: "left";
   padding: "10px";
-  borderBottom: "1px solid #ddd";
-};
+  borderbottom: "1px solid #ddd";
+}

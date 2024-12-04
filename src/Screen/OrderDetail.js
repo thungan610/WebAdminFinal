@@ -101,7 +101,7 @@ const OrderDetail = () => {
                 <h2>Tổng tiền</h2>
                 <p>
                   <strong>Tổng giá sản phẩm:</strong>{" "}
-                  {order.cart[0]?.total || 0}đ
+                  {order.cart[0]?.total.toLocaleString() || 0}đ
                 </p>{" "}
                 <p>
                   <strong>Chi phí vận chuyển:</strong>{" "}
@@ -114,10 +114,16 @@ const OrderDetail = () => {
                     : "Không xác định"}
                 </p>
                 <p>
-                  <strong>Khuyến mãi:</strong> {order.sale || 0}đ
+                  <strong>Khuyến mãi:</strong>
+                  {order.sale?.length > 0 && order.sale[0].discountAmount > 0
+                    ? ` -${order.sale[0].discountAmount.toLocaleString()}đ`
+                    : order.sale?.length > 0 &&
+                      order.sale[0].discountPercent > 0
+                    ? ` -${order.sale[0].discountPercent}%`
+                    : " -0đ"}
                 </p>
                 <p>
-                  <strong>Tổng thanh toán:</strong> {order.totalOrder || 0}đ
+                  <strong>Tổng thanh toán:</strong> {order.totalOrder.toLocaleString() || 0}đ
                 </p>
               </section>
             </div>
