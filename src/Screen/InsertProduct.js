@@ -148,15 +148,39 @@ const InsertProduct = () => {
       const response = await result.json();
       // debugger
       if (response.success) {
-        // alert("Thêm sản phẩm thành công");
+        // Thêm thông báo mới vào danh sách
+        const notifications =
+          JSON.parse(localStorage.getItem("notifications")) || [];
+        notifications.push({
+          title: "Thêm sản phẩm thành công",
+          message: `Sản phẩm "${name}" đã được thêm.`,
+          timestamp: new Date().toLocaleString(),
+        });
+        localStorage.setItem("notifications", JSON.stringify(notifications));
+
         Swal.fire({
           icon: "success",
           title: "Thành công",
           text: "Thêm sản phẩm thành công",
         });
-        // reset form
+
+        // Reset form
+        setName("");
+        setCategory(categories[0]?._id || "");
+        setQuantity("");
+        setOrigin("");
+        setPrice("");
+        setFiber("");
+        setOum("");
+        setPreserve(preserves[0]?._id || "");
+        setSupplier("");
+        setUses("");
+        setDiscount("");
+        setImages([]);
+        setDescription("");
+
+        navigate(-1);
       } else {
-        // alert("Thêm sản phẩm không thành công");
         Swal.fire({
           icon: "error",
           title: "Thất bại",
@@ -374,7 +398,11 @@ const InsertProduct = () => {
                   value={imageUrl}
                   onChange={(e) => setImageUrl(e.target.value)}
                 />
-                <FloatButton shape="square" className="btn-link" onClick={handleAddImageUrl} />
+                <FloatButton
+                  shape="square"
+                  className="btn-link"
+                  onClick={handleAddImageUrl}
+                />
               </div>
             </div>
           </div>
