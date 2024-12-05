@@ -218,31 +218,52 @@ function Products() {
                       <td className="cube">{item.oum}</td>
                       <td className="cube">
                         <div style={{ position: "relative" }}>
-                          <span
-                            style={{
-                              color: "gray",
-                              fontSize: "14px",
-                              marginRight: "5px",
-                            }}
-                          >
-                            {item.price.toLocaleString()}đ
-                          </span>
-
-                          {item.discount && (
+                          {/* Giá cũ (gạch ngang nếu có giảm giá) */}
+                          <div>
                             <span
                               style={{
-                                position: 'absolute',
-                                bottom: '18px',  // Điều chỉnh vị trí của tag từ trên cùng
-                                left: '30px',  // Điều chỉnh vị trí của tag từ bên phải
-                                backgroundColor: "red",
-                                color: "white",
-                                padding: "2px 6px",  // Giảm kích thước padding để tag nhỏ lại
-                                borderRadius: "5px",
-                                fontSize: "10px",  // Giảm kích thước font
-                                transform: 'rotate(45deg)', // Để tag nằm xéo
+                                color: item.discount > 0 ? "gray" : "black",
+                                fontSize: "14px",
+                                textDecoration:
+                                  item.discount > 0 ? "line-through" : "none", // Gạch giá cũ nếu có giảm giá
                               }}
                             >
-                              Giảm {item.discount.toLocaleString()}đ
+                              {item.price.toLocaleString()}đ
+                            </span>
+                          </div>
+
+                          {/* Giá mới (bên dưới giá cũ nếu có giảm giá) */}
+                          {item.discount > 0 && (
+                            <div>
+                              <span
+                                style={{
+                                  paddingTop: "10px",
+                                  color: "green",
+                                  fontSize: "16px", // Font lớn hơn để làm nổi bật
+                                  fontWeight: "bold", // Bôi đậm giá mới
+                                }}
+                              >
+                                {(item.price - item.discount).toLocaleString()}đ
+                              </span>
+                            </div>
+                          )}
+
+                          {/* Tag giảm giá (vẫn nằm ở vị trí cũ) */}
+                          {item.discount != null && item.discount > 0 && (
+                            <span
+                              style={{
+                                position: "absolute",
+                                bottom: "33px",
+                                left: "45px",
+                                backgroundColor: "red",
+                                color: "white",
+                                padding: "2px 6px",
+                                borderRadius: "5px",
+                                fontSize: "10px",
+                                transform: "rotate(45deg)",
+                              }}
+                            >
+                              - {item.discount.toLocaleString()}đ
                             </span>
                           )}
                         </div>

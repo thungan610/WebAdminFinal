@@ -89,7 +89,7 @@ const OrderDetail = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: "20px", background: "rgba(155, 174, 202, 0.1)", borderRadius: "8px" }}>
       <div style={{ width: "100%", display: "flex", gap: "350px" }}>
         <button style={{ background: "white" }} onClick={() => navigate(-1)}>
           <LeftOutlined />
@@ -109,61 +109,82 @@ const OrderDetail = () => {
               }}
             >
               <section className="ctn-f">
-                <h2>Thông tin đơn hàng</h2>
-                <p>
-                  <strong>Mã:</strong> {order._id}
-                </p>
-                <p>
-                  <strong>Ngày tạo:</strong>{" "}
-                  {new Date(order.date).toLocaleDateString("vi-VN", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                  })}{" "}
-                  lúc{" "}
-                  {new Date(order.date).toLocaleTimeString("vi-VN", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </p>
+                <h2  >Thông tin đơn hàng</h2>
+                <hr  className="hrne" />
+                <div className="order-infoCTN">
+                  <p>
+                    <p>Mã:</p>
+                  </p>
+                  <strong>{order._id}</strong>
+                </div>
 
-                <p>
-                  <strong>Phương thức giao hàng:</strong>{" "}
-                  {order.ship === 10 ? "Nhanh" : "Chậm"}
-                </p>
-                <p>
-                  <strong>Trạng thái đơn hàng:</strong>{" "}
-                  {getOrderStatus(order.status)}
-                </p>
+                <div className="order-infoCTN">
+                  <p>
+                    <p>Ngày tạo:</p>{" "}
+                  </p>
+                  <strong>
+                    {new Date(order.date).toLocaleDateString("vi-VN", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}{" "}
+                    lúc{" "}
+                    {new Date(order.date).toLocaleTimeString("vi-VN", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
+                  </strong>
+                </div>
+                <div className="order-infoCTN">
+                  <p>
+                    <p>Phương thức giao hàng:</p>
+                  </p>
+                  <strong style={{color: order.deliveryMethod === "Nhanh" ? "red" : "black"}}> {order.ship === 10 ? "Nhanh" : "Chậm"}</strong>
+                </div>
+
+                <div className="order-infoCTN">
+                  <p>
+                    <p>Trạng thái đơn hàng:</p>
+                  </p>
+                  <strong> {getOrderStatus(order.status)}</strong>
+                </div>
               </section>
               <section className="ctn-f">
-                <h2>Thông tin người dùng</h2>
-                <p>
-                  <strong>Tên:</strong>{" "}
-                  {order.cart[0]?.user?.name || "Không có"}
-                </p>
-              </section>
-              <section className="ctn-f">
-                <h2>Thông tin nhận hàng</h2>
-                <p>
-                  <strong>Tên người nhận:</strong>{" "}
-                  {order.address?.user?.name || "Không có"}
-                </p>
-                <p>
-                  <strong>Số điện thoại:</strong>{" "}
-                  {order.address?.user?.phone || "Không có"}
-                </p>
-                <p>
-                  <strong>Địa chỉ:</strong>{" "}
-                  {`${order.address?.houseNumber}, ${order.address?.alley}, ${order.address?.quarter}, ${order.address?.district}, ${order.address?.city}, ${order.address?.country}`}
-                </p>
+                <h2>Thông tin khách hàng</h2>
+                <hr  className="hrne" />
+                <div className="order-infoCTN">
+                  <p>Tên tài khoản:</p>
+                  <strong> {order.cart[0]?.user?.name || "Không có"}</strong>
+                </div>
+                <div className="order-infoCTN">
+                  <p>Tên người nhận:</p>
+                  <strong> {order.address?.user?.name || "Không có"}</strong>
+                </div>
+                <div className="order-infoCTN">
+                  <p>Số điện thoại:</p>
+                  <strong> {order.address?.user?.phone || "Không có"}</strong>
+                </div>{" "}
               </section>
             </div>
-            
           </div>
-
-          <section style={{ margin: "20px 0", display: "flex", justifyContent: "space-between" }}>
-            <div style={{width: "60%"}}>
+          <section className="ctn-f2">
+            <div className="order-infoCTNA">
+              <h2>Địa chỉ nhận hàng: </h2>
+              <hr  className="hrne" />
+              <p>
+                {" "}
+                {`${order.address?.houseNumber}, ${order.address?.alley}, ${order.address?.quarter}, ${order.address?.district}, ${order.address?.city}, ${order.address?.country}`}
+              </p>
+            </div>
+          </section>
+          <section
+            style={{
+              margin: "10px 0",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <div style={{ width: "63.5%", background: "white", padding: "10px", borderRadius: "8px",  }}>
               <h2>Thông tin sản phẩm</h2>
               <div
                 style={{
@@ -172,6 +193,7 @@ const OrderDetail = () => {
                   border: "1px solid #ddd",
                   borderRadius: "5px",
                   width: "100%",
+                  marginTop: "10px",
                 }}
               >
                 <table style={{ width: "100%", borderCollapse: "collapse" }}>
@@ -232,15 +254,16 @@ const OrderDetail = () => {
                 </table>
               </div>
             </div>
-            <div style={{ width: "30%"}}>
-              <section>
+            <div style={{ width: "35%" }}>
+              <section style={{ background: "white", padding: "10px", borderRadius: "8px"}}>
                 <h2>Tổng tiền</h2>
-                <p>
-                  <strong>Tổng giá sản phẩm:</strong>{" "}
-                  {order.cart[0]?.total.toLocaleString() || 0}đ
-                </p>{" "}
-                <p>
-                  <strong>Chi phí vận chuyển:</strong>{" "}
+                <hr  className="hrne" />
+                <div className="order-infoCTN">
+                  <p>Tổng giá sản phẩm:</p>
+                  <p> {order.cart[0]?.total.toLocaleString() || 0}đ</p>
+                </div>{" "}
+                <div className="order-infoCTN">
+                  <p>Chi phí vận chuyển:</p>{" "}
                   {order.ship === 1
                     ? "8.000đ"
                     : order.ship === 2
@@ -248,41 +271,48 @@ const OrderDetail = () => {
                     : order.ship === 3
                     ? "20.000đ"
                     : "Không xác định"}
-                </p>
-                <p>
-                  <strong>Khuyến mãi:</strong>
+                </div>
+                <div className="order-infoCTN">
+                  <p>Khuyến mãi:</p>
                   {order.sale?.length > 0 && order.sale[0].discountAmount > 0
                     ? ` -${order.sale[0].discountAmount.toLocaleString()}đ`
                     : order.sale?.length > 0 &&
                       order.sale[0].discountPercent > 0
                     ? ` -${order.sale[0].discountPercent}%`
                     : " -0đ"}
-                </p>
-                <p>
-                  <strong>Tổng thanh toán:</strong>{" "}
-                  {order.totalOrder.toLocaleString() || 0}đ
-                </p>
+                </div>
+                <div className="order-infoCTN">
+                  <p>Tổng thanh toán:</p>
+                  <strong> {order.totalOrder.toLocaleString() || 0}đ</strong>
+                </div>
+                <div
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "end",
+                  }}
+                >
+                  {order.status === 1 && (
+                    <button
+                      style={{
+                        marginTop: "10px",
+                        padding: "10px 20px",
+                        backgroundColor: "#4caf50",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                      }}
+                      onClick={handleConfirmOrder}
+                    >
+                      Xác nhận đơn hàng
+                    </button>
+                  )}
+                </div>
               </section>
             </div>
-
           </section>
         </>
-      )}
-      {order.status === 1 && (
-        <button
-          style={{
-            marginTop: "10px",
-            padding: "10px 20px",
-            backgroundColor: "#4caf50",
-            color: "white",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-          }}
-          onClick={handleConfirmOrder}
-        >
-          Xác nhận đơn hàng
-        </button>
       )}
     </div>
   );

@@ -157,6 +157,36 @@
   borderbottom: "1px solid #ddd";
 }
 .ctn-f{
-  width: 30%;
+  width: 49.5%;
   padding: 10px;
+  border: 1px solid rgba(155, 174, 202, 0.1);
+  border-radius: 8px;
+  margin-top: 10px;
+  background: white;
+}
+.ctn-f2{
+  width: 100%;
+  padding-top: 10px;
+  
+}
+.order-infoCTN{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 2px;
+    align-items: center;
+    background: white;
+}
+.order-infoCTNA{
+  width: 100%;
+  border: 1px solid rgba(155, 174, 202, 0.1);
+  border-radius: 8px;
+  padding: 10px;
+  background: white;
+}
+.hrne{
+  border: none; 
+  height: 1.5px; 
+  background-color: rgba(155, 174, 202, 0.1); 
+  margin: 5px ;
 }

@@ -5,12 +5,14 @@ const Notifi = () => {
 
   useEffect(() => {
     const updateNotifications = () => {
-      const storedNotifications =
-        JSON.parse(localStorage.getItem("notifications")) || [];
+      const storedNotifications = JSON.parse(localStorage.getItem("notifications")) || [];
       setNotifications(storedNotifications);
     };
 
     window.addEventListener("storage", updateNotifications);
+
+    // Lần đầu tiên tải thông báo từ localStorage
+    updateNotifications();
 
     return () => {
       window.removeEventListener("storage", updateNotifications);
