@@ -109,7 +109,7 @@ const OrderDetail = () => {
               }}
             >
               <section className="ctn-f">
-                <h2  >Thông tin đơn hàng</h2>
+                <h4  >Thông tin đơn hàng</h4>
                 <hr  className="hrne" />
                 <div className="order-infoCTN">
                   <p>
@@ -150,7 +150,7 @@ const OrderDetail = () => {
                 </div>
               </section>
               <section className="ctn-f">
-                <h2>Thông tin khách hàng</h2>
+                <h4>Thông tin khách hàng</h4>
                 <hr  className="hrne" />
                 <div className="order-infoCTN">
                   <p>Tên tài khoản:</p>
@@ -167,9 +167,18 @@ const OrderDetail = () => {
               </section>
             </div>
           </div>
+          
           <section className="ctn-f2">
             <div className="order-infoCTNA">
-              <h2>Địa chỉ nhận hàng: </h2>
+              <h4>Địa chỉ nhận hàng: </h4>
+              <hr  className="hrne" />
+              <p>
+                {" "}
+                {`${order.address?.houseNumber}, ${order.address?.alley}, ${order.address?.quarter}, ${order.address?.district}, ${order.address?.city}, ${order.address?.country}`}
+              </p>
+            </div>
+            <div className="order-infoCTNA">
+              <h4>Thông tin thanh toán: </h4>
               <hr  className="hrne" />
               <p>
                 {" "}
@@ -177,6 +186,8 @@ const OrderDetail = () => {
               </p>
             </div>
           </section>
+        
+          
           <section
             style={{
               margin: "10px 0",
@@ -185,7 +196,7 @@ const OrderDetail = () => {
             }}
           >
             <div style={{ width: "63.5%", background: "white", padding: "10px", borderRadius: "8px",  }}>
-              <h2>Thông tin sản phẩm</h2>
+              <h4>Thông tin sản phẩm</h4>
               <div
                 style={{
                   maxHeight: "300px", // Chiều cao tối đa của bảng
@@ -256,7 +267,7 @@ const OrderDetail = () => {
             </div>
             <div style={{ width: "35%" }}>
               <section style={{ background: "white", padding: "10px", borderRadius: "8px"}}>
-                <h2>Tổng tiền</h2>
+                <h4>Tổng tiền</h4>
                 <hr  className="hrne" />
                 <div className="order-infoCTN">
                   <p>Tổng giá sản phẩm:</p>

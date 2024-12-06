@@ -167,8 +167,10 @@
 .ctn-f2{
   width: 100%;
   padding-top: 10px;
-  
+  display: flex;
+  gap: 10px;
 }
+
 .order-infoCTN{
     width: 100%;
     display: flex;
@@ -178,11 +180,12 @@
     background: white;
 }
 .order-infoCTNA{
-  width: 100%;
+  width: 49.5%;
   border: 1px solid rgba(155, 174, 202, 0.1);
   border-radius: 8px;
   padding: 10px;
   background: white;
+  height: 100px;
 }
 .hrne{
   border: none; 
