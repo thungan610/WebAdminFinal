@@ -249,23 +249,28 @@ function Products() {
                           )}
 
                           {/* Tag giảm giá (vẫn nằm ở vị trí cũ) */}
-                          {item.discount != null && item.discount > 0 && (
-                            <span
-                              style={{
-                                position: "absolute",
-                                bottom: "33px",
-                                left: "45px",
-                                backgroundColor: "red",
-                                color: "white",
-                                padding: "2px 6px",
-                                borderRadius: "5px",
-                                fontSize: "10px",
-                                transform: "rotate(45deg)",
-                              }}
-                            >
-                              - {item.discount.toLocaleString()}đ
-                            </span>
-                          )}
+                          {/* Tag giảm giá hiển thị đ hoặc % */}
+{item.discount != null && item.discount > 0 && (
+  <span
+    style={{
+      position: "absolute",
+      bottom: "33px",
+      left: "45px",
+      backgroundColor: "red",
+      color: "white",
+      padding: "2px 6px",
+      borderRadius: "5px",
+      fontSize: "10px",
+      transform: "rotate(45deg)",
+      textAlign: "center", // Center align the text
+    }}
+  >
+    {item.discount >= 1000
+      ? `- ${item.discount.toLocaleString()}đ` // Show absolute discount if >= 1000đ
+      : `- ${Math.round((item.discount / item.price) * 10000+2 )}%`} {/* Otherwise, show percentage */}
+  </span>
+)}
+
                         </div>
                       </td>
 
