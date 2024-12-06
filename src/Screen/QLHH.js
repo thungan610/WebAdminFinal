@@ -1,6 +1,8 @@
+import { Flex } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import deleteimg from "../assets/images/delete.png";
 import "./QLHH.css";
 
 const QLHH = () => {
@@ -77,9 +79,54 @@ const QLHH = () => {
     (item) => item.currentStatus === currentFilter
   );
 
+  const handleDelete = async (id) => {
+    try {
+      const _result = await Swal.fire({
+        title: "Bạn có chắc chắn?",
+        text: "Không thể hoàn tác hành động này!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Vâng, xóa nó!",
+      });
+      if (!_result.isConfirmed) return;
+  
+      const response = await fetch(
+        `http://localhost:6677/oder/${id}/deleteOrder`,
+        { method: "DELETE" }
+      );
+      const result = await response.json();
+  
+      console.log("API Response:", result);
+  
+      if (result.status && result.data) {
+        setOrder(order.filter((item) => item.id !== id)); 
+        Swal.fire({
+          icon: "success",
+          title: "Thành công",
+          text: "Đơn hàng đã được xóa.",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Thất bại",
+          text: "Xóa đơn hàng thất bại.",
+        });
+      }
+    } catch (error) {
+      console.error("Error deleting product:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Lỗi",
+        text: "Không thể xóa đơn hàng.",
+      });
+    }
+  };
+  
+
   return (
     <div className="qlhh-container">
-      {/* Nút chuyển trạng thái */}
       <div className="filter-buttons">
         {[1, 2, 3, 4].map((status) => (
           <button
@@ -132,7 +179,6 @@ const QLHH = () => {
                   style={{
                     color: item.deliveryMethod === "Nhanh" ? "red" : "black",
                     textAlign: "center",
-                    
                   }}
                 >
                   {item.deliveryMethod}
@@ -157,12 +203,43 @@ const QLHH = () => {
                     }}
                   >
                     <span>{item.date}</span>
-                    <button
-                      onClick={() => navigate(`/OrderDetail/${item.id}`)}
-                      className="details-button"
+                    <div
+                      style={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        paddingTop: "5px",
+                        gap: "5px",
+                        cursor: "pointer"
+                      }}
                     >
-                      Chi tiết
-                    </button>
+                      <button
+                        onClick={() => navigate(`/OrderDetail/${item.id}`)}
+                        className="details-button"
+                      >
+                        Chi tiết
+                      </button>
+                      <div
+                        style={{
+                          background: "red",
+                          width: "25px",
+                          height: "25px",
+                          borderRadius: "5px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center"
+                        }}
+                        onClick={() => handleDelete(item.id)}
+                        title="Delete"
+                      >
+                        <img
+                          style={{ width: "18px", height: "18px", }}
+                          src={deleteimg}
+                          alt="Delete"
+                        />
+                      </div>
+                    </div>
                   </div>
                 </td>
               </tr>
