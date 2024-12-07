@@ -250,7 +250,7 @@ function Products() {
 
                           {/* Tag giảm giá (vẫn nằm ở vị trí cũ) */}
                           {/* Tag giảm giá hiển thị đ hoặc % */}
-{item.discount != null && item.discount > 0 && (
+                          {item.discount != null && item.discount > 0 && (
   <span
     style={{
       position: "absolute",
@@ -262,14 +262,15 @@ function Products() {
       borderRadius: "5px",
       fontSize: "10px",
       transform: "rotate(45deg)",
-      textAlign: "center", // Center align the text
+      textAlign: "center",
     }}
   >
-    {item.discount >= 1000
-      ? `- ${item.discount.toLocaleString()}đ` // Show absolute discount if >= 1000đ
-      : `- ${Math.round((item.discount / item.price) * 10000+2 )}%`} {/* Otherwise, show percentage */}
+    {item.discount >= 100
+      ? `- ${item.discount.toLocaleString()}đ`
+      : `- ${item.discount.toLocaleString()}%`}
   </span>
 )}
+
 
                         </div>
                       </td>

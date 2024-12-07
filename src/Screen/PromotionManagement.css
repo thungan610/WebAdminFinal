@@ -87,3 +87,14 @@
     width: 20px;
     height: 20px;
   }
+ /* For active promotions (Còn hoạt động) */
+.active-status {
+  color: green;        
+  font-weight: bold;  
+}
+
+.expired-status {
+  color: red;         
+  font-weight: bold;   /* Make it bold */
+}
+

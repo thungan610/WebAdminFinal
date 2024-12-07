@@ -35,64 +35,35 @@ const PromotionManagementment = () => {
   }, []);
 
   // Hàm xử lý xóa
+  const handleDelete = async (id) => {
+    try {
+      // Hiển thị bảng xác nhận
+      const result = await Swal.fire({
+        title: "Bạn có chắc chắn muốn xóa?",
+        text: "Hành động này không thể hoàn tác!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Đồng ý",
+        cancelButtonText: "Hủy",
+      });
 
+      // Nếu người dùng chọn "Đồng ý"
+      if (result.isConfirmed) {
+        await axios.delete(
+          `https://server-vert-rho-94.vercel.app/sale/${id}/deleteSale`
+        );
+        setData(data.filter((item) => item._id !== id));
 
-const handleDelete = async (id) => {
-  try {
-    // Hiển thị bảng xác nhận
-    const result = await Swal.fire({
-      title: "Bạn có chắc chắn muốn xóa?",
-      text: "Hành động này không thể hoàn tác!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Đồng ý",
-      cancelButtonText: "Hủy",
-    });
-
-    // Nếu người dùng chọn "Đồng ý"
-    if (result.isConfirmed) {
-      await axios.delete(
-        `https://server-vert-rho-94.vercel.app/sale/${id}/deleteSale`
-      );
-      setData(data.filter((item) => item._id !== id));
-
-      // Thông báo xóa thành công
-      Swal.fire("Đã xóa!", "Khuyến mãi đã được xóa.", "success");
+        // Thông báo xóa thành công
+        Swal.fire("Đã xóa!", "Khuyến mãi đã được xóa.", "success");
+      }
+    } catch (err) {
+      console.error("Lỗi khi xóa khuyến mãi:", err);
+      Swal.fire("Lỗi!", "Xóa khuyến mãi không thành công.", "error");
     }
-  } catch (err) {
-    console.error("Lỗi khi xóa khuyến mãi:", err);
-    Swal.fire("Lỗi!", "Xóa khuyến mãi không thành công.", "error");
-  }
-};
-
-  //   // Hàm xử lý thêm mới
-  //   const handleAdd = async () => {
-  //     const newPromotion = {
-  //       title: "New Year Sale",
-  //       discountAmount: 15000,
-  //       discountPercent: 25,
-  //       minOrderValue: 100000,
-  //       expirationDate: "2025-01-31T23:59:59.000Z",
-  //     };
-
-  //     try {
-  //       const response = await axios.post(
-  //         "https://server-vert-rho-94.vercel.app/sale/addSale",
-  //         newPromotion
-  //       );
-  //       if (response.data) {
-  //         setData([...data, response.data.data]);
-  //         console.log("Khuyến mãi mới đã được thêm");
-  //       } else {
-  //         throw new Error("Phản hồi API không hợp lệ");
-  //       }
-  //     } catch (err) {
-  //       console.error("Error adding promotion:", err);
-  //       alert("Thêm khuyến mãi không thành công.");
-  //     }
-  //   };
+  };
 
   if (isLoading) return <p>Đang tải dữ liệu...</p>;
   if (error) return <p>{error}</p>;
@@ -114,44 +85,55 @@ const handleDelete = async (id) => {
               <th>Giá trị đơn hàng tối thiểu</th>
               <th>Ngày tạo</th>
               <th>Thời gian hết hạn</th>
+              <th>Trạng thái</th> {/* New status column */}
               <th>Tác vụ</th>
             </tr>
           </thead>
           <tbody>
-            {data.map((row) => (
-              <tr key={row._id}>
-                <td>{row.title}</td>
-                <td>{row.discountAmount?.toLocaleString()}đ</td>
-                <td>{row.discountPercent}%</td>
-                <td>{row.minOrderValue?.toLocaleString()}đ</td>
-                <td>
-                  {row.createAt
-                    ? new Date(row.createAt).toLocaleDateString()
-                    : "N/A"}
-                </td>
-                <td>
-                  {row.expirationDate
-                    ? new Date(row.expirationDate).toLocaleDateString()
-                    : "N/A"}
-                </td>
-                <td>
-                  <div className="editDiv">
-                    <div className="editIcon">
-                      <div  onClick={()=>navigate(`/UpdateSale/${row._id}`)}>
-                      <img className="edit"  src={edit} alt="Edit" />
+            {data.map((row) => {
+              const expirationDate = new Date(row.expirationDate);
+              const isExpired = expirationDate < new Date();
+              const status = isExpired ? "Đã hết hạn" : "Còn hoạt động"; // New status logic
+
+              return (
+                <tr key={row._id}>
+                  <td>{row.title}</td>
+                  <td>{row.discountAmount?.toLocaleString()}đ</td>
+                  <td>{row.discountPercent}%</td>
+                  <td>{row.minOrderValue?.toLocaleString()}đ</td>
+                  <td>
+                    {row.createAt
+                      ? new Date(row.createAt).toLocaleDateString()
+                      : "N/A"}
+                  </td>
+                  <td>
+                    {/* Display expiration date in dd/mm/yyyy format */}
+                    {new Date(row.expirationDate).toLocaleDateString("vi-VN")}
+                  </td>
+                  <td>
+                    {/* Conditionally apply CSS class based on status */}
+                    <span className={isExpired ? "expired-status" : "active-status"}>
+                      {status}
+                    </span>
+                  </td>
+                  <td>
+                    <div className="editDiv">
+                      <div className="editIcon">
+                        <div onClick={() => navigate(`/UpdateSale/${row._id}`)}>
+                          <img className="edit" src={edit} alt="Edit" />
+                        </div>
                       </div>
-                     
+                      <div
+                        className="deleteIcon"
+                        onClick={() => handleDelete(row._id)}
+                      >
+                        <img className="delete" src={deleteimg} alt="Delete" />
+                      </div>
                     </div>
-                    <div
-                      className="deleteIcon"
-                      onClick={() => handleDelete(row._id)}
-                    >
-                      <img className="delete" src={deleteimg} alt="Delete" />
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            ))}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
