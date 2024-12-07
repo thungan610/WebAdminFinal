@@ -45,7 +45,7 @@
 
 .order-table th:nth-child(8),
 .order-table td:nth-child(8) {
-  width: 15%; /* Đảm bảo cột cuối cùng có kích thước đủ rộng */
+  width: 14%; /* Đảm bảo cột cuối cùng có kích thước đủ rộng */
 }
 
 .total-payment-cell {

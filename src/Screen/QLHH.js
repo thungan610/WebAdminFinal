@@ -1,4 +1,3 @@
-import { Flex } from "antd";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -91,17 +90,14 @@ const QLHH = () => {
         confirmButtonText: "Vâng, xóa nó!",
       });
       if (!_result.isConfirmed) return;
-  
       const response = await fetch(
         `http://localhost:6677/oder/${id}/deleteOrder`,
         { method: "DELETE" }
       );
       const result = await response.json();
-  
-      console.log("API Response:", result);
-  
+
       if (result.status && result.data) {
-        setOrder(order.filter((item) => item.id !== id)); 
+        setOrder(order.filter((item) => item.id !== id));
         Swal.fire({
           icon: "success",
           title: "Thành công",
@@ -123,7 +119,6 @@ const QLHH = () => {
       });
     }
   };
-  
 
   return (
     <div className="qlhh-container">
@@ -165,6 +160,7 @@ const QLHH = () => {
               <th>Trạng thái</th>
               <th>Tổng tiền</th>
               <th>Ngày đặt</th>
+              <th>Tác vụ</th>
             </tr>
           </thead>
           <tbody>
@@ -186,61 +182,42 @@ const QLHH = () => {
                 <td
                   style={{
                     textAlign: "center",
-                    color: getOrderStatusColor(item.orderStatus), // Áp dụng màu sắc
+                    color: getOrderStatusColor(item.orderStatus),
                   }}
                 >
                   {item.orderStatus}
                 </td>
                 <td style={{ textAlign: "center" }}>{item.totalPayment}</td>
-                <td>
-                  <div
+                <td>{item.date}</td>
+                <td style={{ textAlign: "center" }}>
+                  <button
+                    onClick={() => navigate(`/OrderDetail/${item.id}`)}
+                    className="details-button"
                     style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: "100%",
+                      padding: "5px 10px",
+                      marginRight: "5px",
+                      backgroundColor: "#4CAF50",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "5px",
+                      cursor: "pointer",
                     }}
                   >
-                    <span>{item.date}</span>
-                    <div
-                      style={{
-                        width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        paddingTop: "5px",
-                        gap: "5px",
-                        cursor: "pointer"
-                      }}
-                    >
-                      <button
-                        onClick={() => navigate(`/OrderDetail/${item.id}`)}
-                        className="details-button"
-                      >
-                        Chi tiết
-                      </button>
-                      <div
-                        style={{
-                          background: "red",
-                          width: "25px",
-                          height: "25px",
-                          borderRadius: "5px",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center"
-                        }}
-                        onClick={() => handleDelete(item.id)}
-                        title="Delete"
-                      >
-                        <img
-                          style={{ width: "18px", height: "18px", }}
-                          src={deleteimg}
-                          alt="Delete"
-                        />
-                      </div>
-                    </div>
-                  </div>
+                    Chi tiết
+                  </button>
+                  <button
+                    onClick={() => handleDelete(item.id)}
+                    style={{
+                      padding: "5px 10px",
+                      backgroundColor: "#f44336",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "5px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Xóa
+                  </button>
                 </td>
               </tr>
             ))}

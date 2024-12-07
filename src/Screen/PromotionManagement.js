@@ -71,9 +71,9 @@ const PromotionManagementment = () => {
   return (
     <div className="appnene">
       <div className="button-container">
-        <a className="add-button" onClick={() => navigate("/AddSale")}>
+        <button className="add-button" onClick={() => navigate("/AddSale")}>
           Thêm mới
-        </a>
+        </button>
       </div>
       <div style={{ height: "500px", overflowY: "scroll" }}>
         <table className="sale-table">

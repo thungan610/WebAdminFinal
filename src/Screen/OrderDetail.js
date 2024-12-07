@@ -47,7 +47,31 @@ const OrderDetail = () => {
     }
   };
 
+  const getOrderStatusColor = (status) => {
+    switch (status) {
+      case "Chờ xác nhận":
+        return "orange";
+      case "Đang vận chuyển":
+        return "green";
+      case "Hoàn thành":
+        return "blue";
+      case "Đã hủy":
+        return "red";
+      default:
+        return "black";
+    }
+  };
 
+  const getPayment = (method) => {
+    switch (method) {
+      case "cash":
+        return "Thanh toán bằng tiền mặt";
+      case "payos":
+        return "Thanh toán bằng Payos";
+      default:
+        return "Không xác định";
+    }
+  };
 
   const handleConfirmOrder = async () => {
     try {
@@ -91,7 +115,13 @@ const OrderDetail = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div style={{ padding: "20px", background: "rgba(155, 174, 202, 0.1)", borderRadius: "8px" }}>
+    <div
+      style={{
+        padding: "20px",
+        background: "rgba(155, 174, 202, 0.1)",
+        borderRadius: "8px",
+      }}
+    >
       <div style={{ width: "100%", display: "flex", gap: "350px" }}>
         <button style={{ background: "white" }} onClick={() => navigate(-1)}>
           <LeftOutlined />
@@ -111,8 +141,8 @@ const OrderDetail = () => {
               }}
             >
               <section className="ctn-f">
-                <h4  >Thông tin đơn hàng</h4>
-                <hr  className="hrne" />
+                <h4>Thông tin đơn hàng</h4>
+                <hr className="hrne" />
                 <div className="order-infoCTN">
                   <p>
                     <p>Mã:</p>
@@ -141,19 +171,32 @@ const OrderDetail = () => {
                   <p>
                     <p>Phương thức giao hàng:</p>
                   </p>
-                  <strong style={{color: order.deliveryMethod === "Nhanh" ? "red" : "black"}}> {order.ship === 10 ? "Nhanh" : "Chậm"}</strong>
+                  <strong
+                    style={{
+                      color: order.deliveryMethod === "Nhanh" ? "red" : "black",
+                    }}
+                  >
+                    {" "}
+                    {order.ship === 10 ? "Nhanh" : "Chậm"}
+                  </strong>
                 </div>
 
                 <div className="order-infoCTN">
                   <p>
                     <p>Trạng thái đơn hàng:</p>
                   </p>
-                  <strong> {getOrderStatus(order.status)}</strong>
+                  <strong
+                    style={{
+                      color: getOrderStatusColor(getOrderStatus(order.status)),
+                    }}
+                  >
+                    {getOrderStatus(order.status)}
+                  </strong>
                 </div>
               </section>
               <section className="ctn-f">
                 <h4>Thông tin khách hàng</h4>
-                <hr  className="hrne" />
+                <hr className="hrne" />
                 <div className="order-infoCTN">
                   <p>Tên tài khoản:</p>
                   <strong> {order.cart[0]?.user?.name || "Không có"}</strong>
@@ -169,27 +212,26 @@ const OrderDetail = () => {
               </section>
             </div>
           </div>
-          
+
           <section className="ctn-f2">
             <div className="order-infoCTNA">
-              <h4>Địa chỉ nhận hàng: </h4>
-              <hr  className="hrne" />
+              <h4>Địa chỉ nhận hàng </h4>
+              <hr className="hrne" />
               <p>
                 {" "}
                 {`${order.address?.houseNumber}, ${order.address?.alley}, ${order.address?.quarter}, ${order.address?.district}, ${order.address?.city}, ${order.address?.country}`}
               </p>
             </div>
             <div className="order-infoCTNA">
-              <h4>Thông tin thanh toán: </h4>
-              <hr  className="hrne" />
-              <p>
-                {" "}
-                {`${order.address?.houseNumber}, ${order.address?.alley}, ${order.address?.quarter}, ${order.address?.district}, ${order.address?.city}, ${order.address?.country}`}
-              </p>
+              <h4>Thông tin thanh toán </h4>
+              <hr className="hrne" />
+              <div className="order-infoCTN">
+                <p>Phương thức thanh toán:</p>{" "}
+                <strong> {getPayment(order.method)}</strong>
+              </div>
             </div>
           </section>
-        
-          
+
           <section
             style={{
               margin: "10px 0",
@@ -197,7 +239,14 @@ const OrderDetail = () => {
               justifyContent: "space-between",
             }}
           >
-            <div style={{ width: "63.5%", background: "white", padding: "10px", borderRadius: "8px",  }}>
+            <div
+              style={{
+                width: "63.5%",
+                background: "white",
+                padding: "10px",
+                borderRadius: "8px",
+              }}
+            >
               <h4>Thông tin sản phẩm</h4>
               <div
                 style={{
@@ -268,9 +317,15 @@ const OrderDetail = () => {
               </div>
             </div>
             <div style={{ width: "35%" }}>
-              <section style={{ background: "white", padding: "10px", borderRadius: "8px"}}>
+              <section
+                style={{
+                  background: "white",
+                  padding: "10px",
+                  borderRadius: "8px",
+                }}
+              >
                 <h4>Tổng tiền</h4>
-                <hr  className="hrne" />
+                <hr className="hrne" />
                 <div className="order-infoCTN">
                   <p>Tổng giá sản phẩm:</p>
                   <p> {order.cart[0]?.total.toLocaleString() || 0}đ</p>
