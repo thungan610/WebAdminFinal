@@ -183,7 +183,7 @@ const OrderDetail = () => {
                     }}
                   >
                     {" "}
-                    {order.ship === 10 ? "Nhanh" : "Chậm"}
+                    {order.ship === 1 ? "Chậm" : order.ship ===2 ?"Nhanh":"Hỏa Tốc"}
                   </strong>
                 </div>
 
