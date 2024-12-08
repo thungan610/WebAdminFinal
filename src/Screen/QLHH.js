@@ -161,7 +161,6 @@ const QLHH = () => {
             <tr>
               <th>Mã đơn hàng</th>
               <th>Tên người dùng</th>
-              <th>Số điện thoại</th>
               <th>Hình thức giao</th>
               <th>Trạng thái</th>
               <th>Tổng tiền</th>
@@ -176,7 +175,7 @@ const QLHH = () => {
                   <strong>{item.id}</strong>
                 </td>
                 <td style={{ color: "blue" }}>{item.email}</td>
-                <td>{item.phone}</td>
+               
                 <td
                   style={{
                     color:
@@ -199,7 +198,7 @@ const QLHH = () => {
                 >
                   {item.orderStatus}
                 </td>
-                <td style={{ textAlign: "center" }}>{item.totalPayment}</td>
+                <td style={{ textAlign: "center"}}>{item.totalPayment}</td>
                 <td>{item.date}</td>
                 <td style={{ textAlign: "center" }}>
                   <button
