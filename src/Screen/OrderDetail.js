@@ -73,12 +73,6 @@ const OrderDetail = () => {
     }
   };
 
-  const TotalProductPrice = (cart) => {
-    return cart.reduce((total, cartItem) => {
-      return total + cartItem.total;
-    }, 0);
-  };
-
   const handleConfirmOrder = async () => {
     try {
       const result = await Swal.fire({
@@ -174,18 +168,24 @@ const OrderDetail = () => {
                   </strong>
                 </div>
                 <div className="order-infoCTN">
-                  <p>
-                    <p>Phương thức giao hàng:</p>
-                  </p>
-                  <strong
-                    style={{
-                      color: order.deliveryMethod === "Nhanh" ? "red" : "black",
-                    }}
-                  >
-                    {" "}
-                    {order.ship === 1 ? "Chậm" : order.ship ===2 ?"Nhanh":"Hỏa Tốc"}
-                  </strong>
-                </div>
+  <p>
+    <p>Phương thức giao hàng:</p>
+  </p>
+  <strong
+    style={{
+      color: order.ship === 1 ? "green" : order.ship === 2 ? "black" : order.ship === 3 ? "orange" : "black",
+    }}
+  >
+    {order.ship === 1
+      ? "Nhanh" 
+      : order.ship === 2
+      ? "Chậm" 
+      : order.ship === 3 
+      ? "Hỏa tốc" 
+      : "Không xác định"}
+  </strong>
+</div>
+
 
                 <div className="order-infoCTN">
                   <p>
@@ -256,7 +256,7 @@ const OrderDetail = () => {
               <h4>Thông tin sản phẩm</h4>
               <div
                 style={{
-                  maxHeight: "180px", // Chiều cao tối đa của bảng
+                  maxHeight: "300px", // Chiều cao tối đa của bảng
                   overflowY: "auto", // Kích hoạt thanh cuộn dọc
                   border: "1px solid #ddd",
                   borderRadius: "5px",
@@ -300,7 +300,7 @@ const OrderDetail = () => {
                                   }}
                                 />
                               ) : (
-                                <p>Không có ảnh</p>
+                                <p>Không có ảnh</p> // Hiển thị thông báo nếu không có hình ảnh
                               )}
                             </div>
                           </td>
@@ -313,10 +313,7 @@ const OrderDetail = () => {
                             {product.price.toLocaleString()}đ
                           </td>
                           <td className="cellStyle">
-                            {(
-                              product.quantity * product.price
-                            ).toLocaleString()}
-                            đ
+                            {order.cart[0]?.total.toLocaleString()}đ
                           </td>
                         </tr>
                       ))
@@ -337,11 +334,7 @@ const OrderDetail = () => {
                 <hr className="hrne" />
                 <div className="order-infoCTN">
                   <p>Tổng giá sản phẩm:</p>
-
-                  <p>
-                    {" "}
-                    {TotalProductPrice(order.cart).toLocaleString()}đ
-                  </p>
+                  <p> {order.cart[0]?.total.toLocaleString() || 0}đ</p>
                 </div>{" "}
                 <div className="order-infoCTN">
                   <p>Chi phí vận chuyển:</p>{" "}
