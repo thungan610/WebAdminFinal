@@ -29,12 +29,18 @@ const QLHH = () => {
               }, ${orderItem.address?.city || ""}, ${
                 orderItem.address?.country || ""
               }`.replace(/, ,| ,|,$/g, "") || "Không có địa chỉ",
-            deliveryMethod: orderItem.ship === 1 ? "Nhanh" : "Chậm",
+            deliveryMethod:
+              orderItem.ship === 1
+                ? "Chậm"
+                : orderItem.ship === 2
+                ? "Nhanh"
+                : "Hỏa tốc",
             orderStatus: getOrderStatus(orderItem.status),
             currentStatus: orderItem.status,
             totalPayment: `${orderItem.totalOrder.toLocaleString() || 0}đ`,
             date: new Date(orderItem.date).toLocaleString("vi-VN"),
           }));
+
           setOrder(formattedOrder);
         }
       } catch (error) {
@@ -173,12 +179,18 @@ const QLHH = () => {
                 <td>{item.phone}</td>
                 <td
                   style={{
-                    color: item.deliveryMethod === "Nhanh" ? "red" : "black",
+                    color:
+                      item.deliveryMethod === "Nhanh"
+                        ? "red"
+                        : item.deliveryMethod === "Hỏa tốc"
+                        ? "orange"
+                        : "black",
                     textAlign: "center",
                   }}
                 >
                   {item.deliveryMethod}
                 </td>
+
                 <td
                   style={{
                     textAlign: "center",

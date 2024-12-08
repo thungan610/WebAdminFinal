@@ -73,6 +73,12 @@ const OrderDetail = () => {
     }
   };
 
+  const TotalProductPrice = (cart) => {
+    return cart.reduce((total, cartItem) => {
+      return total + cartItem.total;
+    }, 0);
+  };
+
   const handleConfirmOrder = async () => {
     try {
       const result = await Swal.fire({
@@ -250,7 +256,7 @@ const OrderDetail = () => {
               <h4>Thông tin sản phẩm</h4>
               <div
                 style={{
-                  maxHeight: "300px", // Chiều cao tối đa của bảng
+                  maxHeight: "180px", // Chiều cao tối đa của bảng
                   overflowY: "auto", // Kích hoạt thanh cuộn dọc
                   border: "1px solid #ddd",
                   borderRadius: "5px",
@@ -294,7 +300,7 @@ const OrderDetail = () => {
                                   }}
                                 />
                               ) : (
-                                <p>Không có ảnh</p> // Hiển thị thông báo nếu không có hình ảnh
+                                <p>Không có ảnh</p>
                               )}
                             </div>
                           </td>
@@ -307,7 +313,10 @@ const OrderDetail = () => {
                             {product.price.toLocaleString()}đ
                           </td>
                           <td className="cellStyle">
-                            {order.cart[0]?.total.toLocaleString()}đ
+                            {(
+                              product.quantity * product.price
+                            ).toLocaleString()}
+                            đ
                           </td>
                         </tr>
                       ))
@@ -328,7 +337,11 @@ const OrderDetail = () => {
                 <hr className="hrne" />
                 <div className="order-infoCTN">
                   <p>Tổng giá sản phẩm:</p>
-                  <p> {order.cart[0]?.total.toLocaleString() || 0}đ</p>
+
+                  <p>
+                    {" "}
+                    {TotalProductPrice(order.cart).toLocaleString()}đ
+                  </p>
                 </div>{" "}
                 <div className="order-infoCTN">
                   <p>Chi phí vận chuyển:</p>{" "}

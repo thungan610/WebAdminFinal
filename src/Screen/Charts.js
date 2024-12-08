@@ -20,8 +20,8 @@ const TopProductsChart = () => {
     const startOfWeek = new Date(today);
     startOfWeek.setDate(
       today.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1)
-    ); // Nếu Chủ nhật, lấy thứ Hai trước đó
-    return startOfWeek.toISOString().split("T")[0]; // Trả về dạng 'YYYY-MM-DD'
+    );
+    return startOfWeek.toISOString().split("T")[0];
   };
 
   const [selectedDate, setSelectedDate] = useState(getStartOfWeek());
@@ -77,23 +77,27 @@ const TopProductsChart = () => {
         setDateRange(calculateDateRange(selectedDate));
 
         if (chartInstance) {
-          chartInstance.data.labels = fetchedLabels.map((label, index) => `${label} (${fetchedData[index]})`);
+          chartInstance.data.labels = fetchedLabels.map(
+            (label, index) => `${label} (${fetchedData[index]})`
+          );
           chartInstance.data.datasets[0].data = fetchedData;
-          chartInstance.update(); // Update chart without recreating
+          chartInstance.update();
         } else {
           const ctx = document.getElementById("myChart").getContext("2d");
 
           const newChart = new Chart(ctx, {
-            type: "pie", // Start with Pie chart
+            type: "pie",
             data: {
-              labels: fetchedLabels.map((label, index) => `${label} (${fetchedData[index]})`),
+              labels: fetchedLabels.map(
+                (label, index) => `${label} (${fetchedData[index]})`
+              ),
               datasets: [
                 {
                   label: "Lượt bán",
                   data: fetchedData,
                   backgroundColor: [
                     "rgba(255, 99, 132, 0.8)",
-"rgba(54, 162, 235, 0.8)",
+                    "rgba(54, 162, 235, 0.8)",
                     "rgba(75, 192, 192, 0.8)",
                     "rgba(255, 206, 86, 0.8)",
                     "rgba(153, 102, 255, 0.8)",
@@ -142,7 +146,7 @@ const TopProductsChart = () => {
     if (chartInstance) {
       chartInstance.destroy(); // Hủy biểu đồ cũ
       const ctx = document.getElementById("myChart").getContext("2d");
-  
+
       const newChart = new Chart(ctx, {
         type: type,
         data: {
@@ -183,19 +187,17 @@ const TopProductsChart = () => {
               position: "right",
             },
             datalabels: false,
-            
           },
         },
       });
-  
+
       setChartInstance(newChart);
     }
   };
-  
 
   return (
     <div
-style={{  
+      style={{
         padding: 5,
         marginBottom: "20px",
         display: "flex",
@@ -236,6 +238,7 @@ style={{
               margin: "0 10px",
               borderRadius: "5px",
               border: "1px solid #ccc",
+              cursor: "pointer"
             }}
           />
         </div>
@@ -243,14 +246,23 @@ style={{
 
       <div style={{ width: "100%", textAlign: "center" }}>
         <p style={{ color: "gray", fontWeight: "bold" }}>
-          {dateRange} - Tổng số sản phẩm bán: {data.reduce((acc, val) => acc + val, 0)}
+          {dateRange} - Tổng số sản phẩm bán:{" "}
+          {data.reduce((acc, val) => acc + val, 0)}
         </p>
-        <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
-          <canvas id="myChart" width="900" height="400" ></canvas>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "20px",
+          }}
+        >
+          <canvas id="myChart" width="900" height="400"></canvas>
         </div>
       </div>
 
-      <div style={{ display: "flex", justifyContent: "center", marginTop: "20px"  }}>
+      <div
+        style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}
+      >
         <button
           onClick={() => handleChartChange("pie")}
           style={{
