@@ -17,14 +17,14 @@
 .order-table th,
 .order-table td {
   padding: 12px;
-  border: 1px solid rgba(155, 174, 202, 0.1); /* Viền ô rõ ràng */
+  border: 1px solid rgba(155, 174, 202, 0.1); 
   text-align: center;
   vertical-align: middle;
-  overflow: hidden; /* Cắt bớt nội dung vượt quá */
+  overflow: hidden; 
   text-overflow: ellipsis; /* Thêm dấu "..." nếu nội dung quá dài */
   white-space: nowrap; /* Không cho phép xuống dòng */
-  height: 50px; /* Chiều cao cố định */
-  width: auto; /* Tự điều chỉnh độ rộng cột */
+  height: 50px; 
+  width: auto; 
 }
 
 .order-table th {
@@ -34,22 +34,22 @@
 
 .order-table td {
   padding: 12px;
-  border: 1px solid rgba(155, 174, 202, 0.1);/* Viền rõ ràng */
+  border: 1px solid rgba(155, 174, 202, 0.1);
   text-align: center;
   vertical-align: middle;
-  height: 50px; /* Chiều cao cố định cho ô */
-  overflow: hidden; /* Ẩn nội dung thừa */
-  white-space: nowrap; /* Không cho phép xuống dòng */
-  position: relative; /* Để hỗ trợ căn chỉnh với nội dung */
+  height: 50px; 
+  overflow: hidden; 
+  white-space: nowrap; 
+  position: relative; 
 }
 
 .order-table th:nth-child(8),
 .order-table td:nth-child(8) {
-  width: 14%; /* Đảm bảo cột cuối cùng có kích thước đủ rộng */
+  width: 14%; 
 }
 
 .total-payment-cell {
-  /* display: flex; */
+
   align-items: center;
   justify-content: space-between;
   position: relative;
@@ -70,7 +70,6 @@
   border-radius: 5px;
   padding: 5px 10px;
   font-size: 12px;
-  /* Tạo khoảng cách giữa nút và nội dung phía trên */
   text-align: center;
   width: fit-content;
 }
@@ -89,7 +88,7 @@
   font-size: 10px;
 }
 .details-button .icon-back {
-  width: 8px; /* Giảm kích thước icon */
+  width: 8px; 
   height: 8px;
   margin-left: 4px;
 }
@@ -114,7 +113,7 @@
   height: auto;
   padding: 20px;
   border-radius: 8px;
-  z-index: 1000; /* Đảm bảo modal luôn hiển thị trên các thành phần khác */
+  z-index: 1000; 
 }
 
 .modal-content {

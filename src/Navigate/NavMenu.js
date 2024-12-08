@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import {
-  NotificationOutlined,
   UserOutlined,
   TagOutlined,
   BarChartOutlined,
@@ -15,15 +14,15 @@ import "./NavMenu.css";
 import { AdminContext } from "../Component/AdminProvider";
 import logoBlue2 from "../assets/images/logoBlue2.jpg";
 import Search from "../Component/Search";
-import "@fontsource/roboto"; // Tải trọng số mặc định
-import "@fontsource/roboto/400.css"; // Tải trọng số cụ thể
+import "@fontsource/roboto"; 
+import "@fontsource/roboto/400.css"; 
 
 const { Content, Sider } = Layout;
 
 
 const NavMenu = ({ children, isHidden, onLogout }) => {
   const { admin } = useContext(AdminContext);
-  const [isModalVisible, setIsModalVisible] = useState(false); // Thêm state để quản lý modal
+  const [isModalVisible, setIsModalVisible] = useState(false); 
   const location = useLocation();
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -33,9 +32,9 @@ const NavMenu = ({ children, isHidden, onLogout }) => {
 
   const handleMenuClick = (e) => {
     if (e.key === "logout") {
-      setIsModalVisible(true); // Hiển thị modal khi chọn đăng xuất
+      setIsModalVisible(true); 
     } else {
-      navigate(e.key); // Điều hướng đến trang khi chọn mục khác
+      navigate(e.key); 
     }
   };
 
@@ -47,14 +46,14 @@ const NavMenu = ({ children, isHidden, onLogout }) => {
   // Xác nhận đăng xuất
   const handleLogout = () => {
     if (onLogout) {
-      onLogout(); // Gọi hàm logout từ parent
+      onLogout(); 
     }
-    setIsModalVisible(false); // Đóng modal
+    setIsModalVisible(false); 
   };
 
   // Hủy bỏ đăng xuất
   const handleCancel = () => {
-    setIsModalVisible(false); // Đóng modal khi người dùng hủy
+    setIsModalVisible(false); 
   };
 
   return (
@@ -103,15 +102,7 @@ const NavMenu = ({ children, isHidden, onLogout }) => {
                   icon: <BarChartOutlined />,
                   label: "Quản lý đơn hàng",
                 },
-                {
-                  key: "6",
-                  icon: <NotificationOutlined />,
-                  label: "Notifications",
-                  children: [
-                    { key: "/notifications/messages", label: "Message Center" },
-                    { key: "/notifications/alerts", label: "System Alerts" },
-                  ],
-                },
+                
                 // Mục đăng xuất trong menu
                 {
                   key: "logout",

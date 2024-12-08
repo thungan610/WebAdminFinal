@@ -4,7 +4,7 @@
   
   .button-container {
     display: flex;
-    justify-content: flex-end; /* Centers the button horizontally */
+    justify-content: flex-end; 
     margin-bottom: 20px;
   }
   
@@ -21,7 +21,7 @@
   
   .add-button:hover {
     background-color: #0056b3;
-    transform: scale(1.1); /* Slight zoom on hover */
+    transform: scale(1.1); 
   }
   .sale-table{
     overflow: scroll;
@@ -87,7 +87,7 @@
     width: 20px;
     height: 20px;
   }
- /* For active promotions (Còn hoạt động) */
+
 .active-status {
   color: green;        
   font-weight: bold;  
@@ -95,6 +95,6 @@
 
 .expired-status {
   color: red;         
-  font-weight: bold;   /* Make it bold */
+  font-weight: bold;   
 }
 

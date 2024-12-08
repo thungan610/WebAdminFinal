@@ -155,16 +155,16 @@ const UpdateProduct = (props) => {
         name: name,
         category: category,
         quantity: quantity,
-        origin: origin || "", // Nếu không có giá trị, gán "" (rỗng)
+        origin: origin || "", 
         price: price,
-        fiber: fiber || "", // Nếu không có giá trị, gán "" (rỗng)
-        oum: oum || "", // Nếu không có giá trị, gán "" (rỗng)
+        fiber: fiber || "", 
+        oum: oum || "", 
         preserve: preserve,
-        supplier: supplier || "", // Nếu không có giá trị, gán "" (rỗng)
-        uses: uses || "", // Nếu không có giá trị, gán "" (rỗng)
+        supplier: supplier || "", 
+        uses: uses || "", 
         discount: discount || "",
         images: images,
-        description: description || "", // Nếu không có giá trị, gán "" (rỗng)
+        description: description || "", 
       };
 
       const result = await fetch(
@@ -188,7 +188,7 @@ const UpdateProduct = (props) => {
           text: "Sửa sản phẩm thành công",
         });
 
-        // Reset form sau khi thành công
+       
         setName("");
         setCategory("");
         setQuantity("");
@@ -203,7 +203,7 @@ const UpdateProduct = (props) => {
         setImages([]);
         setDescription("");
 
-        // Quay về trang danh sách sản phẩm
+        
         navigate("/products");
       } else {
         Swal.fire({

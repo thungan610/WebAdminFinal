@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Swal from "sweetalert2"; // Import SweetAlert2
+import Swal from "sweetalert2"; 
 import "./AddSale.css";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -76,8 +76,8 @@ if (Object.keys(newErrors).length > 0) {
             try {
                 const saleData = {
                     title: formData.title,
-                    discountAmount: parseFloat(formData.fixedDiscount) || 0, // Giảm theo số tiền cố định
-                    discountPercent: parseFloat(formData.percentDiscount) || 0, // Giảm theo phần trăm
+                    discountAmount: parseFloat(formData.fixedDiscount) || 0, 
+                    discountPercent: parseFloat(formData.percentDiscount) || 0, 
                     minOrderValue: parseInt(formData.minOrderValue),
                     createAt: formData.startDate,
                     expirationDate: formData.endDate,

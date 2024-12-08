@@ -34,10 +34,9 @@ const PromotionManagementment = () => {
     fetchPromotions();
   }, []);
 
-  // Hàm xử lý xóa
+ 
   const handleDelete = async (id) => {
     try {
-      // Hiển thị bảng xác nhận
       const result = await Swal.fire({
         title: "Bạn có chắc chắn muốn xóa?",
         text: "Hành động này không thể hoàn tác!",
@@ -93,7 +92,7 @@ const PromotionManagementment = () => {
             {data.map((row) => {
               const expirationDate = new Date(row.expirationDate);
               const isExpired = expirationDate < new Date();
-              const status = isExpired ? "Đã hết hạn" : "Còn hoạt động"; // New status logic
+              const status = isExpired ? "Đã hết hạn" : "Còn hoạt động"; 
 
               return (
                 <tr key={row._id}>
