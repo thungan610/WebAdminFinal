@@ -173,13 +173,13 @@ const OrderDetail = () => {
   </p>
   <strong
     style={{
-      color: order.ship === 1 ? "green" : order.ship === 2 ? "black" : order.ship === 3 ? "orange" : "black",
+      color: order.ship === 1 ? "black" : order.ship === 2 ? "red" : order.ship === 3 ? "orange" : "black",
     }}
   >
     {order.ship === 1
-      ? "Nhanh" 
-      : order.ship === 2
       ? "Chậm" 
+      : order.ship === 2
+      ? "Nhanh" 
       : order.ship === 3 
       ? "Hỏa tốc" 
       : "Không xác định"}
