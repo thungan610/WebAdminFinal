@@ -205,3 +205,17 @@
   width: 10%; /* Cột tổng tiền nhỏ hơn */
 }
 
+/* Hiệu ứng phai nhạt */
+.filter-buttons button.active {
+  animation: fadeBackground 1.5s forwards; /* Chạy trong 1.5 giây */
+}
+
+@keyframes fadeBackground {
+  0% {
+    background-color: #27aae1; /* Màu xanh khi bắt đầu */
+  }
+  100% {
+    background-color: white; /* Màu trắng khi kết thúc */
+  }
+}
+

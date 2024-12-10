@@ -175,11 +175,13 @@ const QLHH = () => {
                   <strong>{item.id}</strong>
                 </td>
                 <td style={{ color: "blue" }}>{item.email}</td>
-               
+
                 <td
                   style={{
                     color:
-                      item.deliveryMethod === "Nhanh"
+                      item.deliveryMethod === "Chậm"
+                        ? "green"
+                        : item.deliveryMethod === "Nhanh"
                         ? "red"
                         : item.deliveryMethod === "Hỏa tốc"
                         ? "orange"
@@ -198,7 +200,7 @@ const QLHH = () => {
                 >
                   {item.orderStatus}
                 </td>
-                <td style={{ textAlign: "center"}}>{item.totalPayment}</td>
+                <td style={{ textAlign: "center" }}>{item.totalPayment}</td>
                 <td>{item.date}</td>
                 <td style={{ textAlign: "center" }}>
                   <button

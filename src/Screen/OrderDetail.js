@@ -73,11 +73,17 @@ const OrderDetail = () => {
     }
   };
 
-  const handleConfirmOrder = async () => {
+  const TotalProductPrice = (cart) => {
+    return cart.reduce((total, cartItem) => {
+      return total + cartItem.total;
+    }, 0);
+  };
+
+  const handleUpdateStatus = async (newStatus) => {
     try {
       const result = await Swal.fire({
-        title: "Xác nhận đơn hàng?",
-        text: "Bạn có chắc chắn muốn xác nhận đơn hàng này?",
+        title: `Cập nhật trạng thái đơn hàng?`,
+        text: `Bạn có chắc chắn muốn cập nhật trạng thái đơn hàng này?`,
         icon: "warning",
         showCancelButton: true,
         confirmButtonText: "Xác nhận",
@@ -93,15 +99,15 @@ const OrderDetail = () => {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ status: 2 }), // Cập nhật trạng thái lên 2
+            body: JSON.stringify({ status: newStatus }), // Cập nhật trạng thái
           }
         );
 
         const data = await response.json();
         if (data.status) {
-          Swal.fire("Thành công!", "Đơn hàng đã được xác nhận.", "success");
+          Swal.fire("Thành công!", `Trạng thái đã được cập nhật.`, "success");
           // Cập nhật trạng thái trong UI
-          setOrder((prev) => ({ ...prev, status: 2 }));
+          setOrder((prev) => ({ ...prev, status: newStatus }));
         } else {
           Swal.fire("Lỗi!", "Không thể cập nhật trạng thái.", "error");
         }
@@ -168,24 +174,30 @@ const OrderDetail = () => {
                   </strong>
                 </div>
                 <div className="order-infoCTN">
-  <p>
-    <p>Phương thức giao hàng:</p>
-  </p>
-  <strong
-    style={{
-      color: order.ship === 1 ? "black" : order.ship === 2 ? "red" : order.ship === 3 ? "orange" : "black",
-    }}
-  >
-    {order.ship === 1
-      ? "Chậm" 
-      : order.ship === 2
-      ? "Nhanh" 
-      : order.ship === 3 
-      ? "Hỏa tốc" 
-      : "Không xác định"}
-  </strong>
-</div>
-
+                  <p>
+                    <p>Phương thức giao hàng:</p>
+                  </p>
+                  <strong
+                    style={{
+                      color:
+                        order.ship === 1
+                          ? "green"
+                          : order.ship === 2
+                          ? "red"
+                          : order.ship === 3
+                          ? "orange"
+                          : "black",
+                    }}
+                  >
+                    {order.ship === 1
+                      ? "Chậm"
+                      : order.ship === 2
+                      ? "Nhanh"
+                      : order.ship === 3
+                      ? "Hỏa Tốc"
+                      : "Không xác định"}
+                  </strong>
+                </div>
 
                 <div className="order-infoCTN">
                   <p>
@@ -256,7 +268,7 @@ const OrderDetail = () => {
               <h4>Thông tin sản phẩm</h4>
               <div
                 style={{
-                  maxHeight: "300px", // Chiều cao tối đa của bảng
+                  maxHeight: "180px", // Chiều cao tối đa của bảng
                   overflowY: "auto", // Kích hoạt thanh cuộn dọc
                   border: "1px solid #ddd",
                   borderRadius: "5px",
@@ -300,7 +312,7 @@ const OrderDetail = () => {
                                   }}
                                 />
                               ) : (
-                                <p>Không có ảnh</p> // Hiển thị thông báo nếu không có hình ảnh
+                                <p>Không có ảnh</p>
                               )}
                             </div>
                           </td>
@@ -313,7 +325,10 @@ const OrderDetail = () => {
                             {product.price.toLocaleString()}đ
                           </td>
                           <td className="cellStyle">
-                            {order.cart[0]?.total.toLocaleString()}đ
+                            {(
+                              product.quantity * product.price
+                            ).toLocaleString()}
+                            đ
                           </td>
                         </tr>
                       ))
@@ -334,7 +349,8 @@ const OrderDetail = () => {
                 <hr className="hrne" />
                 <div className="order-infoCTN">
                   <p>Tổng giá sản phẩm:</p>
-                  <p> {order.cart[0]?.total.toLocaleString() || 0}đ</p>
+
+                  <p> {TotalProductPrice(order.cart).toLocaleString()}đ</p>
                 </div>{" "}
                 <div className="order-infoCTN">
                   <p>Chi phí vận chuyển:</p>{" "}
@@ -364,6 +380,7 @@ const OrderDetail = () => {
                     width: "100%",
                     display: "flex",
                     justifyContent: "end",
+                    gap: "10px",
                   }}
                 >
                   {order.status === 1 && (
@@ -377,9 +394,26 @@ const OrderDetail = () => {
                         borderRadius: "5px",
                         cursor: "pointer",
                       }}
-                      onClick={handleConfirmOrder}
+                      onClick={() => handleUpdateStatus(2)}
                     >
-                      Xác nhận đơn hàng
+                      Xác nhận đơn
+                    </button>
+                  )}
+
+                  {order.status === 2 && (
+                    <button
+                      style={{
+                        marginTop: "10px",
+                        padding: "10px 20px",
+                        backgroundColor: "#2196f3",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => handleUpdateStatus(3)}
+                    >
+                      Đơn hàng đã hoàn thành
                     </button>
                   )}
                 </div>
