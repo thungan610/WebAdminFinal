@@ -1,11 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   UserOutlined,
   TagOutlined,
   BarChartOutlined,
   ReconciliationOutlined,
   MessageOutlined,
-  SettingOutlined,
   PoweroffOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, theme, Modal } from "antd";
@@ -13,28 +12,53 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "./NavMenu.css";
 import { AdminContext } from "../Component/AdminProvider";
 import logoBlue2 from "../assets/images/logoBlue2.jpg";
-import Search from "../Component/Search";
-import "@fontsource/roboto"; 
-import "@fontsource/roboto/400.css"; 
+// import Search from "../Component/Search";
+import "@fontsource/roboto";
+import "@fontsource/roboto/400.css";
+import bellActive from "../assets/images/bell2.png"; // Chuông bình thường
+import bellInactive from "../assets/images/bell.png"; // Chuông khi nhấn
+import mailIcon from "../assets/images/mail.png";
+import Noti from "../Component/Noti";
 
 const { Content, Sider } = Layout;
 
-
 const NavMenu = ({ children, isHidden, onLogout }) => {
   const { admin } = useContext(AdminContext);
-  const [isModalVisible, setIsModalVisible] = useState(false); 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [notifications, setNotifications] = useState([]); // Trạng thái thông báo
   const location = useLocation();
+  const [showNoti, setShowNoti] = useState(false); // Quản lý trạng thái thông báo
+  const [isBellActive, setIsBellActive] = useState(false); // Quản lý trạng thái chuông
+
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const updatedNotifications = JSON.parse(localStorage.getItem("notifications")) || [];
+      setNotifications(updatedNotifications);
+    };
+  
+    window.addEventListener("storage", handleStorageChange);
+  
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  const toggleNoti = () => {
+    setShowNoti(!showNoti);
+    setIsBellActive(!isBellActive); // Thay đổi trạng thái chuông
+  };
+
   const handleMenuClick = (e) => {
     if (e.key === "logout") {
-      setIsModalVisible(true); 
+      setIsModalVisible(true);
     } else {
-      navigate(e.key); 
+      navigate(e.key);
     }
   };
 
@@ -46,14 +70,14 @@ const NavMenu = ({ children, isHidden, onLogout }) => {
   // Xác nhận đăng xuất
   const handleLogout = () => {
     if (onLogout) {
-      onLogout(); 
+      onLogout();
     }
-    setIsModalVisible(false); 
+    setIsModalVisible(false);
   };
 
   // Hủy bỏ đăng xuất
   const handleCancel = () => {
-    setIsModalVisible(false); 
+    setIsModalVisible(false);
   };
 
   return (
@@ -85,7 +109,6 @@ const NavMenu = ({ children, isHidden, onLogout }) => {
                   key: "/products",
                   icon: <ReconciliationOutlined />,
                   label: "Quản lý sản phẩm",
-                  
                 },
                 {
                   key: "/Comment",
@@ -102,7 +125,7 @@ const NavMenu = ({ children, isHidden, onLogout }) => {
                   icon: <BarChartOutlined />,
                   label: "Quản lý đơn hàng",
                 },
-                
+
                 // Mục đăng xuất trong menu
                 {
                   key: "logout",
@@ -123,14 +146,32 @@ const NavMenu = ({ children, isHidden, onLogout }) => {
               </div>
               <p className="date">{new Date().toLocaleDateString()}</p>
             </div>
-            <SettingOutlined className="setting-icon" />
+            <div className="icon-component">
+              <div className="bell-wrapper">
+                <img
+                  className="bell-icon"
+                  src={isBellActive ? bellActive : bellInactive}
+                  alt="bell"
+                  onClick={toggleNoti}
+                />
+                {showNoti && (
+                  <div className="noti-container">
+                    <Noti
+                      notifications={notifications}
+                      setNotifications={setNotifications}
+                    />
+                  </div>
+                )}
+              </div>
+              <img className="mail-icon" src={mailIcon} alt="mail" />
+            </div>
           </div>
 
-          {!isHidden && (
+          {/* {!isHidden && (
             <div className="cpn-search" style={{ width: "95%" }}>
               <Search />
             </div>
-          )}
+          )} */}
           <Content
             style={{
               padding: 15,

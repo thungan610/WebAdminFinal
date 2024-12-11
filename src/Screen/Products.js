@@ -96,216 +96,235 @@ function Products() {
   };
 
   return (
-    <div className="allofAll">
-      <div className="table-all">
-        <div className="headersP">
-          <div className="filter-sp">
-            <img className="filter-icon" src={filter} alt="icon" />
-            <div className="mb-3" style={{ display: "flex", gap: "10px" }}>
-              <div className="inside-container2">
-                <select
-                  className="form-selectne"
-                  value={category}
-                  onChange={(e) => {
-                    setCategory(e.target.value);
-                    setSearchKey("");
-                  }}
-                >
-                  <option value="">Tất cả danh mục</option>
-                  {categories.map((item) => (
-                    <option key={item._id} value={item._id}>
-                      {item.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="search-box">
-                <input
-                  type="text"
-                  placeholder="Nhập để tìm sản phẩm"
-                  value={searchKey}
-                  onChange={(e) => setSearchKey(e.target.value)}
-                />
-                <img src={searchne} alt="search-icon" />
+    <div style={{ width: "100%", height: "100%" }}>
+      <h1
+        style={{
+          padding: "5px",
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          color: "#27AAE1",
+          fontSize: "24px",
+          fontWeight: "bold",
+          textTransform: "uppercase"
+        }}
+      >
+        Quản lý sản phẩm
+      </h1>
+      <div className="allofAll">
+        <div className="table-all">
+          <div className="headersP">
+            <div className="filter-sp">
+              <img className="filter-icon" src={filter} alt="icon" />
+              <div className="mb-3" style={{ display: "flex", gap: "10px" }}>
+                <div className="inside-container2">
+                  <select
+                    className="form-selectne"
+                    value={category}
+                    onChange={(e) => {
+                      setCategory(e.target.value);
+                      setSearchKey("");
+                    }}
+                  >
+                    <option value="">Tất cả danh mục</option>
+                    {categories.map((item) => (
+                      <option key={item._id} value={item._id}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="search-box">
+                  <input
+                    type="text"
+                    placeholder="Nhập để tìm sản phẩm"
+                    value={searchKey}
+                    onChange={(e) => setSearchKey(e.target.value)}
+                  />
+                  <img src={searchne} alt="search-icon" />
+                </div>
               </div>
             </div>
-          </div>
 
-          <button
-            className="insert-btn"
-            onClick={() => navigate("/insert-product")}
-          >
-            Thêm mới
-          </button>
-        </div>
-        <div className="nene">
-          <div className="table-small">
-            <table
-              className="product-table"
-              border={1}
-              cellPadding="10"
-              cellSpacing="0"
+            <button
+              className="insert-btn"
+              onClick={() => navigate("/insert-product")}
             >
-              <thead>
-                <tr className="boder-tr">
-                  <th></th>
-                  <th>Hình ảnh</th>
-                  <th>Danh mục</th>
-                  <th>Tên sản phẩm</th>
-                  <th>Đơn vị đo</th>
-                  <th>Giá tiền</th>
-                  <th>Số lượng</th>
-                  <th>Lượt bán</th>
-                  <th>Tác vụ</th>
-                </tr>
-              </thead>
-              <tbody>
-                {products.length === 0 ? (
-                  <tr>
-                    <td
-                      colSpan="9"
-                      style={{ textAlign: "center", padding: "20px" }}
-                    >
-                      Chưa có sản phẩm
-                    </td>
+              Thêm mới
+            </button>
+          </div>
+          <div className="nene">
+            <div className="table-small">
+              <table
+                className="product-table"
+                border={1}
+                cellPadding="10"
+                cellSpacing="0"
+              >
+                <thead>
+                  <tr className="boder-tr">
+                    <th></th>
+                    <th>Hình ảnh</th>
+                    <th>Danh mục</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Đơn vị đo</th>
+                    <th>Giá tiền</th>
+                    <th>Số lượng</th>
+                    <th>Lượt bán</th>
+                    <th>Tác vụ</th>
                   </tr>
-                ) : (
-                  products.map((item, index) => (
-                    <tr className="table" key={index}>
-                      <td className="cube1">
-                        <div className="cube1-container">
-                          <img
-                            className="tick"
-                            src={item.isHidden ? eyeOff : eyeOn}
-                            alt="tick"
-                          />
-                        </div>
+                </thead>
+                <tbody>
+                  {products.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan="9"
+                        style={{ textAlign: "center", padding: "20px" }}
+                      >
+                        Chưa có sản phẩm
                       </td>
-                      <td className="cube">
-                        {item.images && item.images.length > 0 ? (
-                          <img
-                            className="imgP"
-                            src={item.images[0]}
-                            alt={item.name}
-                            width="100"
-                            height="100"
-                          />
-                        ) : (
-                          "No Image"
-                        )}
-                      </td>
-                      <td className="cube">{item.category.category_name}</td>
-                      <td className="cubeN">
-                        {item.name}
-                        <div className="">
-                          {item.quantity === 0 && (
-                            <span
-                              style={{
-                                display: "inline-block",
-                                marginLeft: "10px",
-                                padding: "3px 8px",
-                                backgroundColor: "red",
-                                color: "white",
-                                borderRadius: "5px",
-                                fontSize: "12px",
-                              }}
-                            >
-                              Hết hàng
-                            </span>
-                          )}
-                        </div>
-                      </td>
-                      <td className="cube">{item.oum}</td>
-                      <td className="cube">
-                        <div style={{ position: "relative" }}>
-                          {/* Giá cũ (gạch ngang nếu có giảm giá) */}
-                          <div>
-                            <span
-                              style={{
-                                color: item.discount > 0 ? "gray" : "black",
-                                fontSize: "14px",
-                                textDecoration:
-                                  item.discount > 0 ? "line-through" : "none", // Gạch giá cũ nếu có giảm giá
-                              }}
-                            >
-                              {item.price.toLocaleString()}đ
-                            </span>
+                    </tr>
+                  ) : (
+                    products.map((item, index) => (
+                      <tr className="table" key={index}>
+                        <td className="cube1">
+                          <div className="cube1-container">
+                            <img
+                              className="tick"
+                              src={item.isHidden ? eyeOff : eyeOn}
+                              alt="tick"
+                            />
                           </div>
-
-                          {/* Giá mới (bên dưới giá cũ nếu có giảm giá) */}
-                          {item.discount > 0 && (
+                        </td>
+                        <td className="cube">
+                          {item.images && item.images.length > 0 ? (
+                            <img
+                              className="imgP"
+                              src={item.images[0]}
+                              alt={item.name}
+                              width="100"
+                              height="100"
+                            />
+                          ) : (
+                            "No Image"
+                          )}
+                        </td>
+                        <td className="cube">{item.category.category_name}</td>
+                        <td className="cubeN">
+                          {item.name}
+                          <div className="">
+                            {item.quantity === 0 && (
+                              <span
+                                style={{
+                                  display: "inline-block",
+                                  marginLeft: "10px",
+                                  padding: "3px 8px",
+                                  backgroundColor: "red",
+                                  color: "white",
+                                  borderRadius: "5px",
+                                  fontSize: "12px",
+                                }}
+                              >
+                                Hết hàng
+                              </span>
+                            )}
+                          </div>
+                        </td>
+                        <td className="cube">{item.oum}</td>
+                        <td className="cube">
+                          <div style={{ position: "relative" }}>
+                            {/* Giá cũ (gạch ngang nếu có giảm giá) */}
                             <div>
                               <span
                                 style={{
-                                  paddingTop: "10px",
-                                  color: "green",
-                                  fontSize: "16px", // Font lớn hơn để làm nổi bật
-                                  fontWeight: "bold", // Bôi đậm giá mới
+                                  color: item.discount > 0 ? "gray" : "black",
+                                  fontSize: "14px",
+                                  textDecoration:
+                                    item.discount > 0 ? "line-through" : "none", // Gạch giá cũ nếu có giảm giá
                                 }}
                               >
-                                {(item.price - item.discount).toLocaleString()}đ
+                                {item.price.toLocaleString()}đ
                               </span>
                             </div>
-                          )}
 
-                          {/* Tag giảm giá (vẫn nằm ở vị trí cũ) */}
-                          {/* Tag giảm giá hiển thị đ hoặc % */}
-                          {item.discount != null && item.discount > 0 && (
-                            <span
-                              style={{
-                                position: "absolute",
-                                bottom: "33px",
-                                left: "45px",
-                                backgroundColor: "red",
-                                color: "white",
-                                padding: "2px 6px",
-                                borderRadius: "5px",
-                                fontSize: "10px",
-                                transform: "rotate(45deg)",
-                                textAlign: "center",
-                              }}
+                            {/* Giá mới (bên dưới giá cũ nếu có giảm giá) */}
+                            {item.discount > 0 && (
+                              <div>
+                                <span
+                                  style={{
+                                    paddingTop: "10px",
+                                    color: "green",
+                                    fontSize: "16px", // Font lớn hơn để làm nổi bật
+                                    fontWeight: "bold", // Bôi đậm giá mới
+                                  }}
+                                >
+                                  {(
+                                    item.price - item.discount
+                                  ).toLocaleString()}
+                                  đ
+                                </span>
+                              </div>
+                            )}
+
+                            {/* Tag giảm giá (vẫn nằm ở vị trí cũ) */}
+                            {/* Tag giảm giá hiển thị đ hoặc % */}
+                            {item.discount != null && item.discount > 0 && (
+                              <span
+                                style={{
+                                  position: "absolute",
+                                  bottom: "33px",
+                                  left: "45px",
+                                  backgroundColor: "red",
+                                  color: "white",
+                                  padding: "2px 6px",
+                                  borderRadius: "5px",
+                                  fontSize: "10px",
+                                  transform: "rotate(45deg)",
+                                  textAlign: "center",
+                                }}
+                              >
+                                {item.discount >= 100
+                                  ? `- ${item.discount.toLocaleString()}đ`
+                                  : `- ${item.discount.toLocaleString()}%`}
+                              </span>
+                            )}
+                          </div>
+                        </td>
+
+                        <td className="cubeST">{item.quantity}</td>
+                        <td className="cube">{item.sold || 0}</td>
+                        <td className="cubeF">
+                          <div className="btn-container">
+                            <button
+                              className="update-button"
+                              onClick={() =>
+                                navigate(`/update-product/${item._id}`)
+                              }
                             >
-                              {item.discount >= 100
-                                ? `- ${item.discount.toLocaleString()}đ`
-                                : `- ${item.discount.toLocaleString()}%`}
-                            </span>
-                          )}
-                        </div>
-                      </td>
-
-                      <td className="cubeST">{item.quantity}</td>
-                      <td className="cube">{item.sold || 0}</td>
-                      <td className="cubeF">
-                        <div className="btn-container">
-                          <button
-                            className="update-button"
-                            onClick={() =>
-                              navigate(`/update-product/${item._id}`)
-                            }
-                          >
-                            <img
-                              className="insertimg"
-                              src={insert}
-                              alt="insert"
-                            />
-                          </button>
-                          <button
-                            onClick={() => handleDelete(item._id)}
-                            className="delete-button"
-                          >
-                            <img
-                              className="deleteimg"
-                              src={deleteimg}
-                              alt="delete"
-                            />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+                              <img
+                                className="insertimg"
+                                src={insert}
+                                alt="insert"
+                              />
+                            </button>
+                            <button
+                              onClick={() => handleDelete(item._id)}
+                              className="delete-button"
+                            >
+                              <img
+                                className="deleteimg"
+                                src={deleteimg}
+                                alt="delete"
+                              />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
