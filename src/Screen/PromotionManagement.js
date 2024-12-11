@@ -5,7 +5,7 @@ import edit from "../assets/images/insert.png";
 import deleteimg from "../assets/images/delete.png";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import searchne from "../assets/images/searchne.png";
+import search from "../assets/images/search.png"
 
 const PromotionManagementment = () => {
   const [data, setData] = useState([]);
@@ -84,10 +84,11 @@ const PromotionManagementment = () => {
       border: "1px solid #ccc",
       borderRadius: "8px",
       width: "100%",
+      fontWeight:'bold'
     }}
   />
   <img
-    src={searchne}
+    src={search}
     alt="search-icon"
     style={{
       position: "absolute",

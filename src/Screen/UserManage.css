@@ -127,6 +127,7 @@ img.delete {
   position: relative;
   display: inline-block;
   width: 300px; 
+  font-weight: bold;
 ;}
 
 .search-input {
@@ -135,4 +136,5 @@ img.delete {
   border: 1px solid #ccc;
   border-radius: 8px;
   height: 35px;
+ 
 }

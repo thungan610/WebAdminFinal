@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import filter from "../assets/images/filter.png";
-import searchne from "../assets/images/searchne.png";
+import search from "../assets/images/search.png"
 import "../Screen/Products.css";
 import insert from "../assets/images/insert.png";
 import deleteimg from "../assets/images/delete.png";
@@ -141,8 +141,9 @@ function Products() {
                     placeholder="Nhập để tìm sản phẩm"
                     value={searchKey}
                     onChange={(e) => setSearchKey(e.target.value)}
+                    style={{  fontWeight:'bold'}}
                   />
-                  <img src={searchne} alt="search-icon" />
+                  <img src={search} alt="search-icon" />
                 </div>
               </div>
             </div>

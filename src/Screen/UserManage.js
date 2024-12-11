@@ -3,7 +3,7 @@ import { Table, Button, Space, message, Modal, Form, Input } from "antd";
 import { FilterOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import edit from "../assets/images/insert.png";
 import deleteimg from "../assets/images/delete.png";
-import searchne from "../assets/images/searchne.png";
+import search from "../assets/images/search.png"
 import "./UserManage.css";
 
 const UserManage = () => {
@@ -241,8 +241,9 @@ const UserManage = () => {
             value={searchKey}
             placeholder="Tìm kiếm người dùng"
             className="search-input"
+            style={{  fontWeight:'bold'}}
           />
-          <img src={searchne} alt="search-icon" className="search-icon" />
+          <img src={search} alt="search-icon" className="search-icon" />
         </div>
       </div>
 
