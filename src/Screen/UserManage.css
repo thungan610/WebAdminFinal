@@ -4,25 +4,22 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-
 .user-table .ant-table-thead > tr > th {
   background-color: #fafafa;
   font-weight: bold;
   font-size: 16px;
   color: #555;
-  padding: 12px 16px; 
-  text-align: center; 
-
+  padding: 12px 16px;
+  text-align: center;
 }
-.no-hover{
-  
+.no-hover {
 }
 .filter-container button {
   padding: 10px 15px;
   border: 1px solid rgba(155, 174, 202, 0.2);
   cursor: pointer;
   border-radius: 5px;
-  background-color: white;  
+  background-color: white;
   display: flex;
   gap: 10px;
 }
@@ -37,27 +34,20 @@
   padding: 10px 16px;
   text-align: center;
   max-height: 60px;
-
 }
-
 
 .user-table .ant-table-tbody > tr:hover > td {
   background-color: #e6f7ff;
   transition: background-color 0.3s ease;
 }
 
-
 .user-table .ant-table-cell {
   text-align: center;
 }
 
-
-
-
 .user-table .ant-btn-primary:hover {
   background-color: #40a9ff;
 }
-
 
 .editDiv {
   display: flex;
@@ -108,11 +98,12 @@ img.delete {
 /* Title styles */
 .QLTK {
   text-align: center;
+  color: #27aae1;
   font-size: 25px;
+
   font-weight: bold;
   margin-bottom: 20px;
 }
-.password-style{
+.password-style {
   max-width: 10px;
-
 }

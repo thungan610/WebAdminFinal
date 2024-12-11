@@ -104,9 +104,10 @@ function Products() {
           display: "flex",
           justifyContent: "center",
           color: "#27AAE1",
-          fontSize: "24px",
+          fontSize: "25px",
           fontWeight: "bold",
-          textTransform: "uppercase"
+          textTransform: "uppercase",
+          paddingBottom: "12px"
         }}
       >
         Quản lý sản phẩm

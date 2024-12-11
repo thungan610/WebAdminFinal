@@ -12,6 +12,7 @@ const UserManage = () => {
   const [editingUser, setEditingUser] = useState(null);
   const [filter, setFilter] = useState({ type: "all" }); // Bộ lọc
   const [form] = Form.useForm();
+  const [searchKey, setSearchKey] = useState("");
 
   // Fetch new users
   useEffect(() => {
@@ -22,6 +23,9 @@ const UserManage = () => {
         );
         const result = await response.json();
         setUsers(result.data || []);
+        
+       
+
       } catch (error) {
         console.error("Lỗi khi tải người dùng mới:", error);
         message.error("Không thể tải danh sách người dùng mới.");
@@ -244,7 +248,7 @@ const UserManage = () => {
         dataSource={filteredData()}
         rowKey="_id"
         pagination={{
-          pageSize: 5,
+          pageSize: 5 ,
           itemRender: (page, type, originalElement) => {
             if (type === "prev") {
               return (

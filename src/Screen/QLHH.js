@@ -97,7 +97,7 @@ const QLHH = () => {
       });
       if (!_result.isConfirmed) return;
       const response = await fetch(
-        `http://localhost:6677/oder/${id}/deleteOrder`,
+        `https://server-vert-rho-94.vercel.app/oder/${id}/deleteOrder`,
         { method: "DELETE" }
       );
       const result = await response.json();

@@ -1,9 +1,7 @@
 .qlhh-container {
   padding: 16px;
-  overflow: scroll;
-  overflow-x: hidden;
   width: 100%;
-  height: 550px;
+  height: 600px;
   font-weight: 600;
 }
 
@@ -12,6 +10,8 @@
   table-layout: fixed; /* Cố định kích thước cột */
   border-collapse: collapse;
   background-color: white;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 .order-table th,
