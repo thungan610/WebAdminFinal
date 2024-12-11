@@ -5,11 +5,13 @@ import edit from "../assets/images/insert.png";
 import deleteimg from "../assets/images/delete.png";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import searchne from "../assets/images/searchne.png";
 
 const PromotionManagementment = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchKey, setSearchKey] = useState(""); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,7 +36,6 @@ const PromotionManagementment = () => {
     fetchPromotions();
   }, []);
 
- 
   const handleDelete = async (id) => {
     try {
       const result = await Swal.fire({
@@ -48,14 +49,11 @@ const PromotionManagementment = () => {
         cancelButtonText: "Hủy",
       });
 
-      // Nếu người dùng chọn "Đồng ý"
       if (result.isConfirmed) {
         await axios.delete(
           `https://server-vert-rho-94.vercel.app/sale/${id}/deleteSale`
         );
         setData(data.filter((item) => item._id !== id));
-
-        // Thông báo xóa thành công
         Swal.fire("Đã xóa!", "Khuyến mãi đã được xóa.", "success");
       }
     } catch (err) {
@@ -64,12 +62,45 @@ const PromotionManagementment = () => {
     }
   };
 
+  // Lọc dữ liệu theo tiêu đề
+  const filteredData = data.filter((item) =>
+    item.title.toLowerCase().includes(searchKey.toLowerCase())
+  );
+
   if (isLoading) return <p>Đang tải dữ liệu...</p>;
   if (error) return <p>{error}</p>;
 
   return (
     <div className="appnene">
       <div className="button-container">
+      <div className="search-boxSale" style={{ position: "relative", width: "300px" }}>
+  <input
+    type="text"
+    onChange={(e) => setSearchKey(e.target.value)}
+    value={searchKey}
+    placeholder="Tìm kiếm khuyến mãi theo tiêu đề"
+    style={{
+      padding: "10px 40px 10px 10px", // Adjust padding for icon space
+      border: "1px solid #ccc",
+      borderRadius: "8px",
+      width: "100%",
+    }}
+  />
+  <img
+    src={searchne}
+    alt="search-icon"
+    style={{
+      position: "absolute",
+      right: "10px",
+      top: "50%",
+      transform: "translateY(-50%)",
+      width: "20px",
+      height: "20px",
+      pointerEvents: "none", 
+    }}
+  />
+</div>
+
         <button className="add-button" onClick={() => navigate("/AddSale")}>
           Thêm mới
         </button>
@@ -84,12 +115,12 @@ const PromotionManagementment = () => {
               <th>Giá trị đơn hàng tối thiểu</th>
               <th>Ngày tạo</th>
               <th>Thời gian hết hạn</th>
-              <th>Trạng thái</th> {/* New status column */}
+              <th>Trạng thái</th>
               <th>Tác vụ</th>
             </tr>
           </thead>
           <tbody>
-            {data.map((row) => {
+            {filteredData.map((row) => {
               const expirationDate = new Date(row.expirationDate);
               const isExpired = expirationDate < new Date();
               const status = isExpired ? "Đã hết hạn" : "Còn hoạt động"; 
@@ -106,11 +137,9 @@ const PromotionManagementment = () => {
                       : "N/A"}
                   </td>
                   <td>
-                    {/* Display expiration date in dd/mm/yyyy format */}
                     {new Date(row.expirationDate).toLocaleDateString("vi-VN")}
                   </td>
                   <td>
-                    {/* Conditionally apply CSS class based on status */}
                     <span className={isExpired ? "expired-status" : "active-status"}>
                       {status}
                     </span>

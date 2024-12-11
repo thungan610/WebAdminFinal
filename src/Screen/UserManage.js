@@ -3,14 +3,15 @@ import { Table, Button, Space, message, Modal, Form, Input } from "antd";
 import { FilterOutlined, LeftOutlined, RightOutlined } from "@ant-design/icons";
 import edit from "../assets/images/insert.png";
 import deleteimg from "../assets/images/delete.png";
+import searchne from "../assets/images/searchne.png";
 import "./UserManage.css";
 
 const UserManage = () => {
-  const [users, setUsers] = useState([]); // Người dùng mới
-  const [oldUsers, setOldUsers] = useState([]); // Người dùng cũ
+  const [users, setUsers] = useState([]); // New users
+  const [oldUsers, setOldUsers] = useState([]); // Old users
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
-  const [filter, setFilter] = useState({ type: "all" }); // Bộ lọc
+  const [filter, setFilter] = useState({ type: "all" }); // Filter
   const [form] = Form.useForm();
   const [searchKey, setSearchKey] = useState("");
 
@@ -23,12 +24,9 @@ const UserManage = () => {
         );
         const result = await response.json();
         setUsers(result.data || []);
-        
-       
-
       } catch (error) {
-        console.error("Lỗi khi tải người dùng mới:", error);
-        message.error("Không thể tải danh sách người dùng mới.");
+        console.error("Error fetching new users:", error);
+        message.error("Unable to load new users.");
       }
     };
     fetchNewUsers();
@@ -44,8 +42,8 @@ const UserManage = () => {
         const result = await response.json();
         setOldUsers(result.data || []);
       } catch (error) {
-        console.error("Lỗi khi tải người dùng cũ:", error);
-        message.error("Không thể tải danh sách người dùng cũ.");
+        console.error("Lỗi khi lấy thông tin người dùng cũ:", error);
+        message.error("Lỗi khi lấy thông tin người dùng mới.");
       }
     };
     fetchOldUsers();
@@ -78,7 +76,7 @@ const UserManage = () => {
             user._id === editingUser._id ? { ...user, ...values } : user
           )
         );
-        message.success("Cập nhật người dùng thành công!");
+        message.success("Người dùng đã cập nhật thành công.!");
         setIsEditModalVisible(false);
         form.resetFields();
       } else {
@@ -88,19 +86,19 @@ const UserManage = () => {
         );
       }
     } catch (error) {
-      console.error("Lỗi khi cập nhật người dùng:", error);
-      message.error("Không thể cập nhật người dùng.");
+      console.error("Lỗi cập nhật người dùng:", error);
+      message.error("Không thể cập nhật người dùng..");
     }
   };
 
   // Function to delete a user
   const handleDelete = (emailOrPhone) => {
     Modal.confirm({
-      title: "Xác nhận xóa người dùng",
-      content: "Bạn có chắc chắn muốn xóa người dùng này không?",
-      okText: "Xóa",
+      title: "Confirm user deletion",
+      content: "Are you sure you want to delete this user?",
+      okText: "Delete",
       okType: "danger",
-      cancelText: "Hủy",
+      cancelText: "Cancel",
       onOk: async () => {
         try {
           const response = await fetch(
@@ -127,13 +125,13 @@ const UserManage = () => {
                   user.email !== emailOrPhone && user.phone !== emailOrPhone
               )
             );
-            message.success("Xóa người dùng thành công!");
+            message.success("User deleted successfully!");
           } else {
-            message.error("Không thể xóa người dùng.");
+            message.error("Unable to delete user.");
           }
         } catch (error) {
-          console.error("Lỗi khi xóa người dùng:", error);
-          message.error("Không thể xóa người dùng.");
+          console.error("Error deleting user:", error);
+          message.error("Unable to delete user.");
         }
       },
     });
@@ -151,30 +149,28 @@ const UserManage = () => {
     form.resetFields();
   };
 
-  // Bộ lọc dữ liệu hiển thị
+  // Filter data based on selected filter and search key
   const filteredData = () => {
-    if (filter.type === "new") {
-      return users;
-    } else if (filter.type === "old") {
-      return oldUsers;
-    } else {
-      return [...users, ...oldUsers];
-    }
+    const allUsers = [...users, ...oldUsers];
+    const filteredByType = filter.type === "new" ? users : filter.type === "old" ? oldUsers : allUsers;
+    return filteredByType.filter((user) =>
+      user.name.toLowerCase().includes(searchKey.toLowerCase())
+    );
   };
 
   const columns = [
     {
-      title: "ID Người dùng",
+      title: "User ID",
       dataIndex: "_id",
       key: "_id",
     },
     {
-      title: "Tên Người dùng",
+      title: "User Name",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "Số điện thoại",
+      title: "Phone Number",
       dataIndex: "phone",
       key: "phone",
     },
@@ -184,13 +180,13 @@ const UserManage = () => {
       key: "email",
     },
     {
-      title: "Ngày tạo",
+      title: "Created At",
       dataIndex: "createdAt",
       key: "createdAt",
       render: (date) => new Date(date).toLocaleDateString(),
     },
     {
-      title: "Hành động",
+      title: "Actions",
       key: "actions",
       render: (_, record) => (
         <Space>
@@ -219,10 +215,10 @@ const UserManage = () => {
   return (
     <div className="user-table-container">
       <div className="header-container">
-        <h2 className="QLTK">Quản lý tài khoản</h2>
+        <h2 className="QLTK">Quản lí tài khoản người dùng</h2>
       </div>
 
-      {/* Bộ lọc */}
+      {/* Filter */}
       <div className="filter-container">
         <Button
           className="no-hover"
@@ -231,7 +227,6 @@ const UserManage = () => {
         >
           <div style={{ color: "black" }}>Tất cả</div>
         </Button>
-       
         <Button
           className="no-hover"
           type={filter.type === "old" ? "primary" : "default"}
@@ -239,16 +234,26 @@ const UserManage = () => {
         >
           <div style={{ color: "black" }}>Người dùng cũ</div>
         </Button>
+        <div className="search-box-wrapper">
+          <input
+            type="text"
+            onChange={(e) => setSearchKey(e.target.value)}
+            value={searchKey}
+            placeholder="Tìm kiếm người dùng"
+            className="search-input"
+          />
+          <img src={searchne} alt="search-icon" className="search-icon" />
+        </div>
       </div>
 
-      {/* Bảng người dùng */}
+      {/* User Table */}
       <Table
         className="user-table"
         columns={columns}
         dataSource={filteredData()}
         rowKey="_id"
         pagination={{
-          pageSize: 5 ,
+          pageSize: 5,
           itemRender: (page, type, originalElement) => {
             if (type === "prev") {
               return (
@@ -256,7 +261,7 @@ const UserManage = () => {
                   style={{
                     backgroundColor: "#f0f0f0",
                     color: "#1890ff",
-                    top: "-10px",
+                    top: "1px",
                   }}
                 >
                   <LeftOutlined />
@@ -269,7 +274,7 @@ const UserManage = () => {
                   style={{
                     backgroundColor: "#f0f0f0",
                     color: "#1890ff",
-                    top: "-10px",
+                    top: "1px",
                   }}
                 >
                   <RightOutlined />
@@ -281,9 +286,9 @@ const UserManage = () => {
         }}
       />
 
-      {/* Modal chỉnh sửa thông tin người dùng */}
+
       <Modal
-        title="Sửa thông tin người dùng"
+        title="Chỉnh sửa thông tin người dùng"
         open={isEditModalVisible}
         onCancel={handleEditCancel}
         onOk={() => {
@@ -299,12 +304,12 @@ const UserManage = () => {
         okText="Lưu"
         cancelText="Hủy"
       >
-        <Form form={form} layout="vertical" name="edit_user_form">
+        <Form form={form} layout="vertical" name="Chỉnh sửa thông tin người dùng">
           <Form.Item
             name="phone"
             label="Số điện thoại"
             rules={[
-              { required: true, message: "Vui lòng nhập số điện thoại!" },
+              { required: true, message: "Vui lòng nhập số điện thoại.!" },
             ]}
           >
             <Input />

@@ -107,3 +107,32 @@ img.delete {
 .password-style {
   max-width: 10px;
 }
+.search-boxUser{
+  position: relative;
+  width: 250px; 
+  flex-direction: row;
+}
+
+.search-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  pointer-events: none; 
+}
+
+.search-box-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 300px; 
+;}
+
+.search-input {
+  width: 100%;
+  padding: 10px 40px 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  height: 35px;
+}

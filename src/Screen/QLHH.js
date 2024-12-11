@@ -3,11 +3,13 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import deleteimg from "../assets/images/delete.png";
 import "./QLHH.css";
+import searchne from "../assets/images/searchne.png";
 
 const QLHH = () => {
   const navigate = useNavigate();
   const [order, setOrder] = useState([]);
-  const [currentFilter, setCurrentFilter] = useState(1); // Mặc định: trạng thái "Chờ xác nhận"
+  const [currentFilter, setCurrentFilter] = useState(1); // Default: "Chờ xác nhận"
+  const [searchKey, setSearchKey] = useState("");
 
   useEffect(() => {
     const getOrder = async () => {
@@ -81,7 +83,9 @@ const QLHH = () => {
   };
 
   const filteredOrders = order.filter(
-    (item) => item.currentStatus === currentFilter
+    (item) =>
+      item.currentStatus === currentFilter &&
+      item.email.toLowerCase().includes(searchKey.toLowerCase())
   );
 
   const handleDelete = async (id) => {
@@ -128,32 +132,69 @@ const QLHH = () => {
 
   return (
     <div className="qlhh-container">
-      <div className="filter-buttons">
-        {[1, 2, 3, 4].map((status) => (
-          <button
-            key={status}
-            style={{
-              margin: "10px",
-              padding: "10px 20px",
-              border: "2px solid rgba(155, 174, 202, 0.1)",
-              borderRadius: "8px",
-              cursor: "pointer",
-              backgroundColor: "white",
-              outline: "none",
-              transition: "border-color 0.3s, box-shadow 0.3s",
-              width: "150px",
-              borderBottom:
-                currentFilter === status
-                  ? "2px solid #27AAE1"
-                  : "2px solid rgba(155, 174, 202, 0.1)",
-            }}
-            onClick={() => setCurrentFilter(status)}
-            className={currentFilter === status ? "active" : ""}
-          >
-            {getOrderStatus(status)}
-          </button>
-        ))}
-      </div>
+      <div
+        className="filter-container"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          margin: "10px 0",
+          
+        }}
+      >
+        <div className="filter-buttons" style={{ display: "flex", gap: "10px" }}>
+          {[1, 2, 3, 4].map((status) => (
+            <button
+              key={status}
+              style={{
+                padding: "10px 20px",
+                border: "2px solid rgba(155, 174, 202, 0.1)",
+                borderRadius: "8px",
+                cursor: "pointer",
+                backgroundColor: "white",
+                outline: "none",
+                transition: "border-color 0.3s, box-shadow 0.3s",
+                width: "150px",
+                borderBottom:
+                  currentFilter === status
+                    ? "2px solid #27AAE1"
+                    : "2px solid rgba(155, 174, 202, 0.1)",
+              }}
+              onClick={() => setCurrentFilter(status)}
+              className={currentFilter === status ? "active" : ""}
+            >
+              {getOrderStatus(status)}
+            </button>
+          ))}
+        </div>
+        <div className="search-boxQLHH" style={{ position: "relative", width: "300px" }}>
+  <input
+    type="text"
+    onChange={(e) => setSearchKey(e.target.value)}
+    value={searchKey}
+    placeholder="Tìm kiếm người dùng"
+    style={{
+      padding: "10px 40px 10px 10px", // Add padding to the right to make space for the icon
+      border: "1px solid #ccc",
+      borderRadius: "8px",
+      width: "100%",
+    }}
+  />
+  <img
+    src={searchne}
+    alt="search-icon"
+    style={{
+      position: "absolute",
+      right: "10px",
+      top: "50%",
+      transform: "translateY(-50%)",
+      width: "20px",
+      height: "20px",
+      pointerEvents: "none", 
+    }}
+  />
+</div>
+</div>
 
       {filteredOrders.length > 0 ? (
         <table className="order-table">
