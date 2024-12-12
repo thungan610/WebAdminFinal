@@ -3,6 +3,8 @@
   width: 100%;
   height: 600px;
   font-weight: 600;
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
 .order-table {
@@ -10,8 +12,8 @@
   table-layout: fixed; /* Cố định kích thước cột */
   border-collapse: collapse;
   background-color: white;
-  overflow: scroll;
-  overflow-x: hidden;
+ 
+ 
 }
 
 .order-table th,

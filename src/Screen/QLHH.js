@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import deleteimg from "../assets/images/delete.png";
 import "./QLHH.css";
-import search from "../assets/images/search.png"
+import search from "../assets/images/search.png";
 
 const QLHH = () => {
   const navigate = useNavigate();
@@ -139,15 +139,16 @@ const QLHH = () => {
           alignItems: "center",
           justifyContent: "space-between",
           margin: "10px 0",
-          
         }}
       >
-        <div className="filter-buttons" style={{ display: "flex", gap: "10px" }}>
+        <div
+          className="filter-buttons"
+          style={{ display: "flex", gap: "10px" }}
+        >
           {[1, 2, 3, 4].map((status) => (
             <button
               key={status}
               style={{
-                padding: "10px 20px",
                 border: "2px solid rgba(155, 174, 202, 0.1)",
                 borderRadius: "8px",
                 cursor: "pointer",
@@ -155,6 +156,10 @@ const QLHH = () => {
                 outline: "none",
                 transition: "border-color 0.3s, box-shadow 0.3s",
                 width: "150px",
+                display: "flex",
+                justifyContent:"center",
+                alignItems: "center",
+                height: "36px",
                 borderBottom:
                   currentFilter === status
                     ? "2px solid #27AAE1"
@@ -167,35 +172,32 @@ const QLHH = () => {
             </button>
           ))}
         </div>
-        <div className="search-boxQLHH" style={{ position: "relative", width: "300px" }}>
-  <input
-    type="text"
-    onChange={(e) => setSearchKey(e.target.value)}
-    value={searchKey}
-    placeholder="Tìm kiếm người dùng"
-    style={{
-      padding: "10px 40px 10px 10px", // Add padding to the right to make space for the icon
-      border: "1px solid #ccc",
-      borderRadius: "8px",
-      width: "100%",
-        fontWeight:'bold'
-    }}
-  />
-  <img
-    src={search}
-    alt="search-icon"
-    style={{
-      position: "absolute",
-      right: "10px",
-      top: "50%",
-      transform: "translateY(-50%)",
-      width: "20px",
-      height: "20px",
-      pointerEvents: "none", 
-    }}
-  />
-</div>
-</div>
+        <div
+          className="search-box"
+          style={{ position: "relative", width: "300px" }}
+        >
+          <input
+            type="text"
+            onChange={(e) => setSearchKey(e.target.value)}
+            value={searchKey}
+            placeholder="Tìm kiếm người dùng"
+           
+          />
+          <img
+            src={search}
+            alt="search-icon"
+            style={{
+              position: "absolute",
+              right: "10px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              width: "20px",
+              height: "20px",
+              pointerEvents: "none",
+            }}
+          />
+        </div>
+      </div>
 
       {filteredOrders.length > 0 ? (
         <table className="order-table">

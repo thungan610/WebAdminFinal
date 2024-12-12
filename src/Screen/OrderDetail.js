@@ -137,7 +137,7 @@ const OrderDetail = () => {
 
       {order && (
         <>
-          <div style={{}}>
+          <div style={{ marginTop: "10px"}}>
             <div
               style={{
                 display: "flex",

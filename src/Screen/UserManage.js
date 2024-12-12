@@ -160,17 +160,17 @@ const UserManage = () => {
 
   const columns = [
     {
-      title: "User ID",
+      title: "ID người dùng",
       dataIndex: "_id",
       key: "_id",
     },
     {
-      title: "User Name",
+      title: "Tên người dùng",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "Phone Number",
+      title: "Số điện thoại",
       dataIndex: "phone",
       key: "phone",
     },
@@ -180,13 +180,13 @@ const UserManage = () => {
       key: "email",
     },
     {
-      title: "Created At",
+      title: "Ngày tạo",
       dataIndex: "createdAt",
       key: "createdAt",
       render: (date) => new Date(date).toLocaleDateString(),
     },
     {
-      title: "Actions",
+      title: "Tác vụ",
       key: "actions",
       render: (_, record) => (
         <Space>
@@ -234,14 +234,14 @@ const UserManage = () => {
         >
           <div style={{ color: "black" }}>Người dùng cũ</div>
         </Button>
-        <div className="search-box-wrapper">
+        <div className="search-box">
           <input
             type="text"
             onChange={(e) => setSearchKey(e.target.value)}
             value={searchKey}
             placeholder="Tìm kiếm người dùng"
             className="search-input"
-            style={{  fontWeight:'bold'}}
+
           />
           <img src={search} alt="search-icon" className="search-icon" />
         </div>

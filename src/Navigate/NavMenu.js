@@ -29,6 +29,7 @@ const NavMenu = ({ children, isHidden, onLogout }) => {
   const location = useLocation();
   const [showNoti, setShowNoti] = useState(false); // Quản lý trạng thái thông báo
   const [isBellActive, setIsBellActive] = useState(false); // Quản lý trạng thái chuông
+  const [isFeatureModalVisible, setIsFeatureModalVisible] = useState(false);
 
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -38,12 +39,13 @@ const NavMenu = ({ children, isHidden, onLogout }) => {
 
   useEffect(() => {
     const handleStorageChange = () => {
-      const updatedNotifications = JSON.parse(localStorage.getItem("notifications")) || [];
+      const updatedNotifications =
+        JSON.parse(localStorage.getItem("notifications")) || [];
       setNotifications(updatedNotifications);
     };
-  
+
     window.addEventListener("storage", handleStorageChange);
-  
+
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
@@ -57,6 +59,8 @@ const NavMenu = ({ children, isHidden, onLogout }) => {
   const handleMenuClick = (e) => {
     if (e.key === "logout") {
       setIsModalVisible(true);
+    } else if (e.key === "/Comment") {
+      setIsFeatureModalVisible(true);
     } else {
       navigate(e.key);
     }
@@ -196,6 +200,17 @@ const NavMenu = ({ children, isHidden, onLogout }) => {
         cancelText="Không"
       >
         <p>Bạn có chắc chắn muốn đăng xuất?</p>
+      </Modal>
+
+      <Modal
+        title="Thông báo!"
+        visible={isFeatureModalVisible}
+        onOk={() => setIsFeatureModalVisible(false)}
+        onCancel={() => setIsFeatureModalVisible(false)}
+        okText="Đóng"
+        cancelText=""
+      >
+        <p>Tính năng này đang được phát triển. Vui lòng quay lại sau!</p>
       </Modal>
     </Layout>
   );

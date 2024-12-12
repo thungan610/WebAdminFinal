@@ -59,7 +59,7 @@
 
 }
 .cubeF{
-  width: 15%;
+  width: 10%;
 }
 
 .cubeN {
@@ -82,7 +82,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 10px;
 }
 .update-button {
   width: 38px;
@@ -219,19 +219,19 @@
   height: 36px;
 }
 
-/* Hiệu ứng khi hover vào thanh tìm kiếm */
+
 .search-box input:hover {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   
 }
 
-/* Hiệu ứng khi input focus */
+
 .search-box input:focus {
   border-color: #007bff;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-/* Định dạng cho icon (nếu có) trong thanh tìm kiếm */
+
 .search-box img {
   position: absolute;
   top: 50%;
@@ -259,7 +259,7 @@
   overflow: hidden; /* Ẩn nội dung tràn */
   text-overflow: ellipsis; /* Hiển thị dấu ba chấm */
   white-space: nowrap; /* Không xuống dòng */
-  height: 50px;
+  height: 40px;
   line-height: 1; 
 }
 

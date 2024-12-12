@@ -141,7 +141,7 @@ function Products() {
                     placeholder="Nhập để tìm sản phẩm"
                     value={searchKey}
                     onChange={(e) => setSearchKey(e.target.value)}
-                    style={{  fontWeight:'bold'}}
+            
                   />
                   <img src={search} alt="search-icon" />
                 </div>
@@ -274,8 +274,8 @@ function Products() {
                               <span
                                 style={{
                                   position: "absolute",
-                                  bottom: "33px",
-                                  left: "45px",
+                                  bottom: "29px",
+                                  left: "47px",
                                   backgroundColor: "red",
                                   color: "white",
                                   padding: "2px 6px",

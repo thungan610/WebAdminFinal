@@ -5,13 +5,13 @@ import edit from "../assets/images/insert.png";
 import deleteimg from "../assets/images/delete.png";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import search from "../assets/images/search.png"
+import search from "../assets/images/search.png";
 
 const PromotionManagementment = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchKey, setSearchKey] = useState(""); 
+  const [searchKey, setSearchKey] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -73,34 +73,31 @@ const PromotionManagementment = () => {
   return (
     <div className="appnene">
       <div className="button-container">
-      <div className="search-boxSale" style={{ position: "relative", width: "300px" }}>
-  <input
-    type="text"
-    onChange={(e) => setSearchKey(e.target.value)}
-    value={searchKey}
-    placeholder="Tìm kiếm khuyến mãi theo tiêu đề"
-    style={{
-      padding: "10px 40px 10px 10px", // Adjust padding for icon space
-      border: "1px solid #ccc",
-      borderRadius: "8px",
-      width: "100%",
-      fontWeight:'bold'
-    }}
-  />
-  <img
-    src={search}
-    alt="search-icon"
-    style={{
-      position: "absolute",
-      right: "10px",
-      top: "50%",
-      transform: "translateY(-50%)",
-      width: "20px",
-      height: "20px",
-      pointerEvents: "none", 
-    }}
-  />
-</div>
+        <div
+          className="search-box"
+          style={{ position: "relative", width: "300px" }}
+        >
+          <input
+            type="text"
+            onChange={(e) => setSearchKey(e.target.value)}
+            value={searchKey}
+            placeholder="Tìm kiếm khuyến mãi theo tiêu đề"
+          
+          />
+          <img
+            src={search}
+            alt="search-icon"
+            style={{
+              position: "absolute",
+              right: "10px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              width: "20px",
+              height: "20px",
+              pointerEvents: "none",
+            }}
+          />
+        </div>
 
         <button className="add-button" onClick={() => navigate("/AddSale")}>
           Thêm mới
@@ -115,7 +112,7 @@ const PromotionManagementment = () => {
               <th>Giảm theo phần trăm</th>
               <th>Giá trị đơn hàng tối thiểu</th>
               <th>Ngày tạo</th>
-              <th>Thời gian hết hạn</th>
+              <th>Hạn sử dụng</th>
               <th>Trạng thái</th>
               <th>Tác vụ</th>
             </tr>
@@ -124,7 +121,7 @@ const PromotionManagementment = () => {
             {filteredData.map((row) => {
               const expirationDate = new Date(row.expirationDate);
               const isExpired = expirationDate < new Date();
-              const status = isExpired ? "Đã hết hạn" : "Còn hoạt động"; 
+              const status = isExpired ? "Đã hết hạn" : "Còn hoạt động";
 
               return (
                 <tr key={row._id}>
@@ -141,7 +138,9 @@ const PromotionManagementment = () => {
                     {new Date(row.expirationDate).toLocaleDateString("vi-VN")}
                   </td>
                   <td>
-                    <span className={isExpired ? "expired-status" : "active-status"}>
+                    <span
+                      className={isExpired ? "expired-status" : "active-status"}
+                    >
                       {status}
                     </span>
                   </td>
