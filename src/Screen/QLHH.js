@@ -33,7 +33,7 @@ const QLHH = () => {
               }`.replace(/, ,| ,|,$/g, "") || "Không có địa chỉ",
             deliveryMethod:
               orderItem.ship === 1
-                ? "Chậm"
+                ? "Tiết kiệm"
                 : orderItem.ship === 2
                 ? "Nhanh"
                 : "Hỏa tốc",
@@ -223,7 +223,7 @@ const QLHH = () => {
                 <td
                   style={{
                     color:
-                      item.deliveryMethod === "Chậm"
+                      item.deliveryMethod === "Tiết kiệm"
                         ? "green"
                         : item.deliveryMethod === "Nhanh"
                         ? "red"

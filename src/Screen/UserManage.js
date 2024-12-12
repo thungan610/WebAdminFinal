@@ -102,7 +102,7 @@ const UserManage = () => {
       onOk: async () => {
         try {
           const response = await fetch(
-            `https://server-vert-rho-94.vercel.app/users/delete-account`,
+            `https://server-vert-rho-94.vercel.app/users/delete-accountWeb`,
             {
               method: "DELETE",
               headers: {
