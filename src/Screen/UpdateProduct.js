@@ -37,7 +37,6 @@ const UpdateProduct = (props) => {
     images: false,
   });
 
-
   useEffect(() => {
     const getProducts = async () => {
       try {
@@ -79,23 +78,26 @@ const UpdateProduct = (props) => {
 
   useEffect(() => {
     const getAllCategories = async () => {
-      const response = await fetch("https://server-vert-rho-94.vercel.app/categories");
+      const response = await fetch(
+        "https://server-vert-rho-94.vercel.app/categories"
+      );
       const result = await response.json();
       setCategories(result.data);
     };
     getAllCategories();
   }, []);
-  
 
   useEffect(() => {
     const getAllPreserves = async () => {
-      const response = await fetch("https://server-vert-rho-94.vercel.app/preserves");
+      const response = await fetch(
+        "https://server-vert-rho-94.vercel.app/preserves"
+      );
       const result = await response.json();
       setPreserves(result.data);
     };
     getAllPreserves();
   }, []);
-  
+
   const uploadToCloundinary = async () => {
     try {
       const file = document.getElementById("image").files[0];
@@ -174,21 +176,35 @@ const UpdateProduct = (props) => {
         });
         return;
       }
+      const unitRegex = /^(?:\d*\s*(kg|chai|bó|gram|lít|thùng|con|ml))$/i; // Cập nhật regex cho phép nhập số hoặc không có số, sau đó là đơn vị hợp lệ
+
+      // Kiểm tra xem đơn vị có hợp lệ không
+      if (!unitRegex.test(oum.trim())) {
+        Swal.fire({
+          icon: "error",
+          title: "Thất bại",
+          text: "Đơn vị không hợp lệ. Vui lòng nhập: kg, chai, bó, gram, lít, thùng, con, ml.",
+        });
+        return;
+      }
+      
+      
+      
 
       const body = {
         name: name,
         category: category,
         quantity: quantity,
-        origin: origin || "", 
+        origin: origin || "",
         price: price,
-        fiber: fiber || "", 
-        oum: oum || "", 
+        fiber: fiber || "",
+        oum: oum || "",
         preserve: preserve,
-        supplier: supplier || "", 
-        uses: uses || "", 
+        supplier: supplier || "",
+        uses: uses || "",
         discount: discount || "",
         images: images,
-        description: description || "", 
+        description: description || "",
       };
 
       const result = await fetch(
@@ -212,7 +228,6 @@ const UpdateProduct = (props) => {
           text: "Sửa sản phẩm thành công",
         });
 
-       
         setName("");
         setCategory("");
         setQuantity("");
@@ -227,7 +242,6 @@ const UpdateProduct = (props) => {
         setImages([]);
         setDescription("");
 
-        
         navigate("/products");
       } else {
         Swal.fire({
@@ -429,7 +443,11 @@ const UpdateProduct = (props) => {
                   value={imageUrl}
                   onChange={(e) => setImageUrl(e.target.value)}
                 />
-                <FloatButton shape="square" className="btn-link" onClick={handleAddImageUrl} />
+                <FloatButton
+                  shape="square"
+                  className="btn-link"
+                  onClick={handleAddImageUrl}
+                />
               </div>
             </div>
           </div>

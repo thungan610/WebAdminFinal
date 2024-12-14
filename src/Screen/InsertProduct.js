@@ -143,6 +143,21 @@ const InsertProduct = () => {
         return;
       }
 
+      const unitRegex = /^(?:\d*\s*(kg|chai|bó|gram|lít|thùng|con|ml))$/i; // Cập nhật regex cho phép nhập số hoặc không có số, sau đó là đơn vị hợp lệ
+
+      // Kiểm tra xem đơn vị có hợp lệ không
+      if (!unitRegex.test(oum.trim())) {
+        Swal.fire({
+          icon: "error",
+          title: "Thất bại",
+          text: "Đơn vị không hợp lệ. Vui lòng nhập: kg, chai, bó, gram, lít, thùng, con, ml.",
+        });
+        return;
+      }
+      
+      
+      
+
       const body = {
         name: name,
         category: category,
@@ -279,7 +294,6 @@ const InsertProduct = () => {
                 className="form-select"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-               
               >
                 {categories.map((item, index) => {
                   return (
@@ -303,7 +317,6 @@ const InsertProduct = () => {
                 }}
                 value={quantity}
                 onChange={(e) => setQuantity(e.target.value)}
-                
               />
             </div>
           </div>

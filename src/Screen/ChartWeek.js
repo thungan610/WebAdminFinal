@@ -91,7 +91,7 @@ const RevenueChart = () => {
       try {
         const query = `?startDate=${startDate}&endDate=${endDate}`;
         const res = await fetch(
-          `http://localhost:6677/oder/revenue/daily${query}`
+          `https://server-vert-rho-94.vercel.app/oder/revenue/daily${query}`
         );
         const result = await res.json();
 
