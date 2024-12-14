@@ -27,6 +27,17 @@ const UpdateProduct = (props) => {
   const [description, setDescription] = useState("");
   const [discount, setDiscount] = useState("");
 
+  const [errors, setErrors] = useState({
+    name: false,
+    category: false,
+    quantity: false,
+    price: false,
+    oum: false,
+    preserve: false,
+    images: false,
+  });
+
+
   useEffect(() => {
     const getProducts = async () => {
       try {
@@ -135,18 +146,31 @@ const UpdateProduct = (props) => {
   const handleSubmit = async () => {
     try {
       // Kiểm tra các trường bắt buộc
+      let formErrors = { ...errors };
+
+      formErrors.name = !name;
+      formErrors.category = !category;
+      formErrors.quantity = !quantity;
+      formErrors.price = !price;
+      formErrors.oum = !oum;
+      formErrors.preserve = !preserve;
+      formErrors.images = images.length === 0;
+
+      setErrors(formErrors);
+
       if (
-        !name ||
-        !price ||
-        !quantity ||
-        images.length === 0 ||
-        !category ||
-        !preserve
+        formErrors.name ||
+        formErrors.category ||
+        formErrors.quantity ||
+        formErrors.price ||
+        formErrors.oum ||
+        formErrors.preserve ||
+        formErrors.images
       ) {
         Swal.fire({
           icon: "error",
-          title: "Lỗi",
-          text: "Vui lòng điền đầy đủ thông tin cần thiết!",
+          title: "Thất bại",
+          text: "Vui lòng nhập đầy đủ thông tin cần thiết",
         });
         return;
       }
@@ -238,6 +262,9 @@ const UpdateProduct = (props) => {
                 className="form-control"
                 placeholder="Enter name"
                 value={name}
+                style={{
+                  borderColor: errors.name ? "red" : "",
+                }}
                 onChange={(e) => setName(e.target.value)}
               />
             </div>
@@ -267,6 +294,9 @@ const UpdateProduct = (props) => {
                 type="number"
                 className="form-control"
                 placeholder="Enter quantity"
+                style={{
+                  borderColor: errors.quantity ? "red" : "",
+                }}
                 value={quantity}
                 onChange={(e) => setQuantity(e.target.value)}
               />
@@ -293,6 +323,9 @@ const UpdateProduct = (props) => {
                 type="number"
                 className="form-control"
                 placeholder="Enter price"
+                style={{
+                  borderColor: errors.price ? "red" : "",
+                }}
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
               />
@@ -312,11 +345,14 @@ const UpdateProduct = (props) => {
           </div>
           <div className="mb-3">
             <div className="inside-container">
-              <label className="form-label">Đơn vị đo:</label>
+              <label className="form-label">Đơn vị tính:</label>
               <input
                 type="text"
                 className="form-control"
                 placeholder="Enter oum"
+                style={{
+                  borderColor: errors.oum ? "red" : "",
+                }}
                 value={oum}
                 onChange={(e) => setOum(e.target.value)}
               />
@@ -405,6 +441,9 @@ const UpdateProduct = (props) => {
             <input
               type="file"
               className="form-controlimg"
+              style={{
+                borderColor: errors.images ? "red" : "",
+              }}
               id="image"
               onChange={uploadToCloundinary}
             />

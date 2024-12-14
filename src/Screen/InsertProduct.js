@@ -23,6 +23,16 @@ const InsertProduct = () => {
   const [description, setDescription] = useState("");
   const [discount, setDiscount] = useState("");
 
+  const [errors, setErrors] = useState({
+    name: false,
+    category: false,
+    quantity: false,
+    price: false,
+    oum: false,
+    preserve: false,
+    images: false,
+  });
+
   useEffect(() => {
     const getAllCategories = async () => {
       const response = await fetch(
@@ -87,22 +97,35 @@ const InsertProduct = () => {
 
   const handleSubmit = async () => {
     try {
+      let formErrors = { ...errors };
+
+      formErrors.name = !name;
+      formErrors.category = !category;
+      formErrors.quantity = !quantity;
+      formErrors.price = !price;
+      formErrors.oum = !oum;
+      formErrors.preserve = !preserve;
+      formErrors.images = images.length === 0;
+
+      setErrors(formErrors);
+
       if (
-        !name ||
-        !category ||
-        !quantity ||
-        !price ||
-        !oum ||
-        !preserve ||
-        images.length === 0
+        formErrors.name ||
+        formErrors.category ||
+        formErrors.quantity ||
+        formErrors.price ||
+        formErrors.oum ||
+        formErrors.preserve ||
+        formErrors.images
       ) {
         Swal.fire({
           icon: "error",
           title: "Thất bại",
-          text: "Vui lòng nhập đầy đủ thông tin",
+          text: "Vui lòng nhập đầy đủ thông tin cần thiết",
         });
         return;
       }
+
       if (quantity <= 0) {
         Swal.fire({
           icon: "error",
@@ -240,9 +263,12 @@ const InsertProduct = () => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter name"
+                placeholder="Nhập tên"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                style={{
+                  borderColor: errors.name ? "red" : "",
+                }}
               />
             </div>
           </div>
@@ -253,6 +279,7 @@ const InsertProduct = () => {
                 className="form-select"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
+               
               >
                 {categories.map((item, index) => {
                   return (
@@ -270,9 +297,13 @@ const InsertProduct = () => {
               <input
                 type="number"
                 className="form-control"
-                placeholder="Enter quantity"
+                placeholder="Nhập số lượng"
+                style={{
+                  borderColor: errors.quantity ? "red" : "",
+                }}
                 value={quantity}
                 onChange={(e) => setQuantity(e.target.value)}
+                
               />
             </div>
           </div>
@@ -282,7 +313,7 @@ const InsertProduct = () => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter description"
+                placeholder="Nhập xuất xứ"
                 value={origin}
                 onChange={(e) => setOrigin(e.target.value)}
               />
@@ -296,7 +327,10 @@ const InsertProduct = () => {
               <input
                 type="number"
                 className="form-control"
-                placeholder="Enter price"
+                placeholder="Nhập giá"
+                style={{
+                  borderColor: errors.price ? "red" : "",
+                }}
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
               />
@@ -308,7 +342,7 @@ const InsertProduct = () => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter fiber"
+                placeholder="Nhập chất sơ"
                 value={fiber}
                 onChange={(e) => setFiber(e.target.value)}
               />
@@ -316,11 +350,14 @@ const InsertProduct = () => {
           </div>
           <div className="mb-3">
             <div className="inside-container">
-              <label className="form-label">Đơn vị đo:</label>
+              <label className="form-label">Đơn vị tính:</label>
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter oum"
+                placeholder="Nhập đơn vị tính"
+                style={{
+                  borderColor: errors.oum ? "red" : "",
+                }}
                 value={oum}
                 onChange={(e) => setOum(e.target.value)}
               />
@@ -354,7 +391,7 @@ const InsertProduct = () => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter supplier"
+                placeholder="Nhập nhà cung cấp"
                 value={supplier}
                 onChange={(e) => setSupplier(e.target.value)}
               />
@@ -367,7 +404,7 @@ const InsertProduct = () => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter uses"
+                placeholder="Nhập công dụng"
                 value={uses}
                 onChange={(e) => setUses(e.target.value)}
               />
@@ -414,6 +451,9 @@ const InsertProduct = () => {
             <input
               type="file"
               className="form-controlimg"
+              style={{
+                borderColor: errors.images ? "red" : "",
+              }}
               id="image"
               onChange={uploadToCloundinary}
             />

@@ -61,6 +61,39 @@ function Products() {
     getProducts();
   }, [category, searchKey, productId]);
 
+  // const handleDelete = async (id) => {
+  //   try {
+  //     const _result = await Swal.fire({
+  //       title: "Bạn có chắc chắn?",
+  //       text: "Không thể hoàn tác hành động này!",
+  //       icon: "warning",
+  //       showCancelButton: true,
+  //       confirmButtonColor: "#3085d6",
+  //       cancelButtonColor: "#d33",
+  //       confirmButtonText: "Vâng, xóa nó!",
+  //     });
+  //     if (!_result.isConfirmed) {
+  //       return;
+  //     }
+  //     const response = await fetch(
+  //       `https://server-vert-rho-94.vercel.app/products/${id}/delete`,
+  //       { method: "DELETE" }
+  //     );
+  //     const result = await response.json();
+  //     if (result.success) {
+  //       setProducts(products.filter((item) => item._id !== id));
+  //       setSearchKey("");
+  //     } else {
+  //       Swal.fire({
+  //         icon: "error",
+  //         title: "Thất bại",
+  //         text: "Xóa sản phẩm thất bại",
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.error("Error deleting product:", error);
+  //   }
+  // };
   const handleDelete = async (id) => {
     try {
       const _result = await Swal.fire({
@@ -75,25 +108,37 @@ function Products() {
       if (!_result.isConfirmed) {
         return;
       }
+  
       const response = await fetch(
         `https://server-vert-rho-94.vercel.app/products/${id}/delete`,
         { method: "DELETE" }
       );
       const result = await response.json();
+  
       if (result.success) {
         setProducts(products.filter((item) => item._id !== id));
-        setSearchKey("");
+        Swal.fire({
+          icon: "success",
+          title: "Thành công",
+          text: "Sản phẩm đã được xóa",
+        });
       } else {
         Swal.fire({
           icon: "error",
           title: "Thất bại",
-          text: "Xóa sản phẩm thất bại",
+          text: result.message || "Xóa sản phẩm thất bại",
         });
       }
     } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Lỗi",
+        text: "Đã xảy ra lỗi trong khi xóa sản phẩm",
+      });
       console.error("Error deleting product:", error);
     }
   };
+  
 
   return (
     <div style={{ width: "100%", height: "100%" }}>

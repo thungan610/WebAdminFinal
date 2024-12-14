@@ -11,6 +11,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { useNavigate } from "react-router-dom";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 
 const TopProductsChart = () => {
@@ -24,6 +25,7 @@ const TopProductsChart = () => {
     return startOfWeek.toISOString().split("T")[0];
   };
 
+  const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(getStartOfWeek());
   const [chartInstance, setChartInstance] = useState(null);
   const [dateRange, setDateRange] = useState("");
@@ -214,14 +216,29 @@ const TopProductsChart = () => {
           maxWidth: "1000px",
         }}
       >
+        <div
+          onClick={() => navigate("/ChartRevenue")}
+          style={{
+            textAlign: "center",
+            color: "#27aae1",
+            textDecoration: "none",
+            fontSize: 16,
+            fontWeight: 600,
+            cursor: "pointer",
+          }}
+        >
+          {" "}
+          Doanh thu
+        </div>
         <h1
           style={{
-            paddingLeft: "120px",
+         
             color: "#27AAE1",
             fontSize: "24px",
             fontWeight: "bold",
             textAlign: "center",
             textTransform: "uppercase",
+            
             flex: 1,
           }}
         >
@@ -235,10 +252,10 @@ const TopProductsChart = () => {
             onChange={(e) => setSelectedDate(e.target.value)}
             style={{
               padding: "10px",
-              margin: "0 10px",
               borderRadius: "5px",
               border: "1px solid #ccc",
-              cursor: "pointer"
+            
+              cursor: "pointer",
             }}
           />
         </div>
