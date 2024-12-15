@@ -99,15 +99,19 @@ const OrderDetail = () => {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ status: newStatus }), // Cập nhật trạng thái
+            body: JSON.stringify({ status: newStatus }),
           }
         );
 
         const data = await response.json();
         if (data.status) {
           Swal.fire("Thành công!", `Trạng thái đã được cập nhật.`, "success");
-          // Cập nhật trạng thái trong UI
-          setOrder((prev) => ({ ...prev, status: newStatus }));
+          // Cập nhật trạng thái và thời gian trong UI
+          setOrder((prevOrder) => ({
+            ...prevOrder,
+            status: newStatus, // Lấy trạng thái mới từ server
+            updatedAt: data.updatedAt || new Date().toISOString(), // Cập nhật updatedAt từ API
+          }));
         } else {
           Swal.fire("Lỗi!", "Không thể cập nhật trạng thái.", "error");
         }
@@ -137,7 +141,7 @@ const OrderDetail = () => {
 
       {order && (
         <>
-          <div style={{ marginTop: "10px"}}>
+          <div style={{ marginTop: "10px" }}>
             <div
               style={{
                 display: "flex",
@@ -422,6 +426,20 @@ const OrderDetail = () => {
           </section>
         </>
       )}
+      <div className="order-infoCTN">
+        <p>Thời gian cập nhật:</p>
+        <strong>
+          {order.updatedAt
+            ? new Date(order.updatedAt).toLocaleString("vi-VN", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              })
+            : "Chưa có thông tin"}
+        </strong>
+      </div>
     </div>
   );
 };

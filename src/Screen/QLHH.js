@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import deleteimg from "../assets/images/delete.png";
 import "./QLHH.css";
 import search from "../assets/images/search.png";
 
@@ -41,16 +40,48 @@ const QLHH = () => {
             currentStatus: orderItem.status,
             totalPayment: `${orderItem.totalOrder.toLocaleString() || 0}đ`,
             date: new Date(orderItem.date).toLocaleString("vi-VN"),
+            updatedDate: orderItem.updatedAt
+              ? new Date(orderItem.updatedAt).toLocaleString("vi-VN")
+              : "Không xác định", // Sử dụng giá trị mặc định nếu thiếu
           }));
 
           setOrder(formattedOrder);
         }
       } catch (error) {
+        setOrder([]);
         console.error("Error fetching orders:", error);
       }
     };
     getOrder();
   }, []);
+
+  const sortOrderByUpdatedAt = useMemo(() => {
+    if (order && order.length > 0) {
+      return order
+        .filter(
+          (item) =>
+            item.currentStatus === currentFilter &&
+            item.email.toLowerCase().includes(searchKey.toLowerCase())
+        )
+        .sort((a, b) => {
+          const dateA =
+            a.updatedDate !== "Không xác định" ? new Date(a.updatedDate) : null;
+          const dateB =
+            b.updatedDate !== "Không xác định" ? new Date(b.updatedDate) : null;
+
+          if (dateA && dateB) {
+            return dateB - dateA; // Sắp xếp theo updatedDate giảm dần
+          } else if (!dateA && dateB) {
+            return 1; // Đặt a sau b nếu a không có updatedDate
+          } else if (dateA && !dateB) {
+            return -1; // Đặt a trước b nếu b không có updatedDate
+          } else {
+            return 0; // Giữ nguyên thứ tự nếu cả hai không có updatedDate
+          }
+        });
+    }
+    return [];
+  }, [JSON.stringify(order), currentFilter, searchKey]);
 
   const getOrderStatus = (status) => {
     switch (status) {
@@ -81,12 +112,6 @@ const QLHH = () => {
         return "black";
     }
   };
-
-  const filteredOrders = order.filter(
-    (item) =>
-      item.currentStatus === currentFilter &&
-      item.email.toLowerCase().includes(searchKey.toLowerCase())
-  );
 
   const handleDelete = async (id) => {
     try {
@@ -157,7 +182,7 @@ const QLHH = () => {
                 transition: "border-color 0.3s, box-shadow 0.3s",
                 width: "150px",
                 display: "flex",
-                justifyContent:"center",
+                justifyContent: "center",
                 alignItems: "center",
                 height: "36px",
                 borderBottom:
@@ -181,7 +206,6 @@ const QLHH = () => {
             onChange={(e) => setSearchKey(e.target.value)}
             value={searchKey}
             placeholder="Tìm kiếm người dùng"
-           
           />
           <img
             src={search}
@@ -199,7 +223,7 @@ const QLHH = () => {
         </div>
       </div>
 
-      {filteredOrders.length > 0 ? (
+      {sortOrderByUpdatedAt && sortOrderByUpdatedAt.length > 0 ? (
         <table className="order-table">
           <thead>
             <tr>
@@ -213,7 +237,7 @@ const QLHH = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredOrders.map((item, index) => (
+            {sortOrderByUpdatedAt.map((item, index) => (
               <tr key={index}>
                 <td style={{ textAlign: "center" }}>
                   <strong>{item.id}</strong>

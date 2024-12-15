@@ -274,7 +274,7 @@ const UpdateProduct = (props) => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter name"
+                placeholder="Nhập name"
                 value={name}
                 style={{
                   borderColor: errors.name ? "red" : "",
@@ -307,7 +307,7 @@ const UpdateProduct = (props) => {
               <input
                 type="number"
                 className="form-control"
-                placeholder="Enter quantity"
+                placeholder="Nhập quantity"
                 style={{
                   borderColor: errors.quantity ? "red" : "",
                 }}
@@ -322,7 +322,7 @@ const UpdateProduct = (props) => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter description"
+                placeholder="Nhập description"
                 value={origin}
                 onChange={(e) => setOrigin(e.target.value)}
               />
@@ -336,7 +336,7 @@ const UpdateProduct = (props) => {
               <input
                 type="number"
                 className="form-control"
-                placeholder="Enter price"
+                placeholder="Nhập price"
                 style={{
                   borderColor: errors.price ? "red" : "",
                 }}
@@ -351,7 +351,7 @@ const UpdateProduct = (props) => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter fiber"
+                placeholder="Nhập fiber"
                 value={fiber}
                 onChange={(e) => setFiber(e.target.value)}
               />
@@ -363,7 +363,7 @@ const UpdateProduct = (props) => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter oum"
+                placeholder="Nhập oum"
                 style={{
                   borderColor: errors.oum ? "red" : "",
                 }}
@@ -400,7 +400,7 @@ const UpdateProduct = (props) => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter supplier"
+                placeholder="Nhập supplier"
                 value={supplier}
                 onChange={(e) => setSupplier(e.target.value)}
               />
@@ -413,7 +413,7 @@ const UpdateProduct = (props) => {
               <input
                 type="text"
                 className="form-control"
-                placeholder="Enter uses"
+                placeholder="Nhập uses"
                 value={uses}
                 onChange={(e) => setUses(e.target.value)}
               />
