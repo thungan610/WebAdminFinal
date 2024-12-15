@@ -142,6 +142,14 @@ const InsertProduct = () => {
         });
         return;
       }
+      if (discount < 0) {
+        Swal.fire({
+          icon: "error",
+          title: "Thất bại",
+          text: "Giá giảm không được là số âm",
+        });
+        return;
+      }
 
       const unitRegex = /^(?:\d*\s*(kg|chai|bó|gram|lít|thùng|con|ml))$/i; // Cập nhật regex cho phép nhập số hoặc không có số, sau đó là đơn vị hợp lệ
 
