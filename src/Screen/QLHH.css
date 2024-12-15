@@ -179,6 +179,16 @@
     padding: 2px;
     align-items: center;
     background: white;
+    
+}
+.order-infoCTNT{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  align-items: center;
+  background: white;
+  border-radius: 8px;
 }
 .order-infoCTNA{
   width: 49.5%;

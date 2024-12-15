@@ -426,7 +426,7 @@ const OrderDetail = () => {
           </section>
         </>
       )}
-      <div className="order-infoCTN">
+      <div className="order-infoCTNT">
         <p>Thời gian cập nhật:</p>
         <strong>
           {order.updatedAt
