@@ -4,7 +4,7 @@ import {
   CategoryScale,
   LinearScale,
   BarElement,
-  BarController, // Đăng ký BarController
+  BarController,
   Title,
   Tooltip,
   Legend,
@@ -12,28 +12,28 @@ import {
 import { useNavigate } from "react-router-dom";
 
 const RevenueChart = () => {
-  const [startDate, setStartDate] = useState(""); // Ngày bắt đầu
-  const [endDate, setEndDate] = useState(""); // Ngày kết thúc
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [chartInstance, setChartInstance] = useState(null);
-  const [dateRange, setDateRange] = useState(""); // Khoảng thời gian hiển thị
-  const [totalRevenue, setTotalRevenue] = useState(0); // Biến lưu tổng doanh thu
-  const [isDateError, setIsDateError] = useState(false); // Biến kiểm tra lỗi ngày
+  const [dateRange, setDateRange] = useState("");
+  const [totalRevenue, setTotalRevenue] = useState(0);
+  const [isDateError, setIsDateError] = useState(false);
+  const [isStartDateGreater, setIsStartDateGreater] = useState(false);
+
   const navigate = useNavigate();
-  // Hàm tính toán ngày bắt đầu và kết thúc cho khoảng thời gian mặc định (từ đầu tuần đến hôm nay)
+
   const calculateDateRange = (startDate, endDate) => {
     const today = new Date();
-    const todayStr = today.toISOString().split("T")[0]; // Ngày hôm nay
+    const todayStr = today.toISOString().split("T")[0];
 
-    // Tính ngày đầu tuần (Chủ nhật là ngày đầu tuần)
     const firstDayOfWeek = new Date(today);
-    firstDayOfWeek.setDate(today.getDate() - today.getDay()); // Đặt về Chủ nhật trước đó
+    firstDayOfWeek.setDate(today.getDate() - today.getDay());
 
     const formatDate = (date) =>
       `${date.getDate().toString().padStart(2, "0")}/${(date.getMonth() + 1)
         .toString()
         .padStart(2, "0")}/${date.getFullYear()}`;
 
-    // Nếu chưa có ngày bắt đầu hoặc kết thúc, trả về khoảng thời gian mặc định
     if (!startDate || !endDate) {
       return {
         startDate: firstDayOfWeek.toISOString().split("T")[0],
@@ -51,16 +51,14 @@ const RevenueChart = () => {
     };
   };
 
-  // Hàm kiểm tra nếu khoảng thời gian vượt quá 7 ngày
   const isDateRangeValid = (startDate, endDate) => {
     const startDateObj = new Date(startDate);
     const endDateObj = new Date(endDate);
     const differenceInTime = endDateObj.getTime() - startDateObj.getTime();
     const differenceInDays = differenceInTime / (1000 * 3600 * 24);
-    return differenceInDays <= 7; // Nếu chênh lệch vượt quá 7 ngày, trả về false
+    return differenceInDays <= 7;
   };
 
-  // Thiết lập ngày mặc định là từ đầu tuần đến hôm nay khi load trang
   useEffect(() => {
     const { startDate, endDate, formattedRange } = calculateDateRange();
     setStartDate(startDate);
@@ -69,19 +67,17 @@ const RevenueChart = () => {
   }, []);
 
   useEffect(() => {
-    // Kiểm tra nếu khoảng thời gian không hợp lệ (vượt quá 1 tuần)
     if (!isDateRangeValid(startDate, endDate)) {
       setIsDateError(true);
     } else {
       setIsDateError(false);
     }
 
-    // Đăng ký các phần tử cần thiết cho biểu đồ
     Chart.register(
       CategoryScale,
       LinearScale,
       BarElement,
-      BarController, // Đăng ký BarController
+      BarController,
       Title,
       Tooltip,
       Legend
@@ -95,21 +91,18 @@ const RevenueChart = () => {
         );
         const result = await res.json();
 
-        console.log(result); // Kiểm tra dữ liệu trả về
-
         if (result.status === true && result.data.length > 0) {
           const labels = [];
           const data = [];
-          let total = 0; // Khởi tạo biến tổng doanh thu
+          let total = 0;
 
           result.data.forEach((element) => {
             labels.push(element.day);
-            const revenue = Number(element.revenue); // Chuyển doanh thu thành số
+            const revenue = Number(element.revenue);
             data.push(revenue);
-            total += revenue; // Cộng dồn doanh thu vào tổng
+            total += revenue;
           });
 
-          // Cập nhật tổng doanh thu
           setTotalRevenue(total);
 
           const ctx = document.getElementById("myChart");
@@ -120,11 +113,11 @@ const RevenueChart = () => {
 
           const chartContext = ctx.getContext("2d");
           if (chartInstance) {
-            chartInstance.destroy(); // Hủy biểu đồ cũ nếu có
+            chartInstance.destroy();
           }
 
           const newChart = new Chart(chartContext, {
-            type: "bar", // Biểu đồ cột
+            type: "bar",
             data: {
               labels: labels,
               datasets: [
@@ -145,11 +138,10 @@ const RevenueChart = () => {
                 legend: {
                   position: "top",
                 },
-               
                 tooltip: {
                   callbacks: {
                     label: function (tooltipItem) {
-                      return tooltipItem.raw.toLocaleString() + "đ"; // Thêm dấu phân cách hàng nghìn trong tooltip
+                      return tooltipItem.raw.toLocaleString() + "đ";
                     },
                   },
                 },
@@ -158,7 +150,7 @@ const RevenueChart = () => {
                 y: {
                   ticks: {
                     callback: function (value) {
-                      return value.toLocaleString() + "đ"; // Thêm dấu phân cách hàng nghìn cho trục Y
+                      return value.toLocaleString() + "đ";
                     },
                   },
                 },
@@ -191,18 +183,18 @@ const RevenueChart = () => {
           className="btn-chart"
           onClick={() => navigate("/charts")}
           style={{
-    textAlign: "center",
-    color: "#27aae1",
-    textDecoration: "none",
-    fontSize: "16px",
-    fontWeight: "600",
-    cursor: "pointer",
-    padding: "10px 20px",
-    borderRadius: "5px",
-    backgroundColor: "#f0f8ff", // Subtle background to highlight
-    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Add depth
-    transition: "all 0.3s ease", // Smooth hover effect
-  }}
+            textAlign: "center",
+            color: "#27aae1",
+            textDecoration: "none",
+            fontSize: "16px",
+            fontWeight: "600",
+            cursor: "pointer",
+            padding: "10px 20px",
+            borderRadius: "5px",
+            backgroundColor: "#f0f8ff",
+            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+            transition: "all 0.3s ease",
+          }}
         >
           Thống kê lượt bán
         </div>
@@ -224,18 +216,23 @@ const RevenueChart = () => {
             type="date"
             value={startDate}
             onChange={(e) => {
-              setStartDate(e.target.value);
-              const updatedRange = calculateDateRange(e.target.value, endDate);
-              setDateRange(updatedRange.formattedRange); // Cập nhật khoảng thời gian khi chọn ngày mới
+              const newStartDate = e.target.value;
+              if (new Date(newStartDate) > new Date(endDate)) {
+                setIsStartDateGreater(true);
+              } else {
+                setIsStartDateGreater(false);
+              }
+              setStartDate(newStartDate);
+              const updatedRange = calculateDateRange(newStartDate, endDate);
+              setDateRange(updatedRange.formattedRange);
             }}
             style={{
               padding: "8px 12px",
               fontSize: "14px",
-              padding: "10px",
-                
-              border: `1px solid ${isDateError ? "red" : "#ccc"}`, // Thay đổi màu viền khi có lỗi
+              border: `1px solid ${
+                isStartDateGreater ? "red" : isDateError ? "red" : "#ccc"
+              }`,
               borderRadius: "5px",
-              border: "1px solid #ccc",
               cursor: "pointer",
             }}
           />
@@ -243,26 +240,35 @@ const RevenueChart = () => {
             type="date"
             value={endDate}
             onChange={(e) => {
-              setEndDate(e.target.value);
-              const updatedRange = calculateDateRange(
-                startDate,
-                e.target.value
-              );
-              setDateRange(updatedRange.formattedRange); // Cập nhật khoảng thời gian khi chọn ngày mới
+              const newEndDate = e.target.value;
+              if (new Date(startDate) > new Date(newEndDate)) {
+                setIsStartDateGreater(true);
+              } else {
+                setIsStartDateGreater(false);
+              }
+              setEndDate(newEndDate);
+              const updatedRange = calculateDateRange(startDate, newEndDate);
+              setDateRange(updatedRange.formattedRange);
             }}
             style={{
-                padding: "8px 12px",
-                fontSize: "14px",
-                padding: "10px",
-                margin: "0 10px",
-                border: `1px solid ${isDateError ? "red" : "#ccc"}`, // Thay đổi màu viền khi có lỗi
-                borderRadius: "5px",
-                border: "1px solid #ccc",
-                cursor: "pointer",
-              }}
+              padding: "8px 12px",
+              fontSize: "14px",
+              margin: "0 10px",
+              border: `1px solid ${
+                isStartDateGreater ? "red" : isDateError ? "red" : "#ccc"
+              }`,
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
           />
         </div>
       </div>
+
+      {isStartDateGreater && (
+        <p style={{ color: "red", textAlign: "center", fontSize: "14px" }}>
+          Ngày bắt đầu không được lớn hơn ngày kết thúc!
+        </p>
+      )}
 
       {isDateError && (
         <p style={{ color: "red", textAlign: "center", fontSize: "14px" }}>
@@ -294,13 +300,12 @@ const RevenueChart = () => {
         <div
           style={{
             textAlign: "center",
-            marginTop: "20px",
-            fontSize: "18px",
+            marginTop: "10px",
             fontWeight: "bold",
             color: "#27aae1",
           }}
         >
-          <p>Tổng doanh thu: {totalRevenue.toLocaleString()}đ</p>
+          Tổng doanh thu: {totalRevenue.toLocaleString()}đ
         </div>
       )}
     </div>
