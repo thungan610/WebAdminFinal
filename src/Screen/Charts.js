@@ -216,20 +216,26 @@ const TopProductsChart = () => {
           maxWidth: "1000px",
         }}
       >
-        <div
-          onClick={() => navigate("/ChartRevenue")}
-          style={{
-            textAlign: "center",
-            color: "#27aae1",
-            textDecoration: "none",
-            fontSize: 16,
-            fontWeight: 600,
-            cursor: "pointer",
-          }}
-        >
-          {" "}
-          Doanh thu
-        </div>
+     <div
+  onClick={() => navigate("/ChartRevenue")}
+  style={{
+    textAlign: "center",
+    color: "#27aae1",
+    textDecoration: "none",
+    fontSize: "16px",
+    fontWeight: "600",
+    cursor: "pointer",
+    padding: "10px 20px",
+    borderRadius: "5px",
+    backgroundColor: "#f0f8ff", // Subtle background to highlight
+    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Add depth
+    transition: "all 0.3s ease", // Smooth hover effect
+  }}
+ 
+>
+  Doanh thu
+</div>
+
         <h1
           style={{
          

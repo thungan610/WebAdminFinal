@@ -191,14 +191,18 @@ const RevenueChart = () => {
           className="btn-chart"
           onClick={() => navigate("/charts")}
           style={{
-            textAlign: "center",
-            color: "#27aae1",
-            textDecoration: "none",
-            paddingLeft: 20,
-            fontSize: 16,
-            fontWeight: 600,
-            cursor: "pointer",
-          }}
+    textAlign: "center",
+    color: "#27aae1",
+    textDecoration: "none",
+    fontSize: "16px",
+    fontWeight: "600",
+    cursor: "pointer",
+    padding: "10px 20px",
+    borderRadius: "5px",
+    backgroundColor: "#f0f8ff", // Subtle background to highlight
+    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Add depth
+    transition: "all 0.3s ease", // Smooth hover effect
+  }}
         >
           Thống kê lượt bán
         </div>

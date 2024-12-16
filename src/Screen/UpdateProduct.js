@@ -149,7 +149,7 @@ const UpdateProduct = (props) => {
     try {
       // Kiểm tra các trường bắt buộc
       let formErrors = { ...errors };
-
+  
       formErrors.name = !name;
       formErrors.category = !category;
       formErrors.quantity = !quantity;
@@ -157,9 +157,9 @@ const UpdateProduct = (props) => {
       formErrors.oum = !oum;
       formErrors.preserve = !preserve;
       formErrors.images = images.length === 0;
-
+  
       setErrors(formErrors);
-
+  
       if (
         formErrors.name ||
         formErrors.category ||
@@ -200,8 +200,19 @@ const UpdateProduct = (props) => {
         });
         return;
       }
+  
+      // Kiểm tra giá giảm không lớn hơn giá sản phẩm
+      if (parseFloat(discount) > parseFloat(price)) {
+        Swal.fire({
+          icon: "error",
+          title: "Thất bại",
+          text: "Giá giảm không được lớn hơn giá sản phẩm",
+        });
+        return;
+      }
+  
       const unitRegex = /^(?:\d*\s*(kg|chai|bó|gram|lít|thùng|con|ml))$/i; // Cập nhật regex cho phép nhập số hoặc không có số, sau đó là đơn vị hợp lệ
-
+  
       // Kiểm tra xem đơn vị có hợp lệ không
       if (!unitRegex.test(oum.trim())) {
         Swal.fire({
@@ -211,10 +222,7 @@ const UpdateProduct = (props) => {
         });
         return;
       }
-      
-      
-      
-
+  
       const body = {
         name: name,
         category: category,
@@ -230,9 +238,8 @@ const UpdateProduct = (props) => {
         images: images,
         description: description || "",
       };
-
+  
       const result = await fetch(
-        //http://localhost:6677/products/6728dd246ff2d4dd89c96bf8/update
         `https://server-vert-rho-94.vercel.app/products/${id}/update`,
         {
           method: "PUT",
@@ -242,16 +249,16 @@ const UpdateProduct = (props) => {
           body: JSON.stringify(body),
         }
       );
-
+  
       const response = await result.json();
-
+  
       if (response.status) {
         Swal.fire({
           icon: "success",
           title: "Thành công",
           text: "Sửa sản phẩm thành công",
         });
-
+  
         setName("");
         setCategory("");
         setQuantity("");
@@ -265,7 +272,7 @@ const UpdateProduct = (props) => {
         setDiscount("");
         setImages([]);
         setDescription("");
-
+  
         navigate("/products");
       } else {
         Swal.fire({
@@ -283,7 +290,7 @@ const UpdateProduct = (props) => {
       });
     }
   };
-
+  
   return (
     <div className="containerne">
       <form className="form-container">
