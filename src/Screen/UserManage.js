@@ -86,7 +86,7 @@ const UserManage = () => {
         );
       }
     } catch (error) {
-      console.error("Lỗi cập nhật người dùng:", error);
+console.error("Lỗi cập nhật người dùng:", error);
       message.error("Không thể cập nhật người dùng..");
     }
   };
@@ -94,11 +94,11 @@ const UserManage = () => {
   // Function to delete a user
   const handleDelete = (emailOrPhone) => {
     Modal.confirm({
-      title: "Confirm user deletion",
-      content: "Are you sure you want to delete this user?",
-      okText: "Delete",
+      title: "Cảnh báo! ",
+      content: "Bạn có chắc chắn muốn xóa người dùng này?",
+      okText: "Xóa",
       okType: "danger",
-      cancelText: "Cancel",
+      cancelText: "Hủy",
       onOk: async () => {
         try {
           const response = await fetch(
@@ -125,13 +125,13 @@ const UserManage = () => {
                   user.email !== emailOrPhone && user.phone !== emailOrPhone
               )
             );
-            message.success("User deleted successfully!");
+            message.success("Xóa người dùng thành công");
           } else {
-            message.error("Unable to delete user.");
+            message.error("Không thể xóa người dùng");
           }
         } catch (error) {
-          console.error("Error deleting user:", error);
-          message.error("Unable to delete user.");
+          console.error("Lỗi khi xóa người dùng:", error);
+          message.error("Lỗi khi xóa người dùng:");
         }
       },
     });
@@ -198,7 +198,7 @@ const UserManage = () => {
             }}
             title="Edit"
           >
-            <img className="edit" src={edit} alt="Edit" />
+<img className="edit" src={edit} alt="Edit" />
           </div>
           <div
             className="deleteIcon"
@@ -305,7 +305,7 @@ const UserManage = () => {
         okText="Lưu"
         cancelText="Hủy"
       >
-        <Form form={form} layout="vertical" name="Chỉnh sửa thông tin người dùng">
+<Form form={form} layout="vertical" name="Chỉnh sửa thông tin người dùng">
           <Form.Item
             name="phone"
             label="Số điện thoại"
