@@ -250,7 +250,15 @@ const InsertProduct = () => {
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, I'm sure",
     });
-
+    // Kiểm tra giá giảm không lớn hơn giá sản phẩm
+      if (parseFloat(discount) > parseFloat(price)) {
+        Swal.fire({
+          icon: "error",
+          title: "Thất bại",
+          text: "Giá giảm không được lớn hơn giá sản phẩm",
+        });
+        return;
+      }
     if (!_result.isConfirmed) {
       return;
     }

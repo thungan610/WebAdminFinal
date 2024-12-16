@@ -68,10 +68,12 @@
   width: 100%;
   gap: 50px; /* Khoảng cách giữa các phần tử */
   align-items: flex-start;
-  margin-left: 85px;
+  margin-left: 215px;
+  
 }
 .link-container {
-  flex: 1; /* Để đảm bảo width tự động cân bằng */
+  flex: 1;
+   /* Để đảm bảo width tự động cân bằng */
 }
 
 /* Style phần tải ảnh từ thiết bị */
@@ -105,8 +107,8 @@
   justify-content: center;
   align-items: center;
   color: white;
-  top: 414px;
-  right: 52px;
+  top: 390px;
+  right: 125px;
 }
 
 .image-preview img {
