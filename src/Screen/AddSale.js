@@ -17,6 +17,7 @@ const AddSale = () => {
 
   const [errors, setErrors] = useState({});
   const [responseMessage, setResponseMessage] = useState("");
+ 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -43,6 +44,13 @@ const AddSale = () => {
     e.preventDefault();
 
     const newErrors = {};
+    const startDate = new Date(formData.startDate);
+    const endDate = new Date(formData.endDate);
+  
+    if (startDate > endDate) {
+      newErrors.startDate = "Ngày bắt đầu không được lớn hơn ngày kết thúc.";
+      newErrors.endDate = "Ngày bắt đầu không được lớn hơn ngày kết thúc.";
+    }
     if (!formData.title) newErrors.title = "Vui lòng nhập tiêu đề";
     if (formData.discountAmount === "" && formData.discountPercent === "") {
       newErrors.discountAmount =
@@ -193,22 +201,28 @@ const AddSale = () => {
             </div>
 
             <div className="date-container">
+              
               <input
                 type="date"
                 name="startDate"
+                className={errors.startDate ? "error-border" : ""}
                 value={formData.startDate}
                 onChange={handleChange}
               />
               <input
                 type="date"
                 name="endDate"
+                className={errors.endDate ? "error-border" : ""}
                 value={formData.endDate}
                 onChange={handleChange}
               />
             </div>
-            {errors.startDate && <p className="error">{errors.startDate}</p>}
+             <div style={{display: "flex", gap: "212px" }}>
+             {errors.startDate && <p className="error">{errors.startDate}</p>}
             {errors.endDate && <p className="error">{errors.endDate}</p>}
 
+             </div>
+            
             <div className="buttons">
               <button
                 onClick={() => navigate(-1)}
