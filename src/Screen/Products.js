@@ -35,19 +35,23 @@ function Products() {
       if (category) {
         url = `https://server-vert-rho-94.vercel.app/products/filter/${category}`;
       }
-
+  
       const response = await fetch(url);
       const result = await response.json();
       let filtered = result.data;
-
+  
+      // Lọc theo từ khóa tìm kiếm
       if (searchKey) {
         filtered = filtered.filter((product) =>
           product.name.toLowerCase().includes(searchKey.toLowerCase())
         );
       }
-
+  
+      // Sắp xếp theo số lượng tăng dần
+      filtered.sort((a, b) => a.quantity - b.quantity);
+  
       setProducts(filtered);
-
+  
       if (productId) {
         const selectedProduct = filtered.find(
           (product) => product._id === productId
@@ -57,9 +61,10 @@ function Products() {
         }
       }
     };
-
+  
     getProducts();
   }, [category, searchKey, productId]);
+  
 
   // const handleDelete = async (id) => {
   //   try {
