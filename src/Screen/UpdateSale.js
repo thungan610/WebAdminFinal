@@ -61,7 +61,7 @@ const UpdateSale = () => {
     const newErrors = {};
     const startDate = new Date(formData.startDate);
     const endDate = new Date(formData.endDate);
-  
+
     if (startDate > endDate) {
       newErrors.startDate = "Ngày bắt đầu không được lớn hơn ngày kết thúc.";
       newErrors.endDate = "Ngày bắt đầu không được lớn hơn ngày kết thúc.";
@@ -178,7 +178,7 @@ const UpdateSale = () => {
             </div>
 
             <div className="date-container">
-            <input
+              <input
                 type="date"
                 name="startDate"
                 className={errors.startDate ? "error-border" : ""}
@@ -193,9 +193,10 @@ const UpdateSale = () => {
                 onChange={handleChange}
               />
             </div>
-            {errors.startDate && <p className="error">{errors.startDate}</p>}
-            {errors.endDate && <p className="error">{errors.endDate}</p>}
-
+            <div style={{ display: "flex", gap: "212px" }}>
+              {errors.startDate && <p className="error">{errors.startDate}</p>}
+              {errors.endDate && <p className="error">{errors.endDate}</p>}
+            </div>
             <div className="buttons">
               <button
                 onClick={() => navigate(-1)}
