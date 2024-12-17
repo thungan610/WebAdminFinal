@@ -152,12 +152,12 @@ const NavMenu = ({ children, isHidden, onLogout }) => {
             </div>
             <div className="icon-component">
               <div className="bell-wrapper">
-                <img
+                {/* <img
                   className="bell-icon"
                   src={isBellActive ? bellActive : bellInactive}
                   alt="bell"
                   onClick={toggleNoti}
-                />
+                /> */}
                 {showNoti && (
                   <div className="noti-container">
                     <Noti
@@ -167,7 +167,7 @@ const NavMenu = ({ children, isHidden, onLogout }) => {
                   </div>
                 )}
               </div>
-              <img className="mail-icon" src={mailIcon} alt="mail" />
+              {/* <img className="mail-icon" src={mailIcon} alt="mail" /> */}
             </div>
           </div>
 

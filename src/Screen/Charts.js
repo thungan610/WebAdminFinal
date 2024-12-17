@@ -58,7 +58,7 @@ const TopProductsChart = () => {
       Legend,
       ChartDataLabels
     );
-
+  
     const fetchData = async () => {
       try {
         const query = `?date=${selectedDate}`;
@@ -66,94 +66,102 @@ const TopProductsChart = () => {
           `https://server-vert-rho-94.vercel.app/products/getTop10PW${query}`
         );
         const result = await res.json();
-
+  
         const fetchedLabels = [];
         const fetchedData = [];
         result.data.forEach((element) => {
           fetchedLabels.push(element.name);
           fetchedData.push(Number(element.sold));
         });
-
+  
         setLabels(fetchedLabels);
         setData(fetchedData);
         setDateRange(calculateDateRange(selectedDate));
-
+  
+        const ctx = document.getElementById("myChart").getContext("2d");
+  
         if (chartInstance) {
-          chartInstance.data.labels = fetchedLabels.map(
-            (label, index) => `${label} (${fetchedData[index]})`
-          );
-          chartInstance.data.datasets[0].data = fetchedData;
-          chartInstance.update();
-        } else {
-          const ctx = document.getElementById("myChart").getContext("2d");
-
-          const newChart = new Chart(ctx, {
-            type: "pie", // Default to Pie chart
-            data: {
-              labels: fetchedLabels.map(
-                (label, index) => `${label} (${fetchedData[index]})`
-              ),
-              datasets: [
-                {
-                  label: "Lượt bán",
-                  data: fetchedData,
-                  backgroundColor: [
-                    "rgba(255, 99, 132, 0.8)",
-                    "rgba(54, 162, 235, 0.8)",
-                    "rgba(75, 192, 192, 0.8)",
-                    "rgba(255, 206, 86, 0.8)",
-                    "rgba(153, 102, 255, 0.8)",
-                    "rgba(255, 159, 64, 0.8)",
-                    "rgba(201, 203, 207, 0.8)",
-                    "rgba(90, 203, 207, 0.8)",
-                  ],
+          chartInstance.destroy();
+        }
+  
+        const newChart = new Chart(ctx, {
+          type: "pie", // Mặc định là biểu đồ tròn
+          data: {
+            labels: fetchedLabels.map(
+              (label, index) => `${label} (${fetchedData[index]})`
+            ),
+            datasets: [
+              {
+                label: "Lượt bán",
+                data: fetchedData,
+                backgroundColor: [
+                  "rgba(255, 99, 132, 0.8)",
+                  "rgba(54, 162, 235, 0.8)",
+                  "rgba(75, 192, 192, 0.8)",
+                  "rgba(255, 206, 86, 0.8)",
+                  "rgba(153, 102, 255, 0.8)",
+"rgba(255, 159, 64, 0.8)",
+                  "rgba(201, 203, 207, 0.8)",
+                  "rgba(90, 203, 207, 0.8)",
+                ],
+                borderColor: [
+                  "rgba(255, 99, 132, 1)",
+                  "rgba(54, 162, 235, 1)",
+                  "rgba(75, 192, 192, 1)",
+                  "rgba(255, 206, 86, 1)",
+                  "rgba(153, 102, 255, 1)",
+                  "rgba(255, 159, 64, 1)",
+                  "rgba(201, 203, 207, 1)",
+                  "rgba(90, 203, 207, 1)",
+                ],
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            responsive: false,
+            maintainAspectRatio: true,
+            plugins: {
+              legend: {
+                position: "right",
+              },
+              datalabels: {
+                formatter: (value, ctx) => {
+                  const total = ctx.chart.data.datasets[0].data.reduce(
+                    (acc, val) => acc + val,
+                    0
+                  );
+                  const percentage = ((value / total) * 100).toFixed(2) + "%";
+                  return percentage; // Hiển thị %
                 },
-              ],
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: true,
-              aspectRatio: 1,
-              plugins: {
-                legend: {
-                  position: "right",
-                },
-                datalabels: {
-                  formatter: (value, context) => {
-                    const total = context.chart.data.datasets[0].data.reduce(
-                      (acc, val) => acc + val,
-                      0
-                    );
-                    return ((value / total) * 100).toFixed(2) + "%";
-                  },
-                  color: "white",
-                  font: {
-                    weight: "bold",
-                  },
+                color: "#fff", // Màu chữ
+                font: {
+                  weight: "bold",
                 },
               },
             },
-          });
-
-          setChartInstance(newChart);
-        }
+          },
+        });
+  
+        setChartInstance(newChart);
       } catch (error) {
         console.error("Error fetching or displaying data:", error);
       }
     };
-
+  
     fetchData();
-  }, [selectedDate, chartInstance]);
+  }, [selectedDate]);
+  
 
   const handleChartChange = (type) => {
     if (chartInstance) {
       chartInstance.destroy(); // Hủy biểu đồ cũ
       const ctx = document.getElementById("myChart").getContext("2d");
-
+  
       const newChart = new Chart(ctx, {
-        type: type, // Toggle chart type (pie/bar)
+        type: type,
         data: {
-          labels: labels,
+          labels: labels.map((label, index) => `${label} (${data[index]})`),
           datasets: [
             {
               label: "Lượt bán",
@@ -168,34 +176,51 @@ const TopProductsChart = () => {
                 "rgba(201, 203, 207, 0.8)",
                 "rgba(90, 203, 207, 0.8)",
               ],
+              borderColor: [
+                "rgba(255, 99, 132, 1)",
+                "rgba(54, 162, 235, 1)",
+                "rgba(75, 192, 192, 1)",
+                "rgba(255, 206, 86, 1)",
+                "rgba(153, 102, 255, 1)",
+                "rgba(255, 159, 64, 1)",
+                "rgba(201, 203, 207, 1)",
+                "rgba(90, 203, 207, 1)",
+              ],
+              borderWidth: 1,
             },
           ],
         },
         options: {
+          responsive: false,
+          maintainAspectRatio: true,
           plugins: {
             legend: {
-              position: "right",
+position: "right",
             },
-            datalabels: {
-              formatter: (value, context) => {
-                const total = context.chart.data.datasets[0].data.reduce(
-                  (acc, val) => acc + val,
-                  0
-                );
-                return ((value / total) * 100).toFixed(2) + "%";
-              },
-              color: "white",
-              font: {
-                weight: "bold",
-              },
-            },
+            datalabels: type === "pie" // Chỉ hiển thị % khi biểu đồ là pie
+              ? {
+                  formatter: (value, ctx) => {
+                    const total = ctx.chart.data.datasets[0].data.reduce(
+                      (acc, val) => acc + val,
+                      0
+                    );
+                    const percentage = ((value / total) * 100).toFixed(2) + "%";
+                    return percentage; // Hiển thị %
+                  },
+                  color: "#fff", // Màu chữ
+                  font: {
+                    weight: "bold",
+                  },
+                }
+              : false, // Không dùng datalabels khi không phải biểu đồ tròn
           },
         },
       });
-
+  
       setChartInstance(newChart);
     }
   };
+  
 
   return (
     <div
@@ -227,9 +252,9 @@ const TopProductsChart = () => {
             cursor: "pointer",
             padding: "10px 20px",
             borderRadius: "5px",
-            backgroundColor: "#f0f8ff",
-            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-            transition: "all 0.3s ease",
+            backgroundColor: "#f0f8ff", // Subtle background to highlight
+            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Add depth
+            transition: "all 0.3s ease", // Smooth hover effect
           }}
         >
           Doanh thu
@@ -242,6 +267,7 @@ const TopProductsChart = () => {
             fontWeight: "bold",
             textAlign: "center",
             textTransform: "uppercase",
+
             flex: 1,
           }}
         >
@@ -257,6 +283,7 @@ const TopProductsChart = () => {
               padding: "10px",
               borderRadius: "5px",
               border: "1px solid #ccc",
+
               cursor: "pointer",
             }}
           />
@@ -272,30 +299,26 @@ const TopProductsChart = () => {
           style={{
             display: "flex",
             justifyContent: "center",
-            marginTop: "-70px",
-            width:"1390px",
-            height:"620px",
-           paddingTop:"-700px"
+            marginTop: "20px",
           }}
         >
-          <canvas id="myChart" ></canvas>
+<canvas id="myChart" width="950" height="450"></canvas>
         </div>
       </div>
 
-      {/* <div
-        style={{ display: "flex", justifyContent: "center", marginTop: "-60px" }}
+      <div
+        style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}
       >
         <button
           onClick={() => handleChartChange("pie")}
           style={{
-            
+            padding: "10px 20px",
             backgroundColor: "#27AAE1",
             color: "#fff",
             border: "none",
             cursor: "pointer",
             borderRadius: "5px",
             marginRight: "15px",
-            
           }}
         >
           Biểu đồ Tròn
@@ -309,11 +332,12 @@ const TopProductsChart = () => {
             border: "none",
             cursor: "pointer",
             borderRadius: "5px",
+            marginRight: "160px",
           }}
         >
           Biểu đồ Cột
         </button>
-      </div> */}
+      </div>
     </div>
   );
 };

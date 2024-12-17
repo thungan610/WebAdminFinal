@@ -80,6 +80,7 @@ function App() {
               <Route path="/AddSale" element={<AddSale />} />
               <Route path="/UpdateSale/:id" element={<UpdateSale />} />
               <Route path="/Payment" element={<Payment />} />
+           
               <Route path="/ChartRevenue" element={<TopProductsChart />} />
               <Route path="/OrderDetail/:id" element={<OrderDetail />} />
               <Route path="/login" element={<Navigate to="/charts" />} />
