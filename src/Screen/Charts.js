@@ -279,7 +279,7 @@ const TopProductsChart = () => {
             marginTop: "20px",
           }}
         >
-          <canvas id="myChart" width="900" height="400"></canvas>
+          <canvas id="myChart" width="950" height="450"></canvas>
         </div>
       </div>
 
@@ -295,7 +295,7 @@ const TopProductsChart = () => {
             border: "none",
             cursor: "pointer",
             borderRadius: "5px",
-            marginRight: "10px",
+            marginRight: "15px",
           }}
         >
           Biểu đồ Tròn
@@ -309,6 +309,7 @@ const TopProductsChart = () => {
             border: "none",
             cursor: "pointer",
             borderRadius: "5px",
+            marginRight: "160px"
           }}
         >
           Biểu đồ Cột
