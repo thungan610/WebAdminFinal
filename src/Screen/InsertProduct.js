@@ -41,7 +41,7 @@ const InsertProduct = () => {
       const result = await response.json();
       setCategories(result.data);
       if (result.data.length > 0) {
-        setCategory(result.data[0]._id); // Đặt giá trị ban đầu cho category là mục đầu tiên
+        setCategory(result.data[0]._id); 
       }
     };
     getAllCategories();
@@ -55,7 +55,7 @@ const InsertProduct = () => {
       const result = await response.json();
       setPreserves(result.data);
       if (result.data.length > 0) {
-        setPreserve(result.data[0]._id); // Đặt giá trị ban đầu cho preserve là mục đầu tiên
+        setPreserve(result.data[0]._id); 
       }
     };
     getAllPreserves();
@@ -84,7 +84,7 @@ const InsertProduct = () => {
   const handleAddImageUrl = () => {
     if (imageUrl) {
       setImages([...images, imageUrl]);
-      setImageUrl(""); // Reset input
+      setImageUrl(""); 
     }
   };
 
@@ -263,13 +263,13 @@ const InsertProduct = () => {
       return;
     }
     setName("");
-    setCategory(categories[0]?._id || ""); // Đặt lại category về mục đầu tiên
+    setCategory(categories[0]?._id || ""); 
     setQuantity("");
     setOrigin("");
     setPrice("");
     setFiber("");
     setOum("");
-    setPreserve(preserves[0]?._id || ""); // Đặt lại preserve về mục đầu tiên
+    setPreserve(preserves[0]?._id || ""); 
     setSupplier("");
     setUses("");
     setDiscount("");

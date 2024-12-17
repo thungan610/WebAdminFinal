@@ -7,7 +7,7 @@ import search from "../assets/images/search.png";
 const QLHH = () => {
   const navigate = useNavigate();
   const [order, setOrder] = useState([]);
-  const [currentFilter, setCurrentFilter] = useState(1); // Default: "Chờ xác nhận"
+  const [currentFilter, setCurrentFilter] = useState(1); // Mặc định: "Chờ xác nhận"
   const [searchKey, setSearchKey] = useState("");
 
   useEffect(() => {

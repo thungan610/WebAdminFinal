@@ -215,7 +215,7 @@ function Products() {
               >
                 <thead>
                   <tr className="boder-tr">
-                    <th></th>
+                    
                     <th>Hình ảnh</th>
                     <th>Danh mục</th>
                     <th>Tên sản phẩm</th>
@@ -239,15 +239,7 @@ function Products() {
                   ) : (
                     products.map((item, index) => (
                       <tr className="table" key={index}>
-                        <td className="cube1">
-                          <div className="cube1-container">
-                            <img
-                              className="tick"
-                              src={item.isHidden ? eyeOff : eyeOn}
-                              alt="tick"
-                            />
-                          </div>
-                        </td>
+                        
                         <td className="cube">
                           {item.images && item.images.length > 0 ? (
                             <img
