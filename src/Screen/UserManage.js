@@ -232,7 +232,7 @@ console.error("Lỗi cập nhật người dùng:", error);
           type={filter.type === "old" ? "primary" : "default"}
           onClick={() => setFilter({ type: "old" })}
         >
-          <div style={{ color: "black" }}>Người dùng cũ</div>
+          <div style={{ color: "black" }}>Người dùng trên 3 tháng</div>
         </Button>
         <div className="search-box">
           <input
