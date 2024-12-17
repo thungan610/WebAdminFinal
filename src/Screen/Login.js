@@ -141,7 +141,7 @@ function Login(props) {
               Đăng nhập
             </button>
             <a className="forgot-password" href="/ResetPassword" alt="insert">
-              Quên mật khẩu?
+              Đổi mật khẩu?
             </a>
           </div>
         </div>
