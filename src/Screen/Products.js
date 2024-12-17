@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import filter from "../assets/images/filter.png";
-import search from "../assets/images/search.png"
+import search from "../assets/images/search.png";
 import "../Screen/Products.css";
 import insert from "../assets/images/insert.png";
 import deleteimg from "../assets/images/delete.png";
@@ -35,23 +35,23 @@ function Products() {
       if (category) {
         url = `https://server-vert-rho-94.vercel.app/products/filter/${category}`;
       }
-  
+
       const response = await fetch(url);
       const result = await response.json();
       let filtered = result.data;
-  
+
       // Lọc theo từ khóa tìm kiếm
       if (searchKey) {
         filtered = filtered.filter((product) =>
           product.name.toLowerCase().includes(searchKey.toLowerCase())
         );
       }
-  
+
       // Sắp xếp theo số lượng tăng dần
       filtered.sort((a, b) => a.quantity - b.quantity);
-  
+
       setProducts(filtered);
-  
+
       if (productId) {
         const selectedProduct = filtered.find(
           (product) => product._id === productId
@@ -61,10 +61,9 @@ function Products() {
         }
       }
     };
-  
+
     getProducts();
   }, [category, searchKey, productId]);
-  
 
   // const handleDelete = async (id) => {
   //   try {
@@ -113,13 +112,13 @@ function Products() {
       if (!_result.isConfirmed) {
         return;
       }
-  
+
       const response = await fetch(
         `https://server-vert-rho-94.vercel.app/products/${id}/delete`,
         { method: "DELETE" }
       );
       const result = await response.json();
-  
+
       if (result.success) {
         setProducts(products.filter((item) => item._id !== id));
         Swal.fire({
@@ -143,7 +142,6 @@ function Products() {
       console.error("Error deleting product:", error);
     }
   };
-  
 
   return (
     <div style={{ width: "100%", height: "100%" }}>
@@ -157,7 +155,7 @@ function Products() {
           fontSize: "25px",
           fontWeight: "bold",
           textTransform: "uppercase",
-          paddingBottom: "12px"
+          paddingBottom: "12px",
         }}
       >
         Quản lý sản phẩm
@@ -191,9 +189,20 @@ function Products() {
                     placeholder="Nhập để tìm sản phẩm"
                     value={searchKey}
                     onChange={(e) => setSearchKey(e.target.value)}
-            
                   />
                   <img src={search} alt="search-icon" />
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    alignItems: 'center',
+                    fontSize: "14px",
+                    fontWeight: "bold",
+              
+                  }}
+                >
+                  Tổng số sản phẩm hiện có: {products.length}
                 </div>
               </div>
             </div>
@@ -215,7 +224,6 @@ function Products() {
               >
                 <thead>
                   <tr className="boder-tr">
-                    
                     <th>Hình ảnh</th>
                     <th>Danh mục</th>
                     <th>Tên sản phẩm</th>
@@ -239,7 +247,6 @@ function Products() {
                   ) : (
                     products.map((item, index) => (
                       <tr className="table" key={index}>
-                        
                         <td className="cube">
                           {item.images && item.images.length > 0 ? (
                             <img
