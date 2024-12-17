@@ -242,13 +242,13 @@ const InsertProduct = () => {
       });
     }
     const _result = await Swal.fire({
-      title: "Are you sure?",
+      title: "  Bạn có chắc không?",
       text: "Bạn có chắc chắn thêm sản phẩm này không?",
       icon: "success",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, I'm sure",
+      confirmButtonText: "Vâng, tôi đồng ý",
     });
     // Kiểm tra giá giảm không lớn hơn giá sản phẩm
       if (parseFloat(discount) > parseFloat(price)) {
