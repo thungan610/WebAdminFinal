@@ -42,7 +42,7 @@ const UserManage = () => {
         const result = await response.json();
         setOldUsers(result.data || []);
       } catch (error) {
-        console.error("Lỗi khi lấy thông tin người dùng cũ:", error);
+        console.error("Lỗi khi lấy thông tin người dùng > 3 tháng:", error);
         message.error("Lỗi khi lấy thông tin người dùng mới.");
       }
     };
