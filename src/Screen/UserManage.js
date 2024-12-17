@@ -254,7 +254,7 @@ console.error("Lỗi cập nhật người dùng:", error);
         dataSource={filteredData()}
         rowKey="_id"
         pagination={{
-          pageSize: 5,
+          pageSize: 6,
           itemRender: (page, type, originalElement) => {
             if (type === "prev") {
               return (
