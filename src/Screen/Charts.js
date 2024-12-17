@@ -88,7 +88,7 @@ const TopProductsChart = () => {
           const ctx = document.getElementById("myChart").getContext("2d");
 
           const newChart = new Chart(ctx, {
-            type: "pie",
+            type: "pie", // Default to Pie chart
             data: {
               labels: fetchedLabels.map(
                 (label, index) => `${label} (${fetchedData[index]})`
@@ -107,29 +107,30 @@ const TopProductsChart = () => {
                     "rgba(201, 203, 207, 0.8)",
                     "rgba(90, 203, 207, 0.8)",
                   ],
-                  borderColor: [
-                    "rgba(255, 99, 132, 1)",
-                    "rgba(54, 162, 235, 1)",
-                    "rgba(75, 192, 192, 1)",
-                    "rgba(255, 206, 86, 1)",
-                    "rgba(153, 102, 255, 1)",
-                    "rgba(255, 159, 64, 1)",
-                    "rgba(201, 203, 207, 1)",
-                    "rgba(90, 203, 207, 1)",
-                  ],
-                  borderWidth: 1,
                 },
               ],
             },
             options: {
-              responsive: false,
+              responsive: true,
               maintainAspectRatio: true,
               aspectRatio: 1,
               plugins: {
                 legend: {
                   position: "right",
                 },
-                datalabels: false,
+                datalabels: {
+                  formatter: (value, context) => {
+                    const total = context.chart.data.datasets[0].data.reduce(
+                      (acc, val) => acc + val,
+                      0
+                    );
+                    return ((value / total) * 100).toFixed(2) + "%";
+                  },
+                  color: "white",
+                  font: {
+                    weight: "bold",
+                  },
+                },
               },
             },
           });
@@ -150,9 +151,9 @@ const TopProductsChart = () => {
       const ctx = document.getElementById("myChart").getContext("2d");
 
       const newChart = new Chart(ctx, {
-        type: type,
+        type: type, // Toggle chart type (pie/bar)
         data: {
-          labels: labels.map((label, index) => `${label} (${data[index]})`),
+          labels: labels,
           datasets: [
             {
               label: "Lượt bán",
@@ -167,28 +168,27 @@ const TopProductsChart = () => {
                 "rgba(201, 203, 207, 0.8)",
                 "rgba(90, 203, 207, 0.8)",
               ],
-              borderColor: [
-                "rgba(255, 99, 132, 1)",
-                "rgba(54, 162, 235, 1)",
-                "rgba(75, 192, 192, 1)",
-                "rgba(255, 206, 86, 1)",
-                "rgba(153, 102, 255, 1)",
-                "rgba(255, 159, 64, 1)",
-                "rgba(201, 203, 207, 1)",
-                "rgba(90, 203, 207, 1)",
-              ],
-              borderWidth: 1,
             },
           ],
         },
         options: {
-          responsive: false,
-          maintainAspectRatio: true,
           plugins: {
             legend: {
               position: "right",
             },
-            datalabels: false,
+            datalabels: {
+              formatter: (value, context) => {
+                const total = context.chart.data.datasets[0].data.reduce(
+                  (acc, val) => acc + val,
+                  0
+                );
+                return ((value / total) * 100).toFixed(2) + "%";
+              },
+              color: "white",
+              font: {
+                weight: "bold",
+              },
+            },
           },
         },
       });
@@ -216,35 +216,32 @@ const TopProductsChart = () => {
           maxWidth: "1000px",
         }}
       >
-     <div
-  onClick={() => navigate("/ChartRevenue")}
-  style={{
-    textAlign: "center",
-    color: "#27aae1",
-    textDecoration: "none",
-    fontSize: "16px",
-    fontWeight: "600",
-    cursor: "pointer",
-    padding: "10px 20px",
-    borderRadius: "5px",
-    backgroundColor: "#f0f8ff", // Subtle background to highlight
-    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Add depth
-    transition: "all 0.3s ease", // Smooth hover effect
-  }}
- 
->
-  Doanh thu
-</div>
+        <div
+          onClick={() => navigate("/ChartRevenue")}
+          style={{
+            textAlign: "center",
+            color: "#27aae1",
+            textDecoration: "none",
+            fontSize: "16px",
+            fontWeight: "600",
+            cursor: "pointer",
+            padding: "10px 20px",
+            borderRadius: "5px",
+            backgroundColor: "#f0f8ff",
+            boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+            transition: "all 0.3s ease",
+          }}
+        >
+          Doanh thu
+        </div>
 
         <h1
           style={{
-         
             color: "#27AAE1",
             fontSize: "24px",
             fontWeight: "bold",
             textAlign: "center",
             textTransform: "uppercase",
-            
             flex: 1,
           }}
         >
@@ -260,7 +257,6 @@ const TopProductsChart = () => {
               padding: "10px",
               borderRadius: "5px",
               border: "1px solid #ccc",
-            
               cursor: "pointer",
             }}
           />
@@ -276,26 +272,30 @@ const TopProductsChart = () => {
           style={{
             display: "flex",
             justifyContent: "center",
-            marginTop: "20px",
+            marginTop: "-70px",
+            width:"1390px",
+            height:"620px",
+           paddingTop:"-700px"
           }}
         >
-          <canvas id="myChart" width="950" height="450"></canvas>
+          <canvas id="myChart" ></canvas>
         </div>
       </div>
 
-      <div
-        style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}
+      {/* <div
+        style={{ display: "flex", justifyContent: "center", marginTop: "-60px" }}
       >
         <button
           onClick={() => handleChartChange("pie")}
           style={{
-            padding: "10px 20px",
+            
             backgroundColor: "#27AAE1",
             color: "#fff",
             border: "none",
             cursor: "pointer",
             borderRadius: "5px",
             marginRight: "15px",
+            
           }}
         >
           Biểu đồ Tròn
@@ -309,12 +309,11 @@ const TopProductsChart = () => {
             border: "none",
             cursor: "pointer",
             borderRadius: "5px",
-            marginRight: "160px"
           }}
         >
           Biểu đồ Cột
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };
