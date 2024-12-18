@@ -43,6 +43,14 @@ const AddSale = () => {
     e.preventDefault();
 
     const newErrors = {};
+    const startDate = new Date(formData.startDate);
+    const endDate = new Date(formData.endDate);
+  
+
+    if (startDate > endDate) {
+      newErrors.startDate = "Ngày bắt đầu không được lớn hơn ngày kết thúc.";
+      newErrors.endDate = "Ngày bắt đầu không được lớn hơn ngày kết thúc.";
+    }
     if (!formData.title) newErrors.title = "Vui lòng nhập tiêu đề";
     if (formData.discountAmount === "" && formData.discountPercent === "") {
       newErrors.discountAmount =
@@ -75,7 +83,7 @@ const AddSale = () => {
         }
 
         // Định dạng ngày hết hạn và kiểm tra trạng thái hết hạn
-        const expirationDate = new Date(formData.endDate);
+const expirationDate = new Date(formData.endDate);
         const isExpired = new Date() > expirationDate;
 
         const saleData = {
@@ -162,7 +170,7 @@ const AddSale = () => {
               onChange={handleChange}
             />
             {errors.discountAmount && (
-              <p className="error">{errors.discountAmount}</p>
+<p className="error">{errors.discountAmount}</p>
             )}
 
             <label className="date">Giá trị đơn hàng tối thiểu</label>
@@ -207,9 +215,10 @@ const AddSale = () => {
                 onChange={handleChange}
               />
             </div>
-            {errors.startDate && <p className="error">{errors.startDate}</p>}
-            {errors.endDate && <p className="error">{errors.endDate}</p>}
-
+            <div style={{ display: "flex", gap: "212px" }}>
+              {errors.startDate && <p className="error">{errors.startDate}</p>}
+              {errors.endDate && <p className="error">{errors.endDate}</p>}
+            </div>
             <div className="buttons">
               <button
                 onClick={() => navigate(-1)}

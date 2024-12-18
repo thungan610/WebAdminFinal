@@ -62,17 +62,21 @@ const UpdateSale = () => {
     const startDate = new Date(formData.startDate);
     const endDate = new Date(formData.endDate);
 
-    if (startDate > endDate) {
+    // Bắt lỗi ngày không hợp lệ
+    if (!formData.startDate) newErrors.startDate = "Vui lòng chọn ngày khuyến mãi";
+    if (!formData.endDate) newErrors.endDate = "Vui lòng chọn ngày hết hạn";
+    if (formData.startDate && formData.endDate && startDate > endDate) {
       newErrors.startDate = "Ngày bắt đầu không được lớn hơn ngày kết thúc.";
-      newErrors.endDate = "Ngày bắt đầu không được lớn hơn ngày kết thúc.";
+      newErrors.endDate = "Ngày kết thúc không được nhỏ hơn ngày bắt đầu.";
     }
+
+    // Các kiểm tra khác
     if (!formData.title) newErrors.title = "Vui lòng nhập tiêu đề";
     if (!formData.fixedDiscount && !formData.percentDiscount) {
       newErrors.fixedDiscount =
         "Vui lòng nhập số tiền giảm cố định hoặc giảm theo %";
     }
 
-    // Kiểm tra nếu chỉ được phép nhập một trong hai: giảm theo số tiền cố định hoặc giảm theo %
     if (formData.fixedDiscount && formData.percentDiscount) {
       newErrors.fixedDiscount =
         "Chỉ được phép nhập giảm theo số tiền cố định hoặc phần trăm, không cả hai.";
@@ -80,9 +84,7 @@ const UpdateSale = () => {
 
     if (!formData.minOrderValue)
       newErrors.minOrderValue = "Vui lòng nhập giá trị đơn hàng tối thiểu";
-    if (!formData.startDate)
-      newErrors.startDate = "Vui lòng chọn ngày khuyến mãi";
-    if (!formData.endDate) newErrors.endDate = "Vui lòng chọn ngày hết hạn";
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors); // Cập nhật lỗi nếu có
     } else {
@@ -119,6 +121,32 @@ const UpdateSale = () => {
       }
     }
   };
+
+  // Kiểm tra lỗi ngay khi nhập ngày
+  const handleDateChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    if (name === "startDate" || name === "endDate") {
+      const startDate = new Date(
+        name === "startDate" ? value : formData.startDate
+      );
+      const endDate = new Date(
+        name === "endDate" ? value : formData.endDate
+      );
+
+      if (startDate > endDate) {
+        setErrors({
+          ...errors,
+          startDate: "Ngày bắt đầu không được lớn hơn ngày kết thúc.",
+          endDate: "Ngày kết thúc không được nhỏ hơn ngày bắt đầu.",
+        });
+      } else {
+        setErrors({ ...errors, startDate: "", endDate: "" });
+      }
+    }
+  };
+
 
   if (isLoading) {
     return <p>Đang tải dữ liệu...</p>;
@@ -183,14 +211,14 @@ const UpdateSale = () => {
                 name="startDate"
                 className={errors.startDate ? "error-border" : ""}
                 value={formData.startDate}
-                onChange={handleChange}
+                onChange={handleDateChange}
               />
               <input
                 type="date"
                 name="endDate"
                 className={errors.endDate ? "error-border" : ""}
                 value={formData.endDate}
-                onChange={handleChange}
+                onChange={handleDateChange}
               />
             </div>
             <div style={{ display: "flex", gap: "212px" }}>

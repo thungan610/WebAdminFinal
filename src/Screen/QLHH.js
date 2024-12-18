@@ -68,7 +68,7 @@ const QLHH = () => {
             a.updatedDate !== "Không xác định" ? new Date(a.updatedDate) : null;
           const dateB =
             b.updatedDate !== "Không xác định" ? new Date(b.updatedDate) : null;
-
+  
           if (dateA && dateB) {
             return dateB - dateA; // Sắp xếp theo updatedDate giảm dần
           } else if (!dateA && dateB) {
@@ -82,6 +82,7 @@ const QLHH = () => {
     }
     return [];
   }, [JSON.stringify(order), currentFilter, searchKey]);
+  
 
   const getOrderStatus = (status) => {
     switch (status) {
